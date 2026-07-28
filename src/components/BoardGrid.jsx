@@ -11,7 +11,6 @@ export default function BoardGrid({
   onDeleteBoard,
   onAddBoard
 }) {
-  // Sort boards by boardColumnIndex if available, otherwise by boardOrder or name
   const columnsMap = {};
 
   boards.forEach((board) => {
@@ -25,8 +24,8 @@ export default function BoardGrid({
   return (
     <div className="w-full">
       {boards.length === 0 ? (
-        <div className="glass-panel p-12 text-center flex flex-col items-center justify-center gap-4 max-w-md mx-auto my-12">
-          <div className="p-4 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+        <div className="board-card p-12 text-center flex flex-col items-center justify-center gap-4 max-w-md mx-auto my-12">
+          <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
             <Plus className="w-8 h-8" />
           </div>
           <div>
@@ -35,15 +34,15 @@ export default function BoardGrid({
           </div>
           <button 
             onClick={onAddBoard}
-            className="glass-button glass-button-primary mt-2"
+            className="action-btn action-btn-primary mt-2"
           >
             <Plus className="w-4 h-4" /> Create Board
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 lg:gap-8 items-start">
           {columnKeys.map((colIdx) => (
-            <div key={colIdx} className="flex flex-col gap-6 w-full">
+            <div key={colIdx} className="flex flex-col gap-7 lg:gap-8 w-full">
               {columnsMap[colIdx].map((board) => (
                 <BoardCard
                   key={board.name}

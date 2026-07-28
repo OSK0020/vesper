@@ -235,13 +235,13 @@ export default function App() {
         onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 lg:px-6 py-6">
+      {/* Main Content Area with generous top padding & clearance */}
+      <main className="flex-1 max-w-[1700px] w-full mx-auto px-6 lg:px-12 pt-8 lg:pt-10 pb-20">
         
         {/* Search Empty State */}
         {searchQuery && filteredBookmarks.length === 0 && (
-          <div className="board-card p-8 text-center flex flex-col items-center justify-center gap-3 max-w-md mx-auto my-12">
-            <SearchX className="w-8 h-8 text-gray-500" />
+          <div className="board-card p-10 text-center flex flex-col items-center justify-center gap-4 max-w-md mx-auto my-12">
+            <SearchX className="w-10 h-10 text-gray-500" />
             <h3 className="text-sm font-bold text-gray-200">No results found for "{searchQuery}"</h3>
             <button
               onClick={() => setSearchQuery('')}
