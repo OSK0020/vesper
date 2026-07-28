@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Edit2, Trash2, Globe } from 'lucide-react';
+import { Edit2, Trash2, Globe } from 'lucide-react';
 import { getDomain, getFaviconUrl, getFallbackFaviconUrl, getInitialLetter, getRandomGradient } from '../utils/favicon';
 
 export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
@@ -8,7 +8,6 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
 
   const domain = getDomain(bookmark.url);
   const initial = getInitialLetter(bookmark.title, bookmark.url);
-  const avatarBg = getRandomGradient(domain || bookmark.title);
 
   const handleImageError = () => {
     if (imgErrorCount === 0) {
@@ -20,76 +19,57 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
   };
 
   return (
-    <div className="group relative flex items-center justify-between p-2.5 rounded-xl transition-all duration-200 hover:bg-white/[0.06] hover:shadow-lg border border-transparent hover:border-white/10">
+    <div className="group relative flex items-center justify-between py-1.5 px-2 rounded-lg transition-all duration-150 hover:bg-white/[0.08]">
       <a
         href={bookmark.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-3 min-w-0 flex-1 text-decoration-none"
+        className="flex items-center gap-2.5 min-w-0 flex-1 no-underline"
         style={{ textDecoration: 'none' }}
       >
-        {/* Favicon / Logo Container */}
-        <div className="relative flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden shadow-sm bg-black/40 border border-white/10">
+        {/* Site Icon / Favicon (Small 18x18 matching screenshot) */}
+        <div className="flex-shrink-0 w-4 h-4 flex items-center justify-center overflow-hidden">
           {imgErrorCount < 2 && imgSrc ? (
             <img
               src={imgSrc}
               alt={bookmark.title}
               onError={handleImageError}
-              className="w-5 h-5 object-contain transition-transform duration-200 group-hover:scale-110"
+              className="w-4 h-4 object-contain rounded-sm"
               loading="lazy"
             />
           ) : (
-            <div
-              className="w-full h-full flex items-center justify-center text-white font-bold text-sm"
-              style={{ background: avatarBg }}
-            >
-              {initial}
-            </div>
+            <Globe className="w-3.5 h-3.5 text-emerald-400" />
           )}
         </div>
 
-        {/* Title & Host Domain */}
-        <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold text-gray-200 group-hover:text-indigo-300 truncate transition-colors">
-            {bookmark.title || domain}
-          </div>
-          <div className="text-xs text-gray-400 truncate flex items-center gap-1 opacity-70 group-hover:opacity-100">
-            <span>{domain}</span>
-          </div>
-        </div>
+        {/* Link Title */}
+        <span className="text-[13px] font-semibold text-gray-200 group-hover:text-white truncate">
+          {bookmark.title || domain}
+        </span>
       </a>
 
-      {/* Action Buttons (Visible on Hover / Focus) */}
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-2">
+      {/* Edit & Delete Actions on Hover */}
+      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ml-2">
         <button
           onClick={(e) => {
             e.stopPropagation();
             onEdit(bookmark);
           }}
-          className="p-1.5 rounded-md hover:bg-white/10 text-gray-400 hover:text-indigo-400 transition-colors border-0 bg-transparent cursor-pointer"
-          title="Edit Link"
+          className="p-1 rounded text-gray-400 hover:text-emerald-400 bg-transparent border-0 cursor-pointer"
+          title="Edit"
         >
-          <Edit2 className="w-3.5 h-3.5" />
+          <Edit2 className="w-3 h-3" />
         </button>
         <button
           onClick={(e) => {
             e.stopPropagation();
             onDelete(bookmark);
           }}
-          className="p-1.5 rounded-md hover:bg-rose-500/20 text-gray-400 hover:text-rose-400 transition-colors border-0 bg-transparent cursor-pointer"
-          title="Delete Link"
+          className="p-1 rounded text-gray-400 hover:text-rose-400 bg-transparent border-0 cursor-pointer"
+          title="Delete"
         >
-          <Trash2 className="w-3.5 h-3.5" />
+          <Trash2 className="w-3 h-3" />
         </button>
-        <a
-          href={bookmark.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-1.5 rounded-md hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-          title="Open Link"
-        >
-          <ExternalLink className="w-3.5 h-3.5" />
-        </a>
       </div>
     </div>
   );

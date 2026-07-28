@@ -6,7 +6,7 @@ import AddBookmarkModal from './components/AddBookmarkModal';
 import AddBoardModal from './components/AddBoardModal';
 import AddPageModal from './components/AddPageModal';
 import ImportExportModal from './components/ImportExportModal';
-import { Layers, Bookmark, SearchX, Plus, Sparkles, FolderHeart } from 'lucide-react';
+import { SearchX } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'lumilist_clone_bookmarks_data';
 const LOCAL_STORAGE_BOARDS_KEY = 'lumilist_clone_boards_meta';
@@ -35,7 +35,7 @@ export default function App() {
     return [];
   });
 
-  // Current selected page (e.g. HOME)
+  // Current selected page
   const [currentPage, setCurrentPage] = useState('HOME');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -161,7 +161,7 @@ export default function App() {
   };
 
   const handleDeleteBookmark = (bookmarkToDelete) => {
-    if (window.confirm(`Are you sure you want to delete "${bookmarkToDelete.title || bookmarkToDelete.url}"?`)) {
+    if (window.confirm(`Delete "${bookmarkToDelete.title || bookmarkToDelete.url}"?`)) {
       setBookmarks((prev) => prev.filter((b) => b.id !== bookmarkToDelete.id && b.url !== bookmarkToDelete.url));
     }
   };
@@ -178,7 +178,7 @@ export default function App() {
   };
 
   const handleDeleteBoard = (boardName) => {
-    if (window.confirm(`Are you sure you want to delete board "${boardName}" and all its links?`)) {
+    if (window.confirm(`Delete board "${boardName}"?`)) {
       setBookmarks((prev) => prev.filter((b) => (b.boardName || '').toUpperCase() !== boardName.toUpperCase()));
       setCustomBoardsMeta((prev) => prev.filter((b) => b.name.toUpperCase() !== boardName.toUpperCase()));
     }
@@ -201,7 +201,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top Navbar */}
+      {/* Top Navbar matching target screenshot */}
       <Navbar
         pages={availablePages}
         currentPage={currentPage}
@@ -216,50 +216,19 @@ export default function App() {
         }}
         onOpenAddBoardModal={() => setIsAddBoardModalOpen(true)}
         onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
-        totalBookmarksCount={pageBookmarks.length}
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-8">
+      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 lg:px-6 py-6">
         
-        {/* Page Hero Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 text-xs font-bold rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-widest">
-                PAGE
-              </span>
-              <h1 className="text-2xl font-black text-white tracking-tight uppercase">
-                {currentPage}
-              </h1>
-            </div>
-            <p className="text-xs text-gray-400 mt-1">
-              Showing {filteredBookmarks.length} links across {boardsList.length} boards
-            </p>
-          </div>
-
-          {/* Quick Stats Pill */}
-          <div className="flex items-center gap-3">
-            <div className="glass-panel px-3 py-1.5 flex items-center gap-2 text-xs text-gray-300">
-              <FolderHeart className="w-4 h-4 text-purple-400" />
-              <span>{boardsList.length} Boards</span>
-            </div>
-            <div className="glass-panel px-3 py-1.5 flex items-center gap-2 text-xs text-gray-300">
-              <Bookmark className="w-4 h-4 text-indigo-400" />
-              <span>{filteredBookmarks.length} Links</span>
-            </div>
-          </div>
-        </div>
-
         {/* Search Empty State */}
         {searchQuery && filteredBookmarks.length === 0 && (
-          <div className="glass-panel p-12 text-center flex flex-col items-center justify-center gap-3 max-w-md mx-auto my-12">
-            <SearchX className="w-10 h-10 text-gray-500" />
-            <h3 className="text-base font-bold text-gray-200">No results found for "{searchQuery}"</h3>
-            <p className="text-xs text-gray-400">Try adjusting your search terms or search across a different page.</p>
+          <div className="board-card p-8 text-center flex flex-col items-center justify-center gap-3 max-w-md mx-auto my-12">
+            <SearchX className="w-8 h-8 text-gray-500" />
+            <h3 className="text-sm font-bold text-gray-200">No results found for "{searchQuery}"</h3>
             <button
               onClick={() => setSearchQuery('')}
-              className="glass-button text-xs py-1.5 px-4 mt-2"
+              className="action-button mt-2"
             >
               Clear Search
             </button>
@@ -285,19 +254,6 @@ export default function App() {
         />
 
       </main>
-
-      {/* Footer */}
-      <footer className="mt-auto border-t border-white/10 bg-[#060812]/90 py-6 text-center text-xs text-gray-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
-            <span>LumiList Replica — Modern Visual Bookmarks Dashboard</span>
-          </div>
-          <div>
-            <span>100% Client-Side • LocalStorage Sync • Vercel Ready</span>
-          </div>
-        </div>
-      </footer>
 
       {/* Modals */}
       <AddBookmarkModal
