@@ -14,7 +14,6 @@ export default function ImportExportModal({
 
   if (!isOpen) return null;
 
-  // Export current data matching LumiList schema
   const handleExport = () => {
     const pagesSet = new Set(bookmarks.map((b) => b.pageName || 'HOME'));
     const boardsSet = new Set(bookmarks.map((b) => b.boardName || 'MAIN'));
@@ -58,13 +57,13 @@ export default function ImportExportModal({
         const json = JSON.parse(event.target.result);
         if (json && Array.isArray(json.bookmarks)) {
           onImportData(json.bookmarks);
-          setSuccessMsg(`Successfully imported ${json.bookmarks.length} bookmarks!`);
+          setSuccessMsg(`Imported ${json.bookmarks.length} bookmarks!`);
           setTimeout(() => {
             setSuccessMsg('');
             onClose();
           }, 1500);
         } else {
-          setErrorMsg('Invalid JSON format: Missing "bookmarks" array.');
+          setErrorMsg('Invalid JSON: Missing "bookmarks" array.');
         }
       } catch (err) {
         setErrorMsg('Error parsing JSON file.');
@@ -74,18 +73,18 @@ export default function ImportExportModal({
   };
 
   return (
-    <div className="modal-backdrop">
-      <div className="glass-panel w-full max-w-md p-6 relative animate-fade-in shadow-2xl border-white/15">
+    <div className="modal-overlay">
+      <div className="modal-content w-full max-w-md p-6 relative animate-modal">
         
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
               <Download className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white">Backup & Restore</h2>
-              <p className="text-xs text-gray-400">Import or export your LumiList bookmark collection</p>
+              <h2 className="text-lg font-bold text-white tracking-tight">Backup & Restore</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Import or export your LumiList bookmark collection</p>
             </div>
           </div>
           <button
@@ -98,12 +97,12 @@ export default function ImportExportModal({
 
         {/* Notifications */}
         {successMsg && (
-          <div className="mt-4 p-3 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+          <div className="mt-4 p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2">
             <Check className="w-4 h-4" /> {successMsg}
           </div>
         )}
         {errorMsg && (
-          <div className="mt-4 p-3 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+          <div className="mt-4 p-3 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4" /> {errorMsg}
           </div>
         )}
@@ -112,24 +111,24 @@ export default function ImportExportModal({
         <div className="mt-5 flex flex-col gap-3">
           
           {/* Export */}
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-4">
+          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-emerald-500/30 transition-colors">
             <div>
-              <h4 className="text-sm font-semibold text-white">Export Bookmarks</h4>
-              <p className="text-xs text-gray-400">Download current dataset ({bookmarks.length} links) as JSON</p>
+              <h4 className="text-sm font-bold text-white">Export Bookmarks</h4>
+              <p className="text-xs text-gray-400 mt-0.5">Download current dataset ({bookmarks.length} links) as JSON</p>
             </div>
             <button
               onClick={handleExport}
-              className="glass-button glass-button-primary text-xs py-2 px-3 flex-shrink-0"
+              className="action-btn action-btn-primary text-xs py-2 px-3.5 flex-shrink-0"
             >
               <Download className="w-3.5 h-3.5" /> Export
             </button>
           </div>
 
           {/* Import */}
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-4">
+          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-emerald-500/30 transition-colors">
             <div>
-              <h4 className="text-sm font-semibold text-white">Import JSON File</h4>
-              <p className="text-xs text-gray-400">Load bookmarks from a `.json` backup file</p>
+              <h4 className="text-sm font-bold text-white">Import JSON File</h4>
+              <p className="text-xs text-gray-400 mt-0.5">Load bookmarks from a `.json` backup file</p>
             </div>
             <input
               ref={fileInputRef}
@@ -140,23 +139,23 @@ export default function ImportExportModal({
             />
             <button
               onClick={() => fileInputRef.current && fileInputRef.current.click()}
-              className="glass-button text-xs py-2 px-3 flex-shrink-0"
+              className="action-btn text-xs py-2 px-3.5 flex-shrink-0"
             >
-              <Upload className="w-3.5 h-3.5 text-indigo-400" /> Import
+              <Upload className="w-3.5 h-3.5 text-emerald-400" /> Import
             </button>
           </div>
 
           {/* Reset */}
           <div className="p-4 rounded-xl bg-rose-500/5 border border-rose-500/20 flex items-center justify-between gap-4 mt-2">
             <div>
-              <h4 className="text-sm font-semibold text-rose-300">Reset to Defaults</h4>
-              <p className="text-xs text-gray-400">Restore original 182 preloaded bookmarks</p>
+              <h4 className="text-sm font-bold text-rose-300">Reset to Defaults</h4>
+              <p className="text-xs text-gray-400 mt-0.5">Restore original preloaded bookmarks dataset</p>
             </div>
             <button
               onClick={() => {
-                if (window.confirm('Are you sure you want to reset all bookmarks to initial LumiList data?')) {
+                if (window.confirm('Reset all bookmarks to original initial dataset?')) {
                   onResetData();
-                  setSuccessMsg('Reset to default bookmarks completed!');
+                  setSuccessMsg('Reset completed!');
                   setTimeout(() => {
                     setSuccessMsg('');
                     onClose();
@@ -173,7 +172,7 @@ export default function ImportExportModal({
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-white/10 text-center">
-          <p className="text-[11px] text-gray-500">Fully compatible with official LumiList export format</p>
+          <p className="text-[11px] text-gray-500">Fully compatible with official LumiList export schema</p>
         </div>
 
       </div>

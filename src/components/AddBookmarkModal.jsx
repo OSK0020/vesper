@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Link2, Type, Layout, BookOpen, Sparkles } from 'lucide-react';
+import { X, Link2, Type, BookOpen, Layout, Sparkles, Globe } from 'lucide-react';
 import { getDomain, getFaviconUrl } from '../utils/favicon';
 
 export default function AddBookmarkModal({ 
@@ -64,22 +64,23 @@ export default function AddBookmarkModal({
   const previewFavicon = url ? getFaviconUrl(url) : null;
 
   return (
-    <div className="modal-backdrop">
-      <div className="glass-panel w-full max-w-lg p-6 relative animate-fade-in shadow-2xl border-white/15">
+    <div className="modal-overlay">
+      <div className="modal-content w-full max-w-lg p-6 relative animate-modal">
         
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white">
+              <h2 className="text-lg font-bold text-white tracking-tight">
                 {editingBookmark ? 'Edit Link' : 'Add New Link'}
               </h2>
-              <p className="text-xs text-gray-400">Organize your favorite links into LumiList boards</p>
+              <p className="text-xs text-gray-400 mt-0.5">Organize links into your visual LumiList boards</p>
             </div>
           </div>
+
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
@@ -91,10 +92,10 @@ export default function AddBookmarkModal({
         {/* Form */}
         <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-4">
           
-          {/* URL Input */}
+          {/* URL Field */}
           <div>
-            <label className="block text-xs font-semibold text-gray-300 mb-1.5 flex items-center gap-1.5">
-              <Link2 className="w-3.5 h-3.5 text-indigo-400" /> Web Address (URL) *
+            <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+              <Link2 className="w-3.5 h-3.5 text-emerald-400" /> Web Address (URL) *
             </label>
             <div className="relative">
               <input
@@ -103,15 +104,15 @@ export default function AddBookmarkModal({
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 required
-                className="glass-input pr-10"
+                className="ui-input pr-10"
                 autoFocus
               />
               {previewFavicon && (
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                   <img
                     src={previewFavicon}
-                    alt="Preview"
-                    className="w-5 h-5 object-contain"
+                    alt="Favicon preview"
+                    className="w-4 h-4 object-contain rounded"
                     onError={(e) => (e.target.style.display = 'none')}
                   />
                 </div>
@@ -119,17 +120,17 @@ export default function AddBookmarkModal({
             </div>
           </div>
 
-          {/* Title Input */}
+          {/* Title Field */}
           <div>
-            <label className="block text-xs font-semibold text-gray-300 mb-1.5 flex items-center gap-1.5">
-              <Type className="w-3.5 h-3.5 text-purple-400" /> Title / Label
+            <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+              <Type className="w-3.5 h-3.5 text-emerald-400" /> Link Title / Label
             </label>
             <input
               type="text"
               placeholder="e.g. My Favorite Tool"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="glass-input"
+              className="ui-input"
             />
           </div>
 
@@ -138,13 +139,13 @@ export default function AddBookmarkModal({
             
             {/* Page */}
             <div>
-              <label className="block text-xs font-semibold text-gray-300 mb-1.5 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-sky-400" /> Select Page
+              <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-sky-400" /> Target Page
               </label>
               <select
                 value={pageName}
                 onChange={(e) => setPageName(e.target.value)}
-                className="glass-select"
+                className="ui-select"
               >
                 {availablePages.map((p) => (
                   <option key={p} value={p}>{p}</option>
@@ -154,8 +155,8 @@ export default function AddBookmarkModal({
 
             {/* Board */}
             <div>
-              <label className="block text-xs font-semibold text-gray-300 mb-1.5 flex items-center gap-1.5">
-                <Layout className="w-3.5 h-3.5 text-emerald-400" /> Select Board
+              <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+                <Layout className="w-3.5 h-3.5 text-purple-400" /> Target Board
               </label>
               <select
                 value={boardName}
@@ -163,7 +164,7 @@ export default function AddBookmarkModal({
                   setBoardName(e.target.value);
                   if (e.target.value !== '__NEW__') setCustomBoard('');
                 }}
-                className="glass-select"
+                className="ui-select"
               >
                 {availableBoards.map((b) => (
                   <option key={b} value={b}>{b}</option>
@@ -174,11 +175,11 @@ export default function AddBookmarkModal({
 
           </div>
 
-          {/* Custom Board Input if __NEW__ selected */}
+          {/* Custom Board Field if __NEW__ selected */}
           {boardName === '__NEW__' && (
             <div>
-              <label className="block text-xs font-semibold text-indigo-300 mb-1.5">
-                New Board Name
+              <label className="block text-xs font-bold text-emerald-400 mb-1.5">
+                New Board Name *
               </label>
               <input
                 type="text"
@@ -186,7 +187,7 @@ export default function AddBookmarkModal({
                 value={customBoard}
                 onChange={(e) => setCustomBoard(e.target.value)}
                 required
-                className="glass-input border-indigo-500/50"
+                className="ui-input border-emerald-500/50"
               />
             </div>
           )}
@@ -196,13 +197,13 @@ export default function AddBookmarkModal({
             <button
               type="button"
               onClick={onClose}
-              className="glass-button text-xs py-2 px-4"
+              className="action-btn text-xs py-2 px-4"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="glass-button glass-button-primary text-xs py-2 px-6"
+              className="action-btn action-btn-primary text-xs py-2 px-6"
             >
               {editingBookmark ? 'Save Changes' : 'Add Link'}
             </button>

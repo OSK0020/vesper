@@ -16,17 +16,17 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
   };
 
   return (
-    <div className="modal-backdrop">
-      <div className="glass-panel w-full max-w-md p-6 relative animate-fade-in shadow-2xl border-white/15">
+    <div className="modal-overlay">
+      <div className="modal-content w-full max-w-md p-6 relative animate-modal">
         
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white">Create New Page</h2>
-              <p className="text-xs text-gray-400">Add a new tab workspace (e.g. WORK, PERSONAL)</p>
+              <h2 className="text-lg font-bold text-white tracking-tight">Create New Page</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Add a new tab workspace (e.g. WORK, PERSONAL)</p>
             </div>
           </div>
           <button
@@ -39,7 +39,7 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
 
         <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-4">
           <div>
-            <label className="block text-xs font-semibold text-gray-300 mb-1.5">
+            <label className="block text-xs font-bold text-gray-300 mb-1.5">
               Page Name *
             </label>
             <input
@@ -48,7 +48,7 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
               value={pageName}
               onChange={(e) => setPageName(e.target.value)}
               required
-              className="glass-input"
+              className="ui-input"
               autoFocus
             />
           </div>
@@ -57,13 +57,13 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
             <button
               type="button"
               onClick={onClose}
-              className="glass-button text-xs py-2 px-4"
+              className="action-btn text-xs py-2 px-4"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="glass-button glass-button-primary text-xs py-2 px-6"
+              className="action-btn action-btn-primary text-xs py-2 px-6"
             >
               Create Page
             </button>

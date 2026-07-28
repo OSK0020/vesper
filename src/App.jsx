@@ -6,6 +6,7 @@ import AddBookmarkModal from './components/AddBookmarkModal';
 import AddBoardModal from './components/AddBoardModal';
 import AddPageModal from './components/AddPageModal';
 import ImportExportModal from './components/ImportExportModal';
+import Toast from './components/Toast';
 import { SearchX } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'lumilist_clone_bookmarks_data';
@@ -38,6 +39,7 @@ export default function App() {
   // Current selected page
   const [currentPage, setCurrentPage] = useState('HOME');
   const [searchQuery, setSearchQuery] = useState('');
+  const [toast, setToast] = useState(null);
 
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -47,6 +49,13 @@ export default function App() {
 
   const [editingBookmark, setEditingBookmark] = useState(null);
   const [defaultBoardForAdd, setDefaultBoardForAdd] = useState(null);
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast((current) => (current?.message === message ? null : current));
+    }, 3500);
+  };
 
   // Sync bookmarks to localStorage
   useEffect(() => {
@@ -149,6 +158,7 @@ export default function App() {
 
   // CRUD Handlers
   const handleSaveBookmark = (newOrUpdatedBookmark) => {
+    const isEdit = bookmarks.some((b) => b.id === newOrUpdatedBookmark.id);
     setBookmarks((prev) => {
       const existingIdx = prev.findIndex((b) => b.id === newOrUpdatedBookmark.id);
       if (existingIdx >= 0) {
@@ -158,11 +168,13 @@ export default function App() {
       }
       return [newOrUpdatedBookmark, ...prev];
     });
+    showToast(isEdit ? `Link "${newOrUpdatedBookmark.title}" updated!` : `Link "${newOrUpdatedBookmark.title}" added to ${newOrUpdatedBookmark.boardName}!`);
   };
 
   const handleDeleteBookmark = (bookmarkToDelete) => {
     if (window.confirm(`Delete "${bookmarkToDelete.title || bookmarkToDelete.url}"?`)) {
       setBookmarks((prev) => prev.filter((b) => b.id !== bookmarkToDelete.id && b.url !== bookmarkToDelete.url));
+      showToast(`Link deleted`, 'info');
     }
   };
 
@@ -175,21 +187,25 @@ export default function App() {
         pageName: currentPage
       }
     ]);
+    showToast(`Board "${newBoard.name}" created!`);
   };
 
   const handleDeleteBoard = (boardName) => {
     if (window.confirm(`Delete board "${boardName}"?`)) {
       setBookmarks((prev) => prev.filter((b) => (b.boardName || '').toUpperCase() !== boardName.toUpperCase()));
       setCustomBoardsMeta((prev) => prev.filter((b) => b.name.toUpperCase() !== boardName.toUpperCase()));
+      showToast(`Board "${boardName}" deleted`, 'info');
     }
   };
 
   const handleAddPage = (newPageName) => {
     setCurrentPage(newPageName.toUpperCase());
+    showToast(`Page "${newPageName.toUpperCase()}" created!`);
   };
 
   const handleImportData = (importedBookmarks) => {
     setBookmarks(importedBookmarks);
+    showToast(`Imported ${importedBookmarks.length} bookmarks successfully!`);
   };
 
   const handleResetData = () => {
@@ -197,11 +213,12 @@ export default function App() {
     setCustomBoardsMeta([]);
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     localStorage.removeItem(LOCAL_STORAGE_BOARDS_KEY);
+    showToast(`Reset to default dataset complete`, 'info');
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Top Navbar matching target screenshot */}
+    <div className="min-h-screen flex flex-col relative">
+      {/* Top Navbar */}
       <Navbar
         pages={availablePages}
         currentPage={currentPage}
@@ -228,7 +245,7 @@ export default function App() {
             <h3 className="text-sm font-bold text-gray-200">No results found for "{searchQuery}"</h3>
             <button
               onClick={() => setSearchQuery('')}
-              className="action-button mt-2"
+              className="action-btn mt-2"
             >
               Clear Search
             </button>
@@ -288,6 +305,9 @@ export default function App() {
         onImportData={handleImportData}
         onResetData={handleResetData}
       />
+
+      {/* Toast Notification */}
+      <Toast toast={toast} onClose={() => setToast(null)} />
 
     </div>
   );
