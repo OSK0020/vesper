@@ -47,6 +47,17 @@ body::before {
   z-index: 0;
 }
 
+/* Privacy Mode Blur Filter */
+.privacy-blur-active .bookmark-title-text {
+  filter: blur(5px);
+  transition: filter 0.2s ease;
+  user-select: none;
+}
+
+.privacy-blur-active .bookmark-title-text:hover {
+  filter: blur(0);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -63,7 +74,7 @@ body::before {
   background: rgba(16, 185, 129, 0.5);
 }
 
-/* Premium Board Card - Spacing & Padding Upgrade */
+/* Premium Board Card */
 .board-card {
   position: relative;
   background: var(--card-bg);
@@ -91,7 +102,7 @@ body::before {
   background: linear-gradient(90deg, rgba(16, 185, 129, 0.85), rgba(20, 184, 166, 0.4), transparent);
 }
 
-/* Page Pill Navigation - Spacing Upgrade */
+/* Page Pill Navigation */
 .page-pill {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
@@ -130,7 +141,7 @@ body::before {
   box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
 }
 
-/* Action Buttons - Spacing Upgrade */
+/* Action Buttons */
 .action-btn {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);

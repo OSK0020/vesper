@@ -41,13 +41,13 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
           )}
         </div>
 
-        {/* Link Title */}
-        <span className="text-[13px] font-semibold text-gray-200 group-hover:text-white truncate">
+        {/* Link Title with Privacy Blur support */}
+        <span className="bookmark-title-text text-[13px] font-semibold text-gray-200 group-hover:text-white truncate">
           {bookmark.title || domain}
         </span>
 
         {/* Subtitle Domain preview */}
-        <span className="text-[10px] text-gray-500 font-mono hidden xl:inline-block opacity-0 group-hover:opacity-60 transition-opacity truncate max-w-[100px] ml-1">
+        <span className="bookmark-title-text text-[10px] text-gray-500 font-mono hidden xl:inline-block opacity-0 group-hover:opacity-60 transition-opacity truncate max-w-[100px] ml-1">
           {domain}
         </span>
       </a>

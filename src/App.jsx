@@ -6,6 +6,7 @@ import AddBookmarkModal from './components/AddBookmarkModal';
 import AddBoardModal from './components/AddBoardModal';
 import AddPageModal from './components/AddPageModal';
 import ImportExportModal from './components/ImportExportModal';
+import FloatingRail from './components/FloatingRail';
 import Toast from './components/Toast';
 import { SearchX } from 'lucide-react';
 
@@ -40,6 +41,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('HOME');
   const [searchQuery, setSearchQuery] = useState('');
   const [toast, setToast] = useState(null);
+  const [isBlurActive, setIsBlurActive] = useState(false);
 
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -217,7 +219,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className={`min-h-screen flex flex-col relative ${isBlurActive ? 'privacy-blur-active' : ''}`}>
       {/* Top Navbar */}
       <Navbar
         pages={availablePages}
@@ -235,7 +237,7 @@ export default function App() {
         onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
       />
 
-      {/* Main Content Area with generous top padding & clearance */}
+      {/* Main Content Area */}
       <main className="flex-1 max-w-[1700px] w-full mx-auto px-6 lg:px-12 pt-8 lg:pt-10 pb-20">
         
         {/* Search Empty State */}
@@ -271,6 +273,21 @@ export default function App() {
         />
 
       </main>
+
+      {/* Official LumiList Floating Rail Controls */}
+      <FloatingRail
+        onOpenSearch={() => {
+          const input = document.querySelector('input[type="text"]');
+          if (input) input.focus();
+        }}
+        onOpenImportExport={() => setIsImportExportModalOpen(true)}
+        isBlurActive={isBlurActive}
+        onToggleBlur={() => {
+          setIsBlurActive(!isBlurActive);
+          showToast(isBlurActive ? 'Privacy Blur disabled' : 'Privacy Blur enabled');
+        }}
+        onOpenSettings={() => setIsImportExportModalOpen(true)}
+      />
 
       {/* Modals */}
       <AddBookmarkModal
