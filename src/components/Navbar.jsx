@@ -28,87 +28,82 @@ export default function Navbar({
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#060907]/95 backdrop-blur-xl border-b border-white/10 px-6 lg:px-12 py-4 lg:py-5 shadow-2xl transition-all">
-      <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <nav className="page-navigation">
+      {/* Left: Page Tabs matching official LumiList markup */}
+      <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
+        {pages.map((page) => {
+          const isActive = page.toUpperCase() === currentPage.toUpperCase();
+          return (
+            <button
+              key={page}
+              onClick={() => onSelectPage(page)}
+              className={isActive ? 'page-tab page-tab-active' : 'page-tab'}
+            >
+              {page}
+            </button>
+          );
+        })}
         
-        {/* Left: Page Pills with generous spacing */}
-        <div className="flex items-center gap-3 overflow-x-auto py-1 scrollbar-none w-full md:w-auto">
-          {pages.map((page) => {
-            const isActive = page.toUpperCase() === currentPage.toUpperCase();
-            return (
-              <button
-                key={page}
-                onClick={() => onSelectPage(page)}
-                className={isActive ? 'page-pill page-pill-active' : 'page-pill'}
-              >
-                {page}
-              </button>
-            );
-          })}
-          
-          <button
-            onClick={onAddPage}
-            className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-colors cursor-pointer flex-shrink-0"
-            title="Add Page"
-          >
-            <Plus className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Right: Search Bar & Action Buttons with generous spacing */}
-        <div className="flex items-center gap-4 w-full md:w-auto justify-end flex-wrap sm:flex-nowrap">
-          
-          {/* Search Bar with proper icon & text clearance */}
-          <div className="relative w-full md:w-72 min-w-[200px]">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-              <Search className="w-4 h-4 text-emerald-400" />
-            </div>
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Search bookmarks... (Ctrl + K)"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="ui-input pl-10 pr-9 py-2.5 text-xs"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => onSearchChange('')}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white bg-transparent border-0 cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-
-          <button
-            onClick={onOpenImportExportModal}
-            className="action-btn"
-            title="Backup & Restore"
-          >
-            <Download className="w-4 h-4 text-emerald-400" />
-            <span className="hidden sm:inline">Backup</span>
-          </button>
-
-          <button
-            onClick={onOpenAddBoardModal}
-            className="action-btn"
-            title="Add Board"
-          >
-            <Layout className="w-4 h-4 text-emerald-400" />
-            <span className="hidden sm:inline">+ Board</span>
-          </button>
-
-          <button
-            onClick={() => onOpenAddModal()}
-            className="action-btn action-btn-primary"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Add Link</span>
-          </button>
-        </div>
-
+        <button
+          onClick={onAddPage}
+          className="add-tab-btn"
+          title="Add Page"
+        >
+          <Plus className="w-4 h-4" />
+        </button>
       </div>
-    </header>
+
+      {/* Right: Search & Action Controls */}
+      <div className="flex items-center gap-3">
+        {/* Search Bar */}
+        <div className="relative w-48 sm:w-64">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+            <Search className="w-3.5 h-3.5 text-emerald-400" />
+          </div>
+          <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Search bookmarks... (Ctrl + K)"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="ui-input pl-9 pr-8 py-1.5 text-xs"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => onSearchChange('')}
+              className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-gray-400 hover:text-white bg-transparent border-0 cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        <button
+          onClick={onOpenImportExportModal}
+          className="top-ctrl-btn"
+          title="Backup & Restore"
+        >
+          <Download className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="hidden md:inline">Backup</span>
+        </button>
+
+        <button
+          onClick={onOpenAddBoardModal}
+          className="top-ctrl-btn"
+          title="Add Board"
+        >
+          <Layout className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="hidden md:inline">+ Board</span>
+        </button>
+
+        <button
+          onClick={() => onOpenAddModal()}
+          className="top-ctrl-btn top-ctrl-btn-primary"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Add Link</span>
+        </button>
+      </div>
+    </nav>
   );
 }

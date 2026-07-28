@@ -220,7 +220,7 @@ export default function App() {
 
   return (
     <div className={`min-h-screen flex flex-col relative ${isBlurActive ? 'privacy-blur-active' : ''}`}>
-      {/* Top Navbar */}
+      {/* Top Floating Page Navigation */}
       <Navbar
         pages={availablePages}
         currentPage={currentPage}
@@ -237,24 +237,24 @@ export default function App() {
         onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-[1700px] w-full mx-auto px-6 lg:px-12 pt-8 lg:pt-10 pb-20">
+      {/* Official 4-Column Board Layout */}
+      <main className="flex-1 w-full">
         
         {/* Search Empty State */}
         {searchQuery && filteredBookmarks.length === 0 && (
-          <div className="board-card p-10 text-center flex flex-col items-center justify-center gap-4 max-w-md mx-auto my-12">
+          <div className="board p-10 text-center flex flex-col items-center justify-center gap-4 max-w-md mx-auto my-12">
             <SearchX className="w-10 h-10 text-gray-500" />
             <h3 className="text-sm font-bold text-gray-200">No results found for "{searchQuery}"</h3>
             <button
               onClick={() => setSearchQuery('')}
-              className="action-btn mt-2"
+              className="top-ctrl-btn mt-2"
             >
               Clear Search
             </button>
           </div>
         )}
 
-        {/* Board Masonry Grid */}
+        {/* Official LumiList Grid Container */}
         <BoardGrid
           boards={boardsList}
           bookmarksByBoard={bookmarksByBoard}
@@ -274,7 +274,7 @@ export default function App() {
 
       </main>
 
-      {/* Official LumiList Floating Rail Controls */}
+      {/* Official LumiList Floating Controls Rail */}
       <FloatingRail
         onOpenSearch={() => {
           const input = document.querySelector('input[type="text"]');
