@@ -28,8 +28,8 @@ export default function Navbar({
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#070908]/92 backdrop-blur-xl border-b border-white/10 px-6 lg:px-12 py-4 lg:py-5 shadow-2xl transition-all">
-      <div className="max-w-[1700px] mx-auto flex flex-col md:flex-row items-center justify-between gap-5">
+    <header className="sticky top-0 z-50 bg-[#060907]/95 backdrop-blur-xl border-b border-white/10 px-6 lg:px-12 py-4 lg:py-5 shadow-2xl transition-all">
+      <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         
         {/* Left: Page Pills with generous spacing */}
         <div className="flex items-center gap-3 overflow-x-auto py-1 scrollbar-none w-full md:w-auto">
@@ -56,12 +56,12 @@ export default function Navbar({
         </div>
 
         {/* Right: Search Bar & Action Buttons with generous spacing */}
-        <div className="flex items-center gap-3.5 w-full md:w-auto justify-end">
+        <div className="flex items-center gap-4 w-full md:w-auto justify-end flex-wrap sm:flex-nowrap">
           
-          {/* Search Bar */}
-          <div className="relative w-full md:w-72">
+          {/* Search Bar with proper icon & text clearance */}
+          <div className="relative w-full md:w-72 min-w-[200px]">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-              <Search className="w-4 h-4" />
+              <Search className="w-4 h-4 text-emerald-400" />
             </div>
             <input
               ref={searchInputRef}
@@ -69,7 +69,7 @@ export default function Navbar({
               placeholder="Search bookmarks... (Ctrl + K)"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="ui-input pl-10 pr-9 py-2 text-xs"
+              className="ui-input pl-10 pr-9 py-2.5 text-xs"
             />
             {searchQuery && (
               <button

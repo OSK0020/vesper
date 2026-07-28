@@ -11,15 +11,17 @@ export default function BoardGrid({
   onDeleteBoard,
   onAddBoard
 }) {
-  const columnsMap = {};
+  // Distribute boards evenly across 4 columns so full screen width is utilized
+  const columns = [[], [], [], []];
 
-  boards.forEach((board) => {
-    const colIdx = board.columnIndex !== undefined ? board.columnIndex : 0;
-    if (!columnsMap[colIdx]) columnsMap[colIdx] = [];
-    columnsMap[colIdx].push(board);
+  boards.forEach((board, index) => {
+    // If explicit columnIndex exists, use it; otherwise fallback to round-robin index % 4
+    let colIdx = board.columnIndex;
+    if (colIdx === undefined || colIdx < 0 || colIdx > 3) {
+      colIdx = index % 4;
+    }
+    columns[colIdx].push(board);
   });
-
-  const columnKeys = Object.keys(columnsMap).sort((a, b) => Number(a) - Number(b));
 
   return (
     <div className="w-full">
@@ -40,10 +42,10 @@ export default function BoardGrid({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 lg:gap-8 items-start">
-          {columnKeys.map((colIdx) => (
-            <div key={colIdx} className="flex flex-col gap-7 lg:gap-8 w-full">
-              {columnsMap[colIdx].map((board) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 w-full items-start">
+          {columns.map((colBoards, colIdx) => (
+            <div key={colIdx} className="flex flex-col gap-8 w-full">
+              {colBoards.map((board) => (
                 <BoardCard
                   key={board.name}
                   boardName={board.name}

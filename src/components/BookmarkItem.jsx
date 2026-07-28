@@ -18,12 +18,12 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
   };
 
   return (
-    <div className="group relative flex items-center justify-between py-1.5 px-2.5 rounded-lg transition-all duration-150 hover:bg-white/[0.08] border border-transparent hover:border-white/5">
+    <div className="group relative flex items-center justify-between py-2 px-3 rounded-xl transition-all duration-150 hover:bg-white/[0.08] border border-transparent hover:border-white/10">
       <a
         href={bookmark.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2.5 min-w-0 flex-1 no-underline"
+        className="flex items-center gap-3 min-w-0 flex-1 no-underline"
         style={{ textDecoration: 'none' }}
       >
         {/* Favicon Container */}
@@ -41,28 +41,23 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
           )}
         </div>
 
-        {/* Link Title with Privacy Blur support */}
+        {/* Link Title */}
         <span className="bookmark-title-text text-[13px] font-semibold text-gray-200 group-hover:text-white truncate">
           {bookmark.title || domain}
         </span>
-
-        {/* Subtitle Domain preview */}
-        <span className="bookmark-title-text text-[10px] text-gray-500 font-mono hidden xl:inline-block opacity-0 group-hover:opacity-60 transition-opacity truncate max-w-[100px] ml-1">
-          {domain}
-        </span>
       </a>
 
-      {/* Edit & Delete & External Link Actions on Hover */}
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ml-1.5">
+      {/* Action Buttons on Hover */}
+      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ml-2">
         <button
           onClick={(e) => {
             e.stopPropagation();
             onEdit(bookmark);
           }}
-          className="p-1 rounded text-gray-400 hover:text-emerald-400 hover:bg-white/10 bg-transparent border-0 cursor-pointer transition-colors"
+          className="p-1.5 rounded-lg text-gray-400 hover:text-emerald-400 hover:bg-white/10 bg-transparent border-0 cursor-pointer transition-colors"
           title="Edit link"
         >
-          <Edit2 className="w-3 h-3" />
+          <Edit2 className="w-3.5 h-3.5" />
         </button>
 
         <button
@@ -70,20 +65,20 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
             e.stopPropagation();
             onDelete(bookmark);
           }}
-          className="p-1 rounded text-gray-400 hover:text-rose-400 hover:bg-rose-500/20 bg-transparent border-0 cursor-pointer transition-colors"
+          className="p-1.5 rounded-lg text-gray-400 hover:text-rose-400 hover:bg-rose-500/20 bg-transparent border-0 cursor-pointer transition-colors"
           title="Delete link"
         >
-          <Trash2 className="w-3 h-3" />
+          <Trash2 className="w-3.5 h-3.5" />
         </button>
 
         <a
           href={bookmark.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-1 rounded text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+          className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
           title="Open in new tab"
         >
-          <ExternalLink className="w-3 h-3" />
+          <ExternalLink className="w-3.5 h-3.5" />
         </a>
       </div>
     </div>
