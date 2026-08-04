@@ -133,7 +133,7 @@ export default function ShareCardModal({
     // Footer Watermark
     ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
     ctx.font = '14px "JetBrains Mono", monospace';
-    ctx.fillText('VESPER · YOUR DIGITAL SPACE, ILLUMINATED · BUILT BY ORI STERN', 100, 590);
+    ctx.fillText('VESPER · YOUR DIGITAL SPACE, ILLUMINATED', 100, 590);
   }, [isOpen, currentPage, boards, bookmarksCount]);
 
   const handleDownload = () => {

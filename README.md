@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  A high-performance, private visual workspace built by <b>Ori Stern</b>.<br/>
+  A high-performance visual workspace.<br/>
   Featuring glassmorphic depth, cursor-reactive ambient lighting, bento grid layout, and an interactive Command Palette.
 </p>
 
@@ -16,17 +16,15 @@
 [![Vite](https://img.shields.io/badge/Vite-8.1-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-v4.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-[![Author](https://img.shields.io/badge/Author-Ori%20Stern-863BFF?style=for-the-badge)](https://github.com/OSK0020)
 
 </div>
 
 ---
 
-> ### 💬 Developer Origin Note
+> ### 💬 Origin Note
 > *"סך הכל היה נמאס לי מהמגבלות של לומי ליסט, אז יצרתי אחת משלי לשימוש הפרטי כדי לא לפגוע בהם."*  
 > 
-> *"Basically, I got tired of LumiList's artificial limitations and restrictions, so I built my own high-performance visual workspace from scratch for private productivity without interfering with their platform."*  
-> — **Ori Stern**
+> *"Basically, I got tired of LumiList's artificial limitations and restrictions, so I built my own high-performance visual workspace from scratch for private productivity without interfering with their platform."*
 
 ---
 
@@ -92,13 +90,6 @@ npm run dev
 
 ---
 
-## 👨‍💻 Author
-
-Crafted with care by **Ori Stern**
-- GitHub: [@OSK0020](https://github.com/OSK0020)
-
----
-
 <div align="center">
-  <sub>VESPER © 2026. Your Digital Space, Illuminated. Built by Ori Stern.</sub>
+  <sub>VESPER © 2026. Your Digital Space, Illuminated.</sub>
 </div>

@@ -5,7 +5,7 @@ export default function Hero({ pageCount, boardCount, linkCount, currentPage }) 
     <header className="hero-mast">
       <div className="hero-mark">
         <span className="beam-dot" />
-        <span>Your Digital Space, Illuminated · Built by Ori Stern</span>
+        <span>Your Digital Space, Illuminated</span>
       </div>
 
       <h1 className="hero-title">VESPER</h1>
