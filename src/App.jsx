@@ -312,9 +312,18 @@ export default function App() {
     showToast(`Page "${newPageName.toUpperCase()}" created!`);
   };
 
-  const handleImportData = (importedBookmarks) => {
-    setBookmarks(importedBookmarks);
-    showToast(`Imported ${importedBookmarks.length} bookmarks successfully!`);
+  const handleImportFullWorkspace = ({ importedBookmarks, importedBoardsMeta, importedPreferences }) => {
+    if (Array.isArray(importedBookmarks)) {
+      setBookmarks(importedBookmarks);
+    }
+    if (Array.isArray(importedBoardsMeta)) {
+      setCustomBoardsMeta(importedBoardsMeta);
+    }
+    if (importedPreferences) {
+      if (importedPreferences.brightnessMode) setBrightnessMode(importedPreferences.brightnessMode);
+      if (importedPreferences.glassMode) setGlassMode(importedPreferences.glassMode);
+    }
+    showToast(`Full workspace imported! (${importedBookmarks?.length || 0} links restored)`);
   };
 
   const handleResetData = () => {
@@ -448,7 +457,10 @@ export default function App() {
         isOpen={isImportExportModalOpen}
         onClose={() => setIsImportExportModalOpen(false)}
         bookmarks={bookmarks}
-        onImportData={handleImportData}
+        customBoardsMeta={customBoardsMeta}
+        brightnessMode={brightnessMode}
+        glassMode={glassMode}
+        onImportFullWorkspace={handleImportFullWorkspace}
         onResetData={handleResetData}
       />
 

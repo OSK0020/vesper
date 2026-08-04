@@ -30,21 +30,29 @@
 
 ## ✨ Features Overview
 
-### 🎨 1. Violet & Lumen Design Architecture
+### 💾 1. Local Storage Persistence & Computer Transfer
+- **Local Storage Persistence**: All your bookmarks, custom column boards, pages, accent colors, brightness settings, and glass transparency preferences are automatically saved in real time to LocalStorage (`vesper_bookmarks_data`, `vesper_boards_meta`).
+- **Computer Transfer Package**: Export your entire workspace state into a single JSON package (`vesper-workspace-backup-[date].json`). Easily move your links, boards, and layout to a new computer in seconds.
+- **Auto-Board & Table Generation**: Importing a backup file automatically parses all pages, reconstructs missing board tables, and restores custom accent colors.
+- **5MB File Safety Guard**: Built-in file size validation ensures backup files stay under 5MB to guarantee instant parsing and zero memory overload.
+
+### 🎨 2. Violet & Lumen Design Architecture
 - **Warm Void (`#08070a`)** base background with subtle radial violet (`#863bff`) and lumen amber (`#f5b942`) aurora glows.
 - **Cursor-Reactive Lighting**: Radial light sweep follows cursor movement in real time.
 - **Interactive Light Particles**: Dynamic canvas micro-particles trailing pointer interaction.
+- **Glass Transparency Modes**: Switch between 💎 *Crystal Glass* (ultra transparent), 🧊 *Frosted Glass*, and 🖤 *Solid Obsidian*.
+- **Brightness Modes**: Switch between ☀️ *Luminous*, ✨ *Balanced*, and 🌙 *Deep Void*.
 
-### ⌨️ 2. Instant Command Palette (`Ctrl+K` / `Cmd+K`)
+### ⌨️ 3. Instant Command Palette (`Ctrl+K` / `Cmd+K`)
 Global keyboard-driven popup menu to navigate your entire workspace effortlessly:
 - Search through all bookmarks, URLs, and boards with fuzzy matching.
 - Execute quick actions: *Add Link, Create Board, Add Page, Export JSON, Toggle Privacy Blur, Generate Share Card*.
 
-### 🗂️ 3. Bento Grid & Drag-and-Drop Reordering
+### 🗂️ 4. Bento Grid & Drag-and-Drop Reordering
 - **Board Reordering**: Grab board handles to reorder columns seamlessly across a 4-column bento layout.
 - **Bookmark Moving**: Drag individual bookmark links from one board card directly onto another.
 
-### 🎨 4. Custom Board Accent Color Themes
+### 🎨 5. Custom Board Accent Color Themes
 Assign custom brand color tags to boards for instant visual scanning:
 - 💜 `Violet (#863bff)`
 - 💛 `Lumen Amber (#f5b942)`
@@ -53,12 +61,8 @@ Assign custom brand color tags to boards for instant visual scanning:
 - 🩵 `Cyan (#06b6d4)`
 - 💙 `Sapphire (#3b82f6)`
 
-### 📸 5. Built-in Social Share Card Generator
+### 📸 6. Built-in Social Share Card Generator
 Generates a crisp 1200x630 HTML5 Canvas graphic showcasing your active workspace, stats, and board previews with 1-click PNG download.
-
-### 🔒 6. Privacy Blur Mode & Portability
-- **Privacy Blur**: Toggle privacy mode (`Ctrl+Shift+P` / rail button) to obscure sensitive links during presentations or screen shares.
-- **Portability**: 1-click JSON import/export for instant local backups.
 
 ---
 
