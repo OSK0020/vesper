@@ -150,28 +150,28 @@ export default function ShareCardModal({
 
   return (
     <div className="modal-overlay z-50">
-      <div className="modal-content w-full max-w-3xl p-7 sm:p-8 relative animate-modal">
+      <div className="modal-content w-full max-w-4xl p-8 sm:p-10 relative animate-modal">
         
-        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
-          <div className="flex items-center gap-3.5">
-            <div className="p-3 rounded-2xl bg-[var(--lumen-dim)] text-[var(--lumen-soft)] border border-[var(--lumen)]/30">
-              <Share2 className="w-5 h-5" />
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-7">
+          <div className="flex items-center gap-4">
+            <div className="p-3.5 rounded-2xl bg-[var(--lumen-dim)] text-[var(--lumen-soft)] border border-[var(--lumen)]/30 shadow-lg">
+              <Share2 className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white tracking-tight">Social Share Card</h2>
-              <p className="text-xs text-gray-400 mt-0.5">High-resolution 1200x630 preview graphic for social platforms</p>
+              <h2 className="text-xl font-extrabold text-white tracking-tight">Social Share Card</h2>
+              <p className="text-xs text-gray-400 mt-1">High-resolution 1200x630 preview graphic for social platforms</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2.5 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Canvas Render Container */}
-        <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[var(--void)]">
+        <div className="relative rounded-2xl overflow-hidden border border-white/14 shadow-2xl bg-[var(--void)]">
           <canvas
             ref={canvasRef}
             className="w-full h-auto block rounded-2xl"
@@ -179,21 +179,21 @@ export default function ShareCardModal({
           />
         </div>
 
-        <div className="flex items-center justify-between mt-6 pt-5 pb-1 border-t border-white/10">
-          <div className="text-xs text-gray-400 flex items-center gap-1.5 font-mono">
+        <div className="flex items-center justify-between mt-8 pt-6 pb-1 border-t border-white/10">
+          <div className="text-xs text-gray-400 flex items-center gap-2 font-mono">
             <Sparkles className="w-4 h-4 text-[var(--lumen-soft)]" />
             Ready to share or use as og:image
           </div>
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-4">
             <button
               onClick={onClose}
-              className="action-btn"
+              className="action-btn px-6"
             >
               Close
             </button>
             <button
               onClick={handleDownload}
-              className="action-btn action-btn-primary px-6"
+              className="action-btn action-btn-primary px-7"
             >
               <Download className="w-4 h-4" /> Download PNG (1200x630)
             </button>

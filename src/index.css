@@ -541,18 +541,17 @@ body::before {
 
 /* ============================================================
    MODALS
-   ============================================================ */
-.modal-overlay {
+   =========================================================.modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 3, 6, 0.82);
-  backdrop-filter: blur(16px);
+  background: rgba(4, 3, 6, 0.86);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
-  padding: 20px;
-  animation: overlayFade 0.2s ease forwards;
+  padding: 24px;
+  animation: overlayFade 0.22s ease forwards;
 }
 
 @keyframes overlayFade {
@@ -561,53 +560,59 @@ body::before {
 }
 
 .modal-content {
-  background: var(--surface-raised);
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(134, 59, 255, 0.12);
+  background: rgba(18, 15, 24, 0.95);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 28px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(134, 59, 255, 0.15);
   overflow: hidden;
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
 }
 
-.animate-modal { animation: modalPop 0.28s var(--ease-spring) forwards; }
+.animate-modal { animation: modalPop 0.3s var(--ease-spring) forwards; }
 
 @keyframes modalPop {
-  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .ui-input, .ui-select {
-  background: rgba(8, 7, 10, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 12px 16px;
+  background: rgba(10, 8, 14, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 14px 18px;
   color: #ffffff;
   font-family: var(--font-body);
-  font-size: 13.5px;
+  font-size: 14px;
+  font-weight: 500;
   outline: none;
   width: 100%;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .ui-input:focus, .ui-select:focus {
   border-color: var(--violet);
-  box-shadow: 0 0 0 3px var(--violet-dim);
-  background: rgba(12, 10, 16, 0.95);
+  box-shadow: 0 0 0 4px rgba(134, 59, 255, 0.25), 0 0 16px rgba(134, 59, 255, 0.2);
+  background: rgba(14, 11, 20, 0.98);
+}
+
+.ui-select {
+  cursor: pointer;
 }
 
 /* Modal action buttons */
 .action-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--hairline);
-  color: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  padding: 10px 20px;
-  font-size: 13px;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+  padding: 12px 24px;
+  font-size: 13.5px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.18s var(--ease-out);
+  transition: all 0.2s var(--ease-out);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -615,16 +620,27 @@ body::before {
 }
 
 .action-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn:active {
+  transform: translateY(0);
 }
 
 .action-btn-primary {
-  background: var(--violet);
-  border-color: var(--violet);
+  background: linear-gradient(135deg, var(--violet) 0%, #7529f5 100%);
+  border-color: rgba(169, 112, 255, 0.4);
   color: #ffffff;
-  box-shadow: 0 4px 16px rgba(134, 59, 255, 0.35);
+  box-shadow: 0 6px 20px rgba(134, 59, 255, 0.4);
+}
+
+.action-btn-primary:hover {
+  background: linear-gradient(135deg, var(--violet-soft) 0%, var(--violet) 100%);
+  box-shadow: 0 8px 28px rgba(134, 59, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .action-btn-primary:hover {

@@ -77,22 +77,22 @@ export default function ImportExportModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-md p-7 sm:p-8 relative animate-modal">
+      <div className="modal-content w-full max-w-lg p-8 sm:p-10 relative animate-modal">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
-          <div className="flex items-center gap-3.5">
-            <div className="p-3 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
-              <Download className="w-5 h-5" />
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-7">
+          <div className="flex items-center gap-4">
+            <div className="p-3.5 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30 shadow-lg">
+              <Download className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white tracking-tight">Backup & Restore</h2>
-              <p className="text-xs text-gray-400 mt-0.5">Import or export your Vesper collection</p>
+              <h2 className="text-xl font-extrabold text-white tracking-tight">Backup & Restore</h2>
+              <p className="text-xs text-gray-400 mt-1">Import or export your Vesper collection</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2.5 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -100,46 +100,46 @@ export default function ImportExportModal({
 
         {/* Success/Error Alerts */}
         {successMsg && (
-          <div className="mb-5 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-            <Check className="w-4 h-4 flex-shrink-0" />
-            <span>{successMsg}</span>
+          <div className="mb-6 p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2.5 shadow-lg">
+            <Check className="w-5 h-5 flex-shrink-0" />
+            <span className="font-semibold">{successMsg}</span>
           </div>
         )}
         {errorMsg && (
-          <div className="mb-5 p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
-            <span>{errorMsg}</span>
+          <div className="mb-6 p-4 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 shadow-lg">
+            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+            <span className="font-semibold">{errorMsg}</span>
           </div>
         )}
 
         {/* Action Options */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-5">
           
           {/* Export Option */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between">
+          <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between shadow-sm">
             <div>
               <h3 className="text-sm font-bold text-white">Export Bookmarks</h3>
-              <p className="text-xs text-gray-400 mt-0.5">Save current links as a JSON file</p>
+              <p className="text-xs text-gray-400 mt-1">Save current links as a JSON file</p>
             </div>
             <button
               onClick={handleExport}
-              className="action-btn action-btn-primary py-2 px-4 text-xs"
+              className="action-btn action-btn-primary py-2.5 px-5 text-xs"
             >
-              <Download className="w-3.5 h-3.5" /> Export
+              <Download className="w-4 h-4" /> Export
             </button>
           </div>
 
           {/* Import Option */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between">
+          <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between shadow-sm">
             <div>
               <h3 className="text-sm font-bold text-white">Import Bookmarks</h3>
-              <p className="text-xs text-gray-400 mt-0.5">Load from a previously saved JSON</p>
+              <p className="text-xs text-gray-400 mt-1">Load from a previously saved JSON</p>
             </div>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="action-btn py-2 px-4 text-xs"
+              className="action-btn py-2.5 px-5 text-xs"
             >
-              <Upload className="w-3.5 h-3.5" /> Import
+              <Upload className="w-4 h-4" /> Import
             </button>
             <input
               ref={fileInputRef}
@@ -151,10 +151,10 @@ export default function ImportExportModal({
           </div>
 
           {/* Reset Option */}
-          <div className="p-4 rounded-2xl bg-rose-500/[0.05] border border-rose-500/20 flex items-center justify-between mt-2">
+          <div className="p-5 rounded-2xl bg-rose-500/[0.06] border border-rose-500/20 flex items-center justify-between mt-2">
             <div>
               <h3 className="text-sm font-bold text-rose-300">Reset to Defaults</h3>
-              <p className="text-xs text-rose-400/70 mt-0.5">Restore initial sample dataset</p>
+              <p className="text-xs text-rose-400/80 mt-1">Restore initial sample dataset</p>
             </div>
             <button
               onClick={() => {
@@ -163,19 +163,19 @@ export default function ImportExportModal({
                   onClose();
                 }
               }}
-              className="action-btn text-xs py-2 px-4 border-rose-500/30 text-rose-300 hover:bg-rose-500/20"
+              className="action-btn text-xs py-2.5 px-5 border-rose-500/40 text-rose-300 hover:bg-rose-500/20"
             >
-              <RefreshCw className="w-3.5 h-3.5" /> Reset
+              <RefreshCw className="w-4 h-4" /> Reset
             </button>
           </div>
 
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end mt-6 pt-5 pb-1 border-t border-white/10">
+        <div className="flex items-center justify-end mt-8 pt-6 pb-1 border-t border-white/10">
           <button
             onClick={onClose}
-            className="action-btn px-6"
+            className="action-btn px-8"
           >
             Close
           </button>
