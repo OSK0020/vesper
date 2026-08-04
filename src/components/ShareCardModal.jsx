@@ -66,7 +66,7 @@ export default function ShareCardModal({
     // Brand Name
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 38px "Space Grotesk", sans-serif';
-    ctx.fillText('LUMI LIST', 160, 138);
+    ctx.fillText('ORILIST', 160, 138);
 
     // Eyebrow Label & Status
     ctx.fillStyle = '#f5b942';
@@ -133,7 +133,7 @@ export default function ShareCardModal({
     // Footer Watermark
     ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
     ctx.font = '14px "JetBrains Mono", monospace';
-    ctx.fillText('POWERED BY LUMI LIST · BEAUTIFUL PERSONAL WORKSPACE BOARD', 100, 590);
+    ctx.fillText('ORILIST · PERSONAL VISUAL WORKSPACE · BUILT BY ORI STERN', 100, 590);
   }, [isOpen, currentPage, boards, bookmarksCount]);
 
   const handleDownload = () => {

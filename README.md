@@ -1,98 +1,108 @@
-# ✨ LumiList — Visual Bookmarks Workspace & Dashboard
+<div align="center">
 
-> A high-performance, dark glassmorphism clone of **LumiList**. Transform your browser bookmarks into organized, visual boards and pages with automatic site logos, instant live search, local persistence, and JSON backup/restore.
+# ⚡ OriList — Personal Visual Workspace
 
-![LumiList Preview](https://img.shields.io/badge/LumiList-v1.0.0-6366f1?style=for-the-badge&logo=react&logoColor=white)
-![Vercel Ready](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)
-![License](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)
+<p align="center">
+  <b>A high-performance, personal visual bookmark dashboard built by Ori Stern.</b><br/>
+  Featuring glassmorphic depth, cursor-reactive ambient lighting, bento grid layout, and an interactive Command Palette.
+</p>
 
----
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.1-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-v4.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![Author](https://img.shields.io/badge/Author-Ori%20Stern-863BFF?style=for-the-badge)](https://github.com/OSK0020)
 
-## 🌟 Features
-
-- 🎨 **Modern Dark Glassmorphism UI:** Built with glowing ambient gradients, backdrop blurs, and smooth micro-animations.
-- 🖼️ **Automatic Favicons & Logos:** Next to every link, site logos and favicons are automatically fetched using Google S2 Favicon API with fallbacks.
-- 📑 **Pages & Boards Navigation:** Group your bookmarks into Pages (e.g. `HOME`, `WORK`) and Boards (e.g. `DAILY ROUTINE`, `SHOPPING & RETAIL`, `STUDIES & EDUCATION`).
-- ➕ **Dynamic Link & Board Management:** Add, edit, or remove links and custom boards with real-time feedback.
-- 🔍 **Instant Fuzzy Search (`Ctrl + K`):** Filter your bookmarks live by title, URL, or board category.
-- 💾 **100% Client-Side LocalStorage Persistence:** All changes persist locally across browser sessions.
-- 🔄 **LumiList Portability (Import / Export):** Export your entire collection as a `.json` file or import official LumiList backups.
-- 🚀 **Vercel & Static Host Ready:** Zero server dependencies, instant static build deployment.
+</div>
 
 ---
 
-## 📁 Repository Structure
+> ### 💬 Note from the Developer
+> *"סך הכל היה נמאס לי מהמגבלות של לומי ליסט, אז יצרתי אחת משלי לשימוש הפרטי כדי לא לפגוע בהם."*  
+> 
+> *"Basically, I got tired of LumiList's artificial limitations and restrictions, so I built my own high-performance visual workspace from scratch for private productivity without interfering with their platform."*  
+> — **Ori Stern**
 
-```
-FAKE LUMILIST/
-├── public/                  # Static assets
-├── src/
-│   ├── components/          # Modular React components
-│   │   ├── Navbar.jsx       # Header, page tabs, search, action buttons
-│   │   ├── BoardGrid.jsx    # Column layout manager for boards
-│   │   ├── BoardCard.jsx    # Individual board container with category icons
-│   │   ├── BookmarkItem.jsx # Link item with logo & hover actions
-│   │   ├── AddBookmarkModal.jsx  # Add & edit link modal
-│   │   ├── AddBoardModal.jsx     # Add board modal
-│   │   ├── AddPageModal.jsx      # Add page modal
-│   │   └── ImportExportModal.jsx # Backup & restore modal
-│   ├── data/
-│   │   └── initialBookmarks.json # 182 preloaded bookmarks dataset
-│   ├── utils/
-│   │   └── favicon.js       # Favicon parser & fallback utilities
-│   ├── App.jsx              # Main workspace state & logic
-│   ├── main.jsx             # React DOM entrypoint
-│   └── index.css            # Design system & glassmorphism CSS
-├── package.json             # Project metadata & dependencies
-├── vite.config.js           # Vite build configuration
-├── vercel.json              # Vercel deployment configuration
-└── README.md                # Project documentation
-```
+---
+
+## ✨ Features Overview
+
+### 🎨 1. Violet & Lumen Design Architecture
+Grounded in a bespoke dark glassmorphic palette:
+- **Warm Void (`#08070a`)** base background with subtle radial violet (`#863bff`) and lumen amber (`#f5b942`) aurora glows.
+- **Cursor-Reactive Lighting**: Radial light sweep follows cursor movement in real time.
+- **Interactive Light Particles**: Dynamic canvas micro-particles trailing pointer interaction.
+
+### ⌨️ 2. Instant Command Palette (`Ctrl+K` / `Cmd+K`)
+Global keyboard-driven popup menu to navigate your entire workspace effortlessly:
+- Search through all bookmarks, URLs, and boards with fuzzy matching.
+- Execute quick actions: *Add Link, Create Board, Add Page, Export JSON, Toggle Privacy Blur, Generate Share Card*.
+
+### 🗂️ 3. Bento Grid & Drag-and-Drop Reordering
+- **Board Reordering**: Grab board handles to reorder columns seamlessly across a 4-column bento layout.
+- **Bookmark Moving**: Drag individual bookmark links from one board card directly onto another.
+
+### 🎨 4. Custom Board Accent Color Themes
+Assign custom brand color tags to boards for instant visual scanning:
+- 💜 `Violet (#863bff)`
+- 💛 `Lumen Amber (#f5b942)`
+- 💚 `Emerald (#10b981)`
+- 🩷 `Rose (#f43f5e)`
+- 🩵 `Cyan (#06b6d4)`
+- 💙 `Sapphire (#3b82f6)`
+
+### 📸 5. Built-in Social Share Card Generator
+Generates a crisp 1200x630 HTML5 Canvas graphic showcasing your active workspace, stats, and board previews with 1-click PNG download.
+
+### 🔒 6. Privacy Blur Mode & Portability
+- **Privacy Blur**: Toggle privacy mode (`Ctrl+Shift+P` / rail button) to obscure sensitive links during presentations or screen shares.
+- **Portability**: 1-click JSON import/export for instant local backups.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+- **Core Framework**: [React 19](https://react.dev/) + [Vite 8](https://vitejs.dev/)
+- **Styling & Design System**: Tailwind CSS v4 + Vanilla CSS Custom Variables
+- **Icons**: [Lucide React](https://lucide.react.dev/)
+- **Typography**: Space Grotesk (Display), Inter (Body), JetBrains Mono (Data & Status)
+- **Deployment**: Vercel
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
+- Node.js `18.x` or higher
+- npm / yarn / pnpm
 
 ### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/lumilist-clone.git
-   cd lumilist-clone
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/OSK0020/lumilist-clone.git orilist
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+# Navigate to project directory
+cd orilist
 
-3. **Start local dev server:**
-   ```bash
-   npm run dev
-   ```
+# Install dependencies
+npm install
 
-4. **Build for production:**
-   ```bash
-   npm run build
-   ```
+# Start local development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`.
 
 ---
 
-## 📦 Deployment to Vercel
+## 👨‍💻 Author
 
-1. Push your repository to GitHub.
-2. Go to [Vercel Dashboard](https://vercel.com/dashboard) and click **"Add New Project"**.
-3. Import your GitHub repository.
-4. Framework Preset will automatically detect **Vite**.
-5. Click **"Deploy"** — your live dashboard will be online in seconds!
+Crafted with care by **Ori Stern**
+- GitHub: [@OSK0020](https://github.com/OSK0020)
 
 ---
 
-## 📄 License
-
-This project is open-source under the [MIT License](LICENSE).
+<div align="center">
+  <sub>OriList © 2026. Personal productivity workspace built by Ori Stern.</sub>
+</div>

@@ -11,7 +11,7 @@ function BrandMark() {
           fill="#863bff"
         />
       </svg>
-      <span>Lumi List</span>
+      <span>OriList</span>
     </div>
   );
 }

@@ -5,14 +5,14 @@ export default function Hero({ pageCount, boardCount, linkCount, currentPage }) 
     <header className="hero-mast">
       <div className="hero-mark">
         <span className="beam-dot" />
-        <span>Visual bookmark workspace</span>
+        <span>Personal Visual Workspace · Built by Ori Stern</span>
       </div>
 
-      <h1 className="hero-title">Lumi List</h1>
+      <h1 className="hero-title">OriList</h1>
 
       <p className="hero-sub">
-        Every link, lit and in its place. Boards catch the light as you move —
-        a small signal that this is your space, arranged your way.
+        Every link, lit and in its place. Designed for personal productivity with ambient light physics,
+        bento board grids, and zero artificial limits.
       </p>
 
       <div className="hero-status">
