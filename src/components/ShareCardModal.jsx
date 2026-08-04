@@ -150,11 +150,11 @@ export default function ShareCardModal({
 
   return (
     <div className="modal-overlay z-50">
-      <div className="modal-content w-full max-w-3xl p-6 relative animate-modal">
+      <div className="modal-content w-full max-w-3xl p-7 sm:p-8 relative animate-modal">
         
-        <div className="flex items-center justify-between pb-4 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--lumen-dim)] text-[var(--lumen-soft)] border border-[var(--lumen)]/30">
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+          <div className="flex items-center gap-3.5">
+            <div className="p-3 rounded-2xl bg-[var(--lumen-dim)] text-[var(--lumen-soft)] border border-[var(--lumen)]/30">
               <Share2 className="w-5 h-5" />
             </div>
             <div>
@@ -164,36 +164,36 @@ export default function ShareCardModal({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Canvas Render Container */}
-        <div className="mt-5 relative rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-[var(--void)]">
+        <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[var(--void)]">
           <canvas
             ref={canvasRef}
-            className="w-full h-auto block rounded-xl"
+            className="w-full h-auto block rounded-2xl"
             style={{ width: '100%', height: 'auto', aspectRatio: '1200 / 630' }}
           />
         </div>
 
-        <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/10">
+        <div className="flex items-center justify-between mt-6 pt-5 pb-1 border-t border-white/10">
           <div className="text-xs text-gray-400 flex items-center gap-1.5 font-mono">
             <Sparkles className="w-4 h-4 text-[var(--lumen-soft)]" />
             Ready to share or use as og:image
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3.5">
             <button
               onClick={onClose}
-              className="action-btn text-xs py-2 px-4"
+              className="action-btn"
             >
               Close
             </button>
             <button
               onClick={handleDownload}
-              className="action-btn action-btn-primary text-xs py-2 px-5 flex items-center gap-2"
+              className="action-btn action-btn-primary px-6"
             >
               <Download className="w-4 h-4" /> Download PNG (1200x630)
             </button>

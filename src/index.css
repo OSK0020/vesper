@@ -555,53 +555,61 @@ body::before {
 .modal-content {
   background: var(--surface-raised);
   backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(134, 59, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(134, 59, 255, 0.12);
+  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .animate-modal { animation: modalPop 0.28s var(--ease-spring) forwards; }
 
 @keyframes modalPop {
-  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .ui-input, .ui-select {
   background: rgba(8, 7, 10, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 16px;
   color: #ffffff;
   font-family: var(--font-body);
   font-size: 13.5px;
   outline: none;
   width: 100%;
-  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .ui-input:focus, .ui-select:focus {
   border-color: var(--violet);
   box-shadow: 0 0 0 3px var(--violet-dim);
+  background: rgba(12, 10, 16, 0.95);
 }
 
-/* Modal action buttons (previously referenced but never defined) */
+/* Modal action buttons */
 .action-btn {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--hairline);
-  color: rgba(255, 255, 255, 0.85);
-  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.16s var(--ease-out);
+  transition: all 0.18s var(--ease-out);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
 }
 
 .action-btn:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
 }
 
 .action-btn-primary {
@@ -613,7 +621,7 @@ body::before {
 
 .action-btn-primary:hover {
   background: var(--violet-soft);
-  box-shadow: 0 6px 20px rgba(134, 59, 255, 0.5);
+  box-shadow: 0 6px 22px rgba(134, 59, 255, 0.55);
 }
 
 @keyframes toastSlideIn {

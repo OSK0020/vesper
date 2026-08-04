@@ -29,11 +29,11 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-md p-6 relative animate-modal">
+      <div className="modal-content w-full max-w-md p-7 sm:p-8 relative animate-modal">
         
-        <div className="flex items-center justify-between pb-4 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+          <div className="flex items-center gap-3.5">
+            <div className="p-3 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
               <Layout className="w-5 h-5" />
             </div>
             <div>
@@ -43,15 +43,15 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div>
-            <label className="block text-xs font-bold text-gray-300 mb-1.5">
+            <label className="block text-xs font-bold text-gray-300 mb-2">
               Board Title *
             </label>
             <input
@@ -66,7 +66,7 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-300 mb-1.5">
+            <label className="block text-xs font-bold text-gray-300 mb-2">
               Column Position
             </label>
             <select
@@ -83,16 +83,16 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
 
           {/* Accent Color Picker */}
           <div>
-            <label className="block text-xs font-bold text-gray-300 mb-2 flex items-center gap-1.5">
+            <label className="block text-xs font-bold text-gray-300 mb-2.5 flex items-center gap-1.5">
               <Palette className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Board Color Theme
             </label>
-            <div className="grid grid-cols-6 gap-2">
+            <div className="grid grid-cols-6 gap-2.5">
               {BOARD_ACCENTS.map((acc) => (
                 <button
                   key={acc.id}
                   type="button"
                   onClick={() => setAccentColor(acc.id)}
-                  className={`h-9 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${
+                  className={`h-10 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${
                     accentColor === acc.id
                       ? 'border-white scale-110 shadow-lg ring-2 ring-white/20'
                       : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105'
@@ -101,24 +101,24 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
                   title={acc.name}
                 >
                   {accentColor === acc.id && (
-                    <div className="w-2 h-2 rounded-full bg-white shadow-sm" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-white shadow-sm" />
                   )}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 mt-4 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3.5 mt-6 pt-5 pb-1 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="action-btn text-xs py-2 px-4"
+              className="action-btn"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="action-btn action-btn-primary text-xs py-2 px-6"
+              className="action-btn action-btn-primary px-7"
             >
               Create Board
             </button>

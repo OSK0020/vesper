@@ -31,7 +31,7 @@ export default function ImportExportModal({
       },
       counts: {
         bookmarks: bookmarks.length,
-        activeBookmarks: bookmarks.filter(b => b.status !== 'deleted').length,
+        activeBookmarks: bookmarks.filter((b) => b.status !== 'deleted').length,
         pagesReferenced: pagesSet.size,
         boardsReferenced: boardsSet.size
       },
@@ -77,62 +77,70 @@ export default function ImportExportModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-md p-6 relative animate-modal">
+      <div className="modal-content w-full max-w-md p-7 sm:p-8 relative animate-modal">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+          <div className="flex items-center gap-3.5">
+            <div className="p-3 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
               <Download className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-white tracking-tight">Backup & Restore</h2>
-              <p className="text-xs text-gray-400 mt-0.5">Import or export your LumiList bookmark collection</p>
+              <p className="text-xs text-gray-400 mt-0.5">Import or export your LumiList collection</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Notifications */}
+        {/* Success/Error Alerts */}
         {successMsg && (
-          <div className="mt-4 p-3 rounded-xl bg-[var(--violet-dim)] border border-[var(--violet)]/40 text-[var(--violet-soft)] text-xs flex items-center gap-2">
-            <Check className="w-4 h-4" /> {successMsg}
+          <div className="mb-5 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+            <Check className="w-4 h-4 flex-shrink-0" />
+            <span>{successMsg}</span>
           </div>
         )}
         {errorMsg && (
-          <div className="mt-4 p-3 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4" /> {errorMsg}
+          <div className="mb-5 p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span>{errorMsg}</span>
           </div>
         )}
 
-        {/* Action Grid */}
-        <div className="mt-5 flex flex-col gap-3">
+        {/* Action Options */}
+        <div className="flex flex-col gap-4">
           
-          {/* Export */}
-          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-[var(--violet)]/30 transition-colors">
+          {/* Export Option */}
+          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between">
             <div>
-              <h4 className="text-sm font-bold text-white">Export Bookmarks</h4>
-              <p className="text-xs text-gray-400 mt-0.5">Download current dataset ({bookmarks.length} links) as JSON</p>
+              <h3 className="text-sm font-bold text-white">Export Bookmarks</h3>
+              <p className="text-xs text-gray-400 mt-0.5">Save current links as a JSON file</p>
             </div>
             <button
               onClick={handleExport}
-              className="action-btn action-btn-primary text-xs py-2 px-3.5 flex-shrink-0"
+              className="action-btn action-btn-primary py-2 px-4 text-xs"
             >
               <Download className="w-3.5 h-3.5" /> Export
             </button>
           </div>
 
-          {/* Import */}
-          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-[var(--violet)]/30 transition-colors">
+          {/* Import Option */}
+          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between">
             <div>
-              <h4 className="text-sm font-bold text-white">Import JSON File</h4>
-              <p className="text-xs text-gray-400 mt-0.5">Load bookmarks from a `.json` backup file</p>
+              <h3 className="text-sm font-bold text-white">Import Bookmarks</h3>
+              <p className="text-xs text-gray-400 mt-0.5">Load from a previously saved JSON</p>
             </div>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="action-btn py-2 px-4 text-xs"
+            >
+              <Upload className="w-3.5 h-3.5" /> Import
+            </button>
             <input
               ref={fileInputRef}
               type="file"
@@ -140,32 +148,22 @@ export default function ImportExportModal({
               onChange={handleFileUpload}
               className="hidden"
             />
-            <button
-              onClick={() => fileInputRef.current && fileInputRef.current.click()}
-              className="action-btn text-xs py-2 px-3.5 flex-shrink-0"
-            >
-              <Upload className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Import
-            </button>
           </div>
 
-          {/* Reset */}
-          <div className="p-4 rounded-xl bg-rose-500/5 border border-rose-500/20 flex items-center justify-between gap-4 mt-2">
+          {/* Reset Option */}
+          <div className="p-4 rounded-2xl bg-rose-500/[0.05] border border-rose-500/20 flex items-center justify-between mt-2">
             <div>
-              <h4 className="text-sm font-bold text-rose-300">Reset to Defaults</h4>
-              <p className="text-xs text-gray-400 mt-0.5">Restore original preloaded bookmarks dataset</p>
+              <h3 className="text-sm font-bold text-rose-300">Reset to Defaults</h3>
+              <p className="text-xs text-rose-400/70 mt-0.5">Restore initial sample dataset</p>
             </div>
             <button
               onClick={() => {
-                if (window.confirm('Reset all bookmarks to original initial dataset?')) {
+                if (window.confirm('Are you sure you want to reset all data to default bookmarks?')) {
                   onResetData();
-                  setSuccessMsg('Reset completed!');
-                  setTimeout(() => {
-                    setSuccessMsg('');
-                    onClose();
-                  }, 1500);
+                  onClose();
                 }
               }}
-              className="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-semibold hover:bg-rose-500/30 transition-colors border-0 cursor-pointer"
+              className="action-btn text-xs py-2 px-4 border-rose-500/30 text-rose-300 hover:bg-rose-500/20"
             >
               <RefreshCw className="w-3.5 h-3.5" /> Reset
             </button>
@@ -174,8 +172,13 @@ export default function ImportExportModal({
         </div>
 
         {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-white/10 text-center">
-          <p className="text-[11px] text-gray-500">Fully compatible with official LumiList export schema</p>
+        <div className="flex items-center justify-end mt-6 pt-5 pb-1 border-t border-white/10">
+          <button
+            onClick={onClose}
+            className="action-btn px-6"
+          >
+            Close
+          </button>
         </div>
 
       </div>

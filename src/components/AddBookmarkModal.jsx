@@ -68,12 +68,12 @@ export default function AddBookmarkModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-lg p-6 relative animate-modal">
+      <div className="modal-content w-full max-w-lg p-7 sm:p-8 relative animate-modal">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+          <div className="flex items-center gap-3.5">
+            <div className="p-3 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
@@ -86,18 +86,18 @@ export default function AddBookmarkModal({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           
           {/* URL Field */}
           <div>
-            <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+            <label className="block text-xs font-bold text-gray-300 mb-2 flex items-center gap-1.5">
               <Link2 className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Web Address (URL) *
             </label>
             <div className="relative">
@@ -111,7 +111,7 @@ export default function AddBookmarkModal({
                 autoFocus
               />
               {previewFavicon && (
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center">
                   <img
                     src={previewFavicon}
                     alt="Favicon preview"
@@ -125,7 +125,7 @@ export default function AddBookmarkModal({
 
           {/* Title Field */}
           <div>
-            <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+            <label className="block text-xs font-bold text-gray-300 mb-2 flex items-center gap-1.5">
               <Type className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Link Title / Label
             </label>
             <input
@@ -142,7 +142,7 @@ export default function AddBookmarkModal({
             
             {/* Page */}
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+              <label className="block text-xs font-bold text-gray-300 mb-2 flex items-center gap-1.5">
                 <BookOpen className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Target Page
               </label>
               <select
@@ -158,7 +158,7 @@ export default function AddBookmarkModal({
 
             {/* Board */}
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
+              <label className="block text-xs font-bold text-gray-300 mb-2 flex items-center gap-1.5">
                 <Layout className="w-3.5 h-3.5 text-[var(--violet-soft)]" /> Target Board
               </label>
               <select
@@ -181,7 +181,7 @@ export default function AddBookmarkModal({
           {/* Custom Board Field if __NEW__ selected */}
           {boardName === '__NEW__' && (
             <div>
-              <label className="block text-xs font-bold text-[var(--lumen-soft)] mb-1.5">
+              <label className="block text-xs font-bold text-[var(--lumen-soft)] mb-2">
                 New Board Name *
               </label>
               <input
@@ -195,18 +195,18 @@ export default function AddBookmarkModal({
             </div>
           )}
 
-          {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-3 mt-4 pt-4 border-t border-white/10">
+          {/* Action Buttons Footer */}
+          <div className="flex items-center justify-end gap-3.5 mt-6 pt-5 pb-1 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="action-btn text-xs py-2 px-4"
+              className="action-btn"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="action-btn action-btn-primary text-xs py-2 px-6"
+              className="action-btn action-btn-primary px-7"
             >
               {editingBookmark ? 'Save Changes' : 'Add Link'}
             </button>
