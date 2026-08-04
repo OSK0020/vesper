@@ -97,7 +97,7 @@ Global keyboard-driven command hub for friction-free workspace control:
 ## 📂 Project Architecture
 
 ```
-lumilist-clone/
+vesper/
 ├── public/                  # Static assets & brand SVG marks
 ├── src/
 │   ├── components/          # Reusable UI & Modal components
@@ -146,7 +146,7 @@ lumilist-clone/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/OSK0020/lumilist-clone.git vesper
+   git clone https://github.com/OSK0020/vesper.git
    cd vesper
    ```
 
