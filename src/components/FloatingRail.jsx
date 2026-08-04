@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Search, Download, Eye, EyeOff, SlidersHorizontal } from 'lucide-react';
+import { Search, Download, Eye, EyeOff, SlidersHorizontal, Sun, Moon, Sparkles } from 'lucide-react';
 import { useMagnetic } from '../utils/useMagnetic';
 
 export default function FloatingRail({
   onOpenSearch,
   onOpenImportExport,
   isBlurActive,
-  onToggleBlur
+  onToggleBlur,
+  brightnessMode,
+  onCycleBrightness
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const searchMagnetic = useMagnetic(0.3);
@@ -18,6 +20,21 @@ export default function FloatingRail({
       {/* Floating Tools Expanded Menu */}
       {isMenuOpen && (
         <div className="flex flex-col gap-2.5 p-2 rounded-2xl bg-[#0e0c12]/90 border border-white/10 backdrop-blur-2xl shadow-2xl animate-toast">
+
+          {/* Brightness Mode Toggle */}
+          <button
+            onClick={onCycleBrightness}
+            className="rail-btn w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer border bg-white/5 text-gray-300 hover:text-white border-white/10 hover:bg-white/10"
+            title={`Brightness Mode: ${brightnessMode} (Click to toggle)`}
+          >
+            {brightnessMode === 'luminous' ? (
+              <Sun className="w-5 h-5 text-[var(--lumen-soft)]" />
+            ) : brightnessMode === 'dim' ? (
+              <Moon className="w-5 h-5 text-purple-400" />
+            ) : (
+              <Sparkles className="w-5 h-5 text-[var(--violet-soft)]" />
+            )}
+          </button>
 
           {/* Privacy Blur Toggle */}
           <button

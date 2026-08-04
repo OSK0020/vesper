@@ -410,16 +410,24 @@ body::before {
   min-width: 0;
 }
 
-/* Board card — glass surface that "catches light" on hover */
+/* Brightness Modes */
+.brightness-luminous .aurora-blob { opacity: 0.9 !important; filter: blur(75px) !important; }
+.brightness-luminous .cursor-glow { opacity: 1 !important; }
+.brightness-luminous body { background-size: 100% 100%; }
+
+.brightness-dim .aurora-blob { opacity: 0.25 !important; }
+.brightness-dim .cursor-glow { opacity: 0.3 !important; }
+
+/* Board card — glass surface with heavy backdrop-filter blur matching reference */
 .board {
   position: relative;
-  background: var(--surface);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid var(--hairline);
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+  background: rgba(14, 12, 18, 0.68);
+  backdrop-filter: blur(24px) saturate(170%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), transform 0.25s var(--ease-out);
   overflow: hidden;
   opacity: 0;
   transform: translateY(18px);
@@ -438,9 +446,9 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 18px;
+  border-radius: 22px;
   padding: 1px;
-  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 0%), rgba(245, 185, 66, 0.55), rgba(134, 59, 255, 0.25) 38%, transparent 65%);
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), rgba(245, 185, 66, 0.6), rgba(134, 59, 255, 0.3) 40%, transparent 68%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -452,77 +460,77 @@ body::before {
 .board:hover::before { opacity: 1; }
 
 .board:hover {
-  border-color: var(--hairline-hover);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(134, 59, 255, 0.12);
+  border-color: rgba(169, 112, 255, 0.5);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 28px rgba(134, 59, 255, 0.18);
 }
 
 .board-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px 12px;
+  padding: 16px 20px 14px;
 }
 
 .board-title {
   font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .board-count {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
   color: var(--lumen-soft);
   font-family: var(--font-mono);
   background: var(--lumen-dim);
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 9999px;
-  border: 1px solid rgba(245, 185, 66, 0.22);
+  border: 1px solid rgba(245, 185, 66, 0.25);
 }
 
-.board-divider { height: 1px; background: var(--hairline); margin: 0; }
+.board-divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 0; }
 
 .board-items {
-  padding: 8px 10px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .bookmark-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  border-radius: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
   text-decoration: none;
-  transition: background 0.16s ease, transform 0.16s var(--ease-out);
+  transition: background 0.18s ease, transform 0.18s var(--ease-out);
   border: 1px solid transparent;
 }
 
 .bookmark-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateX(2px);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(3px);
 }
 
 .bookmark-favicon {
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
   flex-shrink: 0;
   object-fit: contain;
   transition: transform 0.2s var(--ease-spring);
 }
 
-.bookmark-item:hover .bookmark-favicon { transform: scale(1.12); }
+.bookmark-item:hover .bookmark-favicon { transform: scale(1.15); }
 
 .bookmark-title {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.86);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

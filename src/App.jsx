@@ -47,6 +47,26 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [isBlurActive, setIsBlurActive] = useState(false);
 
+  // Brightness mode state: luminous, normal, dim
+  const [brightnessMode, setBrightnessMode] = useState(() => {
+    try {
+      return localStorage.getItem('vesper_brightness_mode') || 'luminous';
+    } catch (e) {
+      return 'luminous';
+    }
+  });
+
+  const handleCycleBrightness = () => {
+    setBrightnessMode((prev) => {
+      const next = prev === 'luminous' ? 'dim' : prev === 'dim' ? 'normal' : 'luminous';
+      try {
+        localStorage.setItem('vesper_brightness_mode', next);
+      } catch (e) {}
+      showToast(`Brightness mode: ${next.toUpperCase()}`);
+      return next;
+    });
+  };
+
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false);
@@ -70,7 +90,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
-  // Cursor-reactive ambient glow — the literal "light" signature of LumiList
+  // Cursor-reactive ambient glow
   const glowRef = useRef(null);
   useEffect(() => {
     let frame = null;
@@ -306,7 +326,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col relative ${isBlurActive ? 'privacy-blur-active' : ''}`}>
+    <div className={`min-h-screen flex flex-col relative brightness-${brightnessMode} ${isBlurActive ? 'privacy-blur-active' : ''}`}>
       {/* Interactive Canvas Light Particles */}
       <LumenParticles />
 
@@ -334,6 +354,8 @@ export default function App() {
         onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         onOpenShareCardModal={() => setIsShareCardModalOpen(true)}
+        brightnessMode={brightnessMode}
+        onCycleBrightness={handleCycleBrightness}
       />
 
       <Hero
@@ -360,7 +382,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Official LumiList Grid Container */}
+        {/* VESPER Grid Container */}
         <BoardGrid
           boards={boardsList}
           bookmarksByBoard={bookmarksByBoard}
@@ -383,7 +405,7 @@ export default function App() {
 
       </main>
 
-      {/* Official LumiList Floating Controls Rail */}
+      {/* Official VESPER Floating Controls Rail */}
       <FloatingRail
         onOpenSearch={() => setIsCommandPaletteOpen(true)}
         onOpenImportExport={() => setIsImportExportModalOpen(true)}
@@ -392,7 +414,8 @@ export default function App() {
           setIsBlurActive(!isBlurActive);
           showToast(isBlurActive ? 'Privacy Blur disabled' : 'Privacy Blur enabled');
         }}
-        onOpenSettings={() => setIsImportExportModalOpen(true)}
+        brightnessMode={brightnessMode}
+        onCycleBrightness={handleCycleBrightness}
       />
 
       {/* Modals */}

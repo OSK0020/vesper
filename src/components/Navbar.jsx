@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Search, Plus, Download, Layout, Share2 } from 'lucide-react';
+import { Search, Plus, Download, Layout, Share2, Sun, Moon, Sparkles } from 'lucide-react';
 import { useMagnetic } from '../utils/useMagnetic';
 
 function BrandMark() {
@@ -33,7 +33,9 @@ export default function Navbar({
   onOpenAddBoardModal,
   onOpenImportExportModal,
   onOpenCommandPalette,
-  onOpenShareCardModal
+  onOpenShareCardModal,
+  brightnessMode,
+  onCycleBrightness
 }) {
   const searchInputRef = useRef(null);
   const magnetic = useMagnetic(0.25);
@@ -93,6 +95,21 @@ export default function Navbar({
             </kbd>
           </button>
         </div>
+
+        {/* Brightness Mode Toggle */}
+        <button
+          onClick={onCycleBrightness}
+          className="top-ctrl-btn hidden sm:inline-flex"
+          title={`Brightness Mode: ${brightnessMode} (Click to change)`}
+        >
+          {brightnessMode === 'luminous' ? (
+            <Sun className="w-3.5 h-3.5 text-[var(--lumen-soft)]" />
+          ) : brightnessMode === 'dim' ? (
+            <Moon className="w-3.5 h-3.5 text-purple-400" />
+          ) : (
+            <Sparkles className="w-3.5 h-3.5 text-[var(--violet-soft)]" />
+          )}
+        </button>
 
         {/* Share Button */}
         <button
