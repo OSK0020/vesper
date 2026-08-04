@@ -3,97 +3,191 @@
 # 🌙 VESPER
 
 <p align="center">
-  <b>Your Digital Space, Illuminated.</b><br/>
-  <i>Zero Friction. Pure Visual Flow.</i>
+  <b>The Limitless Visual Workspace — Illuminated.</b><br/>
+  <i>Zero Artificial Boundaries. Pure Visual Flow. Offline-First Privacy.</i>
 </p>
 
 <p align="center">
-  A high-performance visual workspace.<br/>
-  Featuring glassmorphic depth, cursor-reactive ambient lighting, bento grid layout, and an interactive Command Palette.
+  A high-performance visual bookmarking & board management engine.<br/>
+  Built with <b>React 19</b>, <b>Vite 8</b>, and <b>Tailwind CSS v4</b>, featuring glassmorphic depth, cursor-reactive ambient lighting, interactive Command Palette, and local-first data architecture.
 </p>
 
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8.1-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-v4.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+<p align="center">
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" /></a>
+  <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-8.1-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 8" /></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v4.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS v4" /></a>
+  <a href="https://github.com/oxc-project/oxlint"><img src="https://img.shields.io/badge/Linter-Oxlint-ff69b4?style=for-the-badge" alt="Oxlint" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="License" /></a>
+</p>
 
 </div>
 
 ---
 
-> ### 💬 Origin Note
-> *"סך הכל היה נמאס לי מהמגבלות של לומי ליסט, אז יצרתי אחת משלי לשימוש הפרטי כדי לא לפגוע בהם."*  
-> 
-> *"Basically, I got tired of LumiList's artificial limitations and restrictions, so I built my own high-performance visual workspace from scratch for private productivity without interfering with their platform."*
+## ⚡ The "Why": Reclaiming the Visual Workspace
+
+> *"Basically, I got tired of LoomiList's artificial paywalls, arbitrary list boundaries, and clunky UX constraints—so I engineered my own high-performance, limit-free visual workspace from scratch."*
+> — **[OSK0020](https://github.com/OSK0020)**
+
+Most modern bookmarking and link management tools follow a predictable pattern: sleek marketing pages hiding artificial feature caps, forced cloud syncs, paywalled customization, and bloated interfaces. 
+
+**VESPER** was born out of a simple engineering philosophy: **build software without artificial limits**. 
+
+Inspired by the visual core of LoomiList, VESPER completely rebuilds the product experience with total user freedom—offering unlimited boards, custom pages, local-first offline persistence, fine-grained glassmorphic aesthetics, and instant keyboard-driven navigation.
 
 ---
 
-## ✨ Features Overview
+## ✨ Core Features & Technical Highlights
 
-### 💾 1. Local Storage Persistence & Computer Transfer
-- **Local Storage Persistence**: All your bookmarks, custom column boards, pages, accent colors, brightness settings, and glass transparency preferences are automatically saved in real time to LocalStorage (`vesper_bookmarks_data`, `vesper_boards_meta`).
-- **Computer Transfer Package**: Export your entire workspace state into a single JSON package (`vesper-workspace-backup-[date].json`). Easily move your links, boards, and layout to a new computer in seconds.
-- **Auto-Board & Table Generation**: Importing a backup file automatically parses all pages, reconstructs missing board tables, and restores custom accent colors.
-- **5MB File Safety Guard**: Built-in file size validation ensures backup files stay under 5MB to guarantee instant parsing and zero memory overload.
+### 💾 1. Offline-First Local Architecture & Computer Transfer
+* **Zero Telemetry & 100% Privacy**: All bookmarks, custom board order, multi-page layouts, brightness preferences, and glass transparency settings persist locally in real-time (`vesper_bookmarks_data`, `vesper_boards_meta`).
+* **Computer Transfer Package**: Export your entire digital workspace state into a single, clean `.json` file (`vesper-workspace-backup-[date].json`). Transfer your workspace across machines in milliseconds.
+* **Auto-Reconstruction Engine**: Importing a backup package automatically validates schema, restores custom board accent colors, and reconstructs missing board categories on the fly.
+* **5MB Memory Guard**: Integrated input validation and size guard caps file uploads to 5MB, protecting browser memory from overload.
 
-### 🎨 2. Violet & Lumen Design Architecture
-- **Warm Void (`#08070a`)** base background with subtle radial violet (`#863bff`) and lumen amber (`#f5b942`) aurora glows.
-- **Cursor-Reactive Lighting**: Radial light sweep follows cursor movement in real time.
-- **Interactive Light Particles**: Dynamic canvas micro-particles trailing pointer interaction.
-- **Glass Transparency Modes**: Switch between 💎 *Crystal Glass* (ultra transparent), 🧊 *Frosted Glass*, and 🖤 *Solid Obsidian*.
-- **Brightness Modes**: Switch between ☀️ *Luminous*, ✨ *Balanced*, and 🌙 *Deep Void*.
+### 🎨 2. Violet & Lumen Design System
+* **Warm Void Foundation**: Custom color palette built around `#08070a` (Warm Void), vibrant violet brand identity (`#863bff`), and glowing amber lumen accents (`#f5b942`).
+* **Cursor-Reactive Ambient Glow**: Real-time radial light tracking (`--mx`, `--my`) running on hardware-accelerated `requestAnimationFrame` loops.
+* **Pointer-Tracked Light-Catch Edges**: Glass card borders dynamically catch and refract ambient light based on cursor position.
+* **Micro-Interaction Suite**:
+  * `useTilt`: Hardware-accelerated 3D card tilt on mouse movement.
+  * `useMagnetic`: Magnetic pull vector calculation on primary call-to-action buttons.
+  * `useReveal`: Staggered, non-blocking `IntersectionObserver` scroll animations.
+  * `LumenParticles`: Interactive HTML5 Canvas particle system trailing cursor movement.
 
 ### ⌨️ 3. Instant Command Palette (`Ctrl+K` / `Cmd+K`)
-Global keyboard-driven popup menu to navigate your entire workspace effortlessly:
-- Search through all bookmarks, URLs, and boards with fuzzy matching.
-- Execute quick actions: *Add Link, Create Board, Add Page, Export JSON, Toggle Privacy Blur, Generate Share Card*.
+Global keyboard-driven command hub for friction-free workspace control:
+* **Fuzzy Workspace Search**: Instantly query all bookmarks, URLs, and board titles.
+* **One-Touch Actions**: Quick triggers for *Add Link*, *Create Board*, *Add Page*, *Export/Import JSON*, *Toggle Privacy Blur*, *Generate Share Card*, and *Cycle Brightness*.
 
-### 🗂️ 4. Bento Grid & Drag-and-Drop Reordering
-- **Board Reordering**: Grab board handles to reorder columns seamlessly across a 4-column bento layout.
-- **Bookmark Moving**: Drag individual bookmark links from one board card directly onto another.
+### 🗂️ 4. Bento Grid Board Management & Reordering
+* **Drag-and-Drop Board Cards**: Reorder board columns effortlessly across a dynamic 4-column bento layout.
+* **Cross-Board Link Movement**: Drag bookmark rows directly between different board cards to reorganize collections.
+* **Multi-Page Routing**: Organize links into dedicated pages (`HOME`, `WORK`, `DEV`, `PERSONAL`) with dynamic page extraction.
+* **6 Custom Board Accent Themes**: Color-tag boards for instant visual scanning using `#863bff` (Violet), `#f5b942` (Lumen Amber), `#10b981` (Emerald), `#f43f5e` (Rose), `#06b6d4` (Cyan), and `#3b82f6` (Sapphire).
 
-### 🎨 5. Custom Board Accent Color Themes
-Assign custom brand color tags to boards for instant visual scanning:
-- 💜 `Violet (#863bff)`
-- 💛 `Lumen Amber (#f5b942)`
-- 💚 `Emerald (#10b981)`
-- 🩷 `Rose (#f43f5e)`
-- 🩵 `Cyan (#06b6d4)`
-- 💙 `Sapphire (#3b82f6)`
+### 🔒 5. Privacy Obfuscation & Display Controls
+* **Privacy Blur Mode**: 1-click instant UI blur for sensitive URLs and bookmark titles—ideal for screen sharing and recorded demos.
+* **3 Brightness Modes**: Switch between ☀️ *Luminous*, ✨ *Balanced*, and 🌙 *Deep Void*.
+* **Glass Transparency Modes**: Toggle between 💎 *Crystal Glass* (ultra transparent), 🧊 *Frosted Glass*, and 🖤 *Solid Obsidian*.
 
-### 📸 6. Built-in Social Share Card Generator
-Generates a crisp 1200x630 HTML5 Canvas graphic showcasing your active workspace, stats, and board previews with 1-click PNG download.
+### 📸 6. Canvas Social Share Generator
+* **1-Click Share Cards**: Render a crisp 1200×630 HTML5 Canvas graphic summarizing active workspace stats, board previews, and brand identity with instant PNG download.
 
----
-
-## 🛠️ Tech Stack
-
-- **Core Framework**: [React 19](https://react.dev/) + [Vite 8](https://vitejs.dev/)
-- **Styling & Design Tokens**: Tailwind CSS v4 + Custom CSS Properties
-- **Icons**: [Lucide React](https://lucide.react.dev/)
-- **Typography**: Space Grotesk (Display), Inter (Body), JetBrains Mono (Data & Status)
-- **Deployment**: Vercel
+### ♿ 7. Production-Grade Accessibility
+* Unified `useEscapeClose` hook ensuring every modal dismisses predictably on `Escape`.
+* Global focus-visible indicator rings (`:focus-visible`).
+* `prefers-reduced-motion` compliance disabling ambient animations and light sweeps automatically for users with motion sensitivity.
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Tech Stack & Infrastructure
 
-```bash
-# Clone the repository
-git clone https://github.com/OSK0020/lumilist-clone.git vesper
+| Layer | Technologies |
+| :--- | :--- |
+| **Core Framework** | [React 19.2](https://react.dev/) + [Vite 8.1](https://vitejs.dev/) (ES Modules) |
+| **Styling & Design** | [Tailwind CSS v4.3](https://tailwindcss.com/) + Native CSS Custom Properties (Tokens) |
+| **Icons & Visuals** | [Lucide React](https://lucide.react.dev/) + Custom HTML5 Canvas Particle Engine |
+| **Typography** | Space Grotesk (Display), Inter (Body), JetBrains Mono (Data & Status) |
+| **Code Quality** | [Oxlint](https://github.com/oxc-project/oxlint) (High-speed Rust-based linter) |
+| **Deployment** | [Vercel](https://vercel.com/) ready (`vercel.json`) |
 
-# Navigate to project directory
-cd vesper
+---
 
-# Install dependencies
-npm install
+## 📂 Project Architecture
 
-# Start local development server
-npm run dev
+```
+lumilist-clone/
+├── public/                  # Static assets & brand SVG marks
+├── src/
+│   ├── components/          # Reusable UI & Modal components
+│   │   ├── AddBoardModal.jsx
+│   │   ├── AddBookmarkModal.jsx
+│   │   ├── AddPageModal.jsx
+│   │   ├── BoardCard.jsx
+│   │   ├── BoardGrid.jsx
+│   │   ├── BookmarkItem.jsx
+│   │   ├── CommandPalette.jsx
+│   │   ├── FloatingRail.jsx
+│   │   ├── Hero.jsx
+│   │   ├── ImportExportModal.jsx
+│   │   ├── LumenParticles.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── ShareCardModal.jsx
+│   │   └── Toast.jsx
+│   ├── constants/           # Design system tokens & accent definitions
+│   │   └── boardAccents.js
+│   ├── data/                # Initial seed workspace state
+│   │   └── initialBookmarks.json
+│   ├── utils/               # Dependency-free custom React hooks
+│   │   ├── favicon.js       # Favicon extraction & SVG fallback generator
+│   │   ├── useEscapeClose.js
+│   │   ├── useMagnetic.js
+│   │   ├── useReveal.js
+│   │   └── useTilt.js
+│   ├── App.jsx              # Main workspace orchestrator & state manager
+│   ├── index.css            # Violet & Lumen design system tokens
+│   └── main.jsx             # React DOM root entrypoint
+├── index.html               # Semantic HTML5 entry & Open Graph meta tags
+├── package.json             # NPM dependencies & build scripts
+├── vite.config.js           # Vite server configuration & Tailwind integration
+└── vercel.json              # Static deployment configuration
 ```
 
 ---
 
+## 🚀 Quick Start & Local Setup
+
+### Prerequisites
+* **Node.js**: `v18.0.0` or higher
+* **npm**: `v9.0.0` or higher
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/OSK0020/lumilist-clone.git vesper
+   cd vesper
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the local development server**:
+   ```bash
+   npm run dev
+   ```
+   Open your browser at `http://localhost:5173`.
+
+4. **Lint the codebase**:
+   ```bash
+   npm run lint
+   ```
+
+5. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+6. **Preview production build**:
+   ```bash
+   npm run preview
+   ```
+
+---
+
+## 🧠 Engineering Philosophy & Methodology
+
+VESPER was crafted under **[OSK0020](https://github.com/OSK0020)**'s core software engineering methodology: **"Vibe Coding"**.
+
+* **Architectural Mastery**: Directing high-level system boundaries, visual state machines, zero-latency data persistence, and fine-grained UI physics.
+* **AI Execution Engine**: Leveraging AI for rapid execution, component iteration, and lint-clean code synthesis.
+* **Control & Independence**: Eliminating commercial bloat, paywalls, and telemetry in favor of elegant, self-contained software.
+
+---
+
 <div align="center">
-  <sub>VESPER © 2026. Your Digital Space, Illuminated.</sub>
+  <sub>VESPER © 2026 • Engineered by <a href="https://github.com/OSK0020">OSK0020</a> • The Limitless Visual Workspace</sub>
 </div>
