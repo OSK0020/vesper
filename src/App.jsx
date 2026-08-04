@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import initialData from './data/initialBookmarks.json';
 import Navbar from './components/Navbar';
+import Hero from './components/Hero';
 import BoardGrid from './components/BoardGrid';
 import AddBookmarkModal from './components/AddBookmarkModal';
 import AddBoardModal from './components/AddBoardModal';
 import AddPageModal from './components/AddPageModal';
 import ImportExportModal from './components/ImportExportModal';
+import CommandPalette from './components/CommandPalette';
+import ShareCardModal from './components/ShareCardModal';
+import LumenParticles from './components/LumenParticles';
 import FloatingRail from './components/FloatingRail';
 import Toast from './components/Toast';
 import { SearchX } from 'lucide-react';
@@ -28,7 +32,7 @@ export default function App() {
     return initialData.bookmarks || [];
   });
 
-  // Additional custom boards metadata if added
+  // Additional custom boards metadata (color, column position, order)
   const [customBoardsMeta, setCustomBoardsMeta] = useState(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_BOARDS_KEY);
@@ -48,9 +52,44 @@ export default function App() {
   const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false);
   const [isAddPageModalOpen, setIsAddPageModalOpen] = useState(false);
   const [isImportExportModalOpen, setIsImportExportModalOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isShareCardModalOpen, setIsShareCardModalOpen] = useState(false);
 
   const [editingBookmark, setEditingBookmark] = useState(null);
   const [defaultBoardForAdd, setDefaultBoardForAdd] = useState(null);
+
+  // Global Keyboard Listener for Ctrl+K / Cmd+K Command Palette
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
+
+  // Cursor-reactive ambient glow — the literal "light" signature of LumiList
+  const glowRef = useRef(null);
+  useEffect(() => {
+    let frame = null;
+    const handlePointerMove = (e) => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        if (glowRef.current) {
+          glowRef.current.style.setProperty('--mx', `${e.clientX}px`);
+          glowRef.current.style.setProperty('--my', `${e.clientY}px`);
+        }
+        frame = null;
+      });
+    };
+    window.addEventListener('pointermove', handlePointerMove);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
@@ -114,21 +153,25 @@ export default function App() {
     pageBookmarks.forEach((b) => {
       const bName = (b.boardName || 'GENERAL').toUpperCase();
       if (!boardMap.has(bName)) {
+        // Check if there is custom metadata for this board
+        const meta = customBoardsMeta.find((c) => c.name.toUpperCase() === bName);
         boardMap.set(bName, {
           name: bName,
-          columnIndex: b.boardColumnIndex !== undefined ? b.boardColumnIndex : 0,
-          boardOrder: b.boardOrder !== undefined ? b.boardOrder : 0
+          columnIndex: meta?.columnIndex !== undefined ? meta.columnIndex : (b.boardColumnIndex !== undefined ? b.boardColumnIndex : 0),
+          boardOrder: meta?.boardOrder !== undefined ? meta.boardOrder : (b.boardOrder !== undefined ? b.boardOrder : 0),
+          accentHex: meta?.accentHex || '#863bff'
         });
       }
     });
 
     // Add custom created empty boards for this page
     customBoardsMeta.forEach((cb) => {
-      if (cb.pageName === currentPage && !boardMap.has(cb.name)) {
-        boardMap.set(cb.name, {
-          name: cb.name,
+      if ((cb.pageName || 'HOME').toUpperCase() === currentPage.toUpperCase() && !boardMap.has(cb.name.toUpperCase())) {
+        boardMap.set(cb.name.toUpperCase(), {
+          name: cb.name.toUpperCase(),
           columnIndex: cb.columnIndex || 0,
-          boardOrder: 99
+          boardOrder: cb.boardOrder || 99,
+          accentHex: cb.accentHex || '#863bff'
         });
       }
     });
@@ -158,7 +201,7 @@ export default function App() {
     return grouped;
   }, [boardsList, filteredBookmarks]);
 
-  // CRUD Handlers
+  // CRUD & Drag-and-Drop Handlers
   const handleSaveBookmark = (newOrUpdatedBookmark) => {
     const isEdit = bookmarks.some((b) => b.id === newOrUpdatedBookmark.id);
     setBookmarks((prev) => {
@@ -181,15 +224,23 @@ export default function App() {
   };
 
   const handleAddBoard = (newBoard) => {
+    const bName = newBoard.name.toUpperCase();
+    const hex = newBoard.accentColor === 'lumen' ? '#f5b942' :
+                 newBoard.accentColor === 'emerald' ? '#10b981' :
+                 newBoard.accentColor === 'rose' ? '#f43f5e' :
+                 newBoard.accentColor === 'cyan' ? '#06b6d4' :
+                 newBoard.accentColor === 'sapphire' ? '#3b82f6' : '#863bff';
+
     setCustomBoardsMeta((prev) => [
-      ...prev,
+      ...prev.filter((c) => c.name.toUpperCase() !== bName),
       {
-        name: newBoard.name,
+        name: bName,
         columnIndex: newBoard.columnIndex,
+        accentHex: hex,
         pageName: currentPage
       }
     ]);
-    showToast(`Board "${newBoard.name}" created!`);
+    showToast(`Board "${bName}" created!`);
   };
 
   const handleDeleteBoard = (boardName) => {
@@ -198,6 +249,42 @@ export default function App() {
       setCustomBoardsMeta((prev) => prev.filter((b) => b.name.toUpperCase() !== boardName.toUpperCase()));
       showToast(`Board "${boardName}" deleted`, 'info');
     }
+  };
+
+  const handleMoveBoard = (boardName, targetColIndex) => {
+    const bName = boardName.toUpperCase();
+    setCustomBoardsMeta((prev) => {
+      const existing = prev.find((c) => c.name.toUpperCase() === bName);
+      if (existing) {
+        return prev.map((c) => c.name.toUpperCase() === bName ? { ...c, columnIndex: targetColIndex } : c);
+      }
+      return [...prev, { name: bName, columnIndex: targetColIndex, pageName: currentPage }];
+    });
+
+    // Also update bookmarks for this board
+    setBookmarks((prev) =>
+      prev.map((b) => ((b.boardName || '').toUpperCase() === bName ? { ...b, boardColumnIndex: targetColIndex } : b))
+    );
+    showToast(`Board "${bName}" moved to column ${targetColIndex + 1}`);
+  };
+
+  const handleMoveBookmark = (bookmarkId, targetBoardName) => {
+    setBookmarks((prev) =>
+      prev.map((b) => (b.id === bookmarkId || b.url === bookmarkId ? { ...b, boardName: targetBoardName.toUpperCase() } : b))
+    );
+    showToast(`Link moved to board ${targetBoardName.toUpperCase()}`);
+  };
+
+  const handleChangeBoardColor = (boardName, accentHex) => {
+    const bName = boardName.toUpperCase();
+    setCustomBoardsMeta((prev) => {
+      const existing = prev.find((c) => c.name.toUpperCase() === bName);
+      if (existing) {
+        return prev.map((c) => c.name.toUpperCase() === bName ? { ...c, accentHex } : c);
+      }
+      return [...prev, { name: bName, accentHex, pageName: currentPage }];
+    });
+    showToast(`Updated theme for board ${bName}`);
   };
 
   const handleAddPage = (newPageName) => {
@@ -220,6 +307,16 @@ export default function App() {
 
   return (
     <div className={`min-h-screen flex flex-col relative ${isBlurActive ? 'privacy-blur-active' : ''}`}>
+      {/* Interactive Canvas Light Particles */}
+      <LumenParticles />
+
+      {/* Ambient aurora background — signature violet + lumen glow */}
+      <div className="aurora-field" aria-hidden="true">
+        <div className="aurora-blob a1" />
+        <div className="aurora-blob a2" />
+      </div>
+      <div ref={glowRef} className="cursor-glow" aria-hidden="true" />
+
       {/* Top Floating Page Navigation */}
       <Navbar
         pages={availablePages}
@@ -235,6 +332,15 @@ export default function App() {
         }}
         onOpenAddBoardModal={() => setIsAddBoardModalOpen(true)}
         onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        onOpenShareCardModal={() => setIsShareCardModalOpen(true)}
+      />
+
+      <Hero
+        currentPage={currentPage}
+        boardCount={boardsList.length}
+        linkCount={pageBookmarks.length}
+        pageCount={availablePages.length}
       />
 
       {/* Official 4-Column Board Layout */}
@@ -270,16 +376,16 @@ export default function App() {
           onDeleteBookmark={handleDeleteBookmark}
           onDeleteBoard={handleDeleteBoard}
           onAddBoard={() => setIsAddBoardModalOpen(true)}
+          onChangeBoardColor={handleChangeBoardColor}
+          onMoveBoard={handleMoveBoard}
+          onMoveBookmark={handleMoveBookmark}
         />
 
       </main>
 
       {/* Official LumiList Floating Controls Rail */}
       <FloatingRail
-        onOpenSearch={() => {
-          const input = document.querySelector('input[type="text"]');
-          if (input) input.focus();
-        }}
+        onOpenSearch={() => setIsCommandPaletteOpen(true)}
         onOpenImportExport={() => setIsImportExportModalOpen(true)}
         isBlurActive={isBlurActive}
         onToggleBlur={() => {
@@ -321,6 +427,34 @@ export default function App() {
         bookmarks={bookmarks}
         onImportData={handleImportData}
         onResetData={handleResetData}
+      />
+
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        bookmarks={bookmarks}
+        boards={boardsList}
+        pages={availablePages}
+        currentPage={currentPage}
+        onSelectPage={setCurrentPage}
+        onOpenAddModal={(boardName) => {
+          setEditingBookmark(null);
+          setDefaultBoardForAdd(boardName);
+          setIsAddModalOpen(true);
+        }}
+        onOpenAddBoardModal={() => setIsAddBoardModalOpen(true)}
+        onOpenAddPageModal={() => setIsAddPageModalOpen(true)}
+        onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
+        onToggleBlur={() => setIsBlurActive(!isBlurActive)}
+        onOpenShareCardModal={() => setIsShareCardModalOpen(true)}
+      />
+
+      <ShareCardModal
+        isOpen={isShareCardModalOpen}
+        onClose={() => setIsShareCardModalOpen(false)}
+        currentPage={currentPage}
+        boards={boardsList}
+        bookmarksCount={pageBookmarks.length}
       />
 
       {/* Toast Notification */}

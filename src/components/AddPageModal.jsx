@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { X, BookOpen } from 'lucide-react';
+import { useEscapeClose } from '../utils/useEscapeClose';
 
 export default function AddPageModal({ isOpen, onClose, onAddPage }) {
   const [pageName, setPageName] = useState('');
+
+  useEscapeClose(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -21,7 +24,7 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
         
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30">
+            <div className="p-2.5 rounded-xl bg-[var(--lumen-dim)] text-[var(--lumen-soft)] border border-[var(--lumen)]/30">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>

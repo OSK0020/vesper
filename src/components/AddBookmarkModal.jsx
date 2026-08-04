@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, Link2, Type, BookOpen, Layout, Sparkles, Globe } from 'lucide-react';
+import { X, Link2, Type, BookOpen, Layout, Sparkles } from 'lucide-react';
 import { getDomain, getFaviconUrl } from '../utils/favicon';
+import { useEscapeClose } from '../utils/useEscapeClose';
 
 export default function AddBookmarkModal({ 
   isOpen, 
@@ -33,6 +34,8 @@ export default function AddBookmarkModal({
       setCustomBoard('');
     }
   }, [editingBookmark, isOpen, defaultBoard, currentPage, availableBoards]);
+
+  useEscapeClose(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -70,7 +73,7 @@ export default function AddBookmarkModal({
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <div className="p-2.5 rounded-xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
@@ -95,7 +98,7 @@ export default function AddBookmarkModal({
           {/* URL Field */}
           <div>
             <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
-              <Link2 className="w-3.5 h-3.5 text-emerald-400" /> Web Address (URL) *
+              <Link2 className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Web Address (URL) *
             </label>
             <div className="relative">
               <input
@@ -123,7 +126,7 @@ export default function AddBookmarkModal({
           {/* Title Field */}
           <div>
             <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
-              <Type className="w-3.5 h-3.5 text-emerald-400" /> Link Title / Label
+              <Type className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Link Title / Label
             </label>
             <input
               type="text"
@@ -140,7 +143,7 @@ export default function AddBookmarkModal({
             {/* Page */}
             <div>
               <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-sky-400" /> Target Page
+                <BookOpen className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Target Page
               </label>
               <select
                 value={pageName}
@@ -156,7 +159,7 @@ export default function AddBookmarkModal({
             {/* Board */}
             <div>
               <label className="block text-xs font-bold text-gray-300 mb-1.5 flex items-center gap-1.5">
-                <Layout className="w-3.5 h-3.5 text-purple-400" /> Target Board
+                <Layout className="w-3.5 h-3.5 text-[var(--violet-soft)]" /> Target Board
               </label>
               <select
                 value={boardName}
@@ -178,7 +181,7 @@ export default function AddBookmarkModal({
           {/* Custom Board Field if __NEW__ selected */}
           {boardName === '__NEW__' && (
             <div>
-              <label className="block text-xs font-bold text-emerald-400 mb-1.5">
+              <label className="block text-xs font-bold text-[var(--lumen-soft)] mb-1.5">
                 New Board Name *
               </label>
               <input
@@ -187,7 +190,7 @@ export default function AddBookmarkModal({
                 value={customBoard}
                 onChange={(e) => setCustomBoard(e.target.value)}
                 required
-                className="ui-input border-emerald-500/50"
+                className="ui-input border-[var(--violet)]/50"
               />
             </div>
           )}

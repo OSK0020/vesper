@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { X, Download, Upload, RefreshCw, Check, AlertCircle } from 'lucide-react';
+import { useEscapeClose } from '../utils/useEscapeClose';
 
 export default function ImportExportModal({ 
   isOpen, 
@@ -11,6 +12,8 @@ export default function ImportExportModal({
   const fileInputRef = useRef(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEscapeClose(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -79,7 +82,7 @@ export default function ImportExportModal({
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <div className="p-2.5 rounded-xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30">
               <Download className="w-5 h-5" />
             </div>
             <div>
@@ -97,7 +100,7 @@ export default function ImportExportModal({
 
         {/* Notifications */}
         {successMsg && (
-          <div className="mt-4 p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2">
+          <div className="mt-4 p-3 rounded-xl bg-[var(--violet-dim)] border border-[var(--violet)]/40 text-[var(--violet-soft)] text-xs flex items-center gap-2">
             <Check className="w-4 h-4" /> {successMsg}
           </div>
         )}
@@ -111,7 +114,7 @@ export default function ImportExportModal({
         <div className="mt-5 flex flex-col gap-3">
           
           {/* Export */}
-          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-emerald-500/30 transition-colors">
+          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-[var(--violet)]/30 transition-colors">
             <div>
               <h4 className="text-sm font-bold text-white">Export Bookmarks</h4>
               <p className="text-xs text-gray-400 mt-0.5">Download current dataset ({bookmarks.length} links) as JSON</p>
@@ -125,7 +128,7 @@ export default function ImportExportModal({
           </div>
 
           {/* Import */}
-          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-emerald-500/30 transition-colors">
+          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-4 hover:border-[var(--violet)]/30 transition-colors">
             <div>
               <h4 className="text-sm font-bold text-white">Import JSON File</h4>
               <p className="text-xs text-gray-400 mt-0.5">Load bookmarks from a `.json` backup file</p>
@@ -141,7 +144,7 @@ export default function ImportExportModal({
               onClick={() => fileInputRef.current && fileInputRef.current.click()}
               className="action-btn text-xs py-2 px-3.5 flex-shrink-0"
             >
-              <Upload className="w-3.5 h-3.5 text-emerald-400" /> Import
+              <Upload className="w-3.5 h-3.5 text-[var(--lumen-soft)]" /> Import
             </button>
           </div>
 

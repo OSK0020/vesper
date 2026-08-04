@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BoardCard from './BoardCard';
 import { Plus } from 'lucide-react';
 
@@ -9,8 +9,13 @@ export default function BoardGrid({
   onEditBookmark, 
   onDeleteBookmark,
   onDeleteBoard,
-  onAddBoard
+  onAddBoard,
+  onChangeBoardColor,
+  onMoveBoard,
+  onMoveBookmark
 }) {
+  const [activeColOver, setActiveColOver] = useState(null);
+
   // Distribute boards into 4 columns matching official LumiList structure
   const columns = [[], [], [], []];
 
@@ -22,11 +27,37 @@ export default function BoardGrid({
     columns[colIdx].push(board);
   });
 
+  const handleColDragOver = (e, colIdx) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (activeColOver !== colIdx) setActiveColOver(colIdx);
+  };
+
+  const handleColDragLeave = () => {
+    setActiveColOver(null);
+  };
+
+  const handleColDrop = (e, targetColIdx) => {
+    e.preventDefault();
+    setActiveColOver(null);
+    try {
+      const raw = e.dataTransfer.getData('application/json');
+      if (!raw) return;
+      const payload = JSON.parse(raw);
+
+      if (payload.type === 'BOARD' && onMoveBoard) {
+        onMoveBoard(payload.boardName, targetColIdx);
+      }
+    } catch (err) {
+      console.error('Failed to parse column drop data', err);
+    }
+  };
+
   return (
     <div className="lumilist-container">
       {boards.length === 0 ? (
         <div className="board p-10 text-center flex flex-col items-center justify-center gap-4 col-span-4 max-w-md mx-auto my-12">
-          <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <div className="p-4 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/25">
             <Plus className="w-8 h-8" />
           </div>
           <div>
@@ -42,16 +73,30 @@ export default function BoardGrid({
         </div>
       ) : (
         columns.map((colBoards, colIdx) => (
-          <div key={colIdx} className="column" data-column={colIdx}>
-            {colBoards.map((board) => (
+          <div
+            key={colIdx}
+            className={`column transition-colors rounded-2xl p-1.5 ${
+              activeColOver === colIdx ? 'bg-white/[0.03] ring-1 ring-white/10' : ''
+            }`}
+            data-column={colIdx}
+            onDragOver={(e) => handleColDragOver(e, colIdx)}
+            onDragLeave={handleColDragLeave}
+            onDrop={(e) => handleColDrop(e, colIdx)}
+          >
+            {colBoards.map((board, rowIdx) => (
               <BoardCard
                 key={board.name}
+                board={board}
                 boardName={board.name}
                 bookmarks={bookmarksByBoard[board.name] || []}
                 onAddLinkToBoard={onAddLinkToBoard}
                 onEditBookmark={onEditBookmark}
                 onDeleteBookmark={onDeleteBookmark}
                 onDeleteBoard={onDeleteBoard}
+                onChangeBoardColor={onChangeBoardColor}
+                onMoveBoard={onMoveBoard}
+                onMoveBookmark={onMoveBookmark}
+                revealDelay={(colIdx * 70) + (rowIdx * 90)}
               />
             ))}
           </div>

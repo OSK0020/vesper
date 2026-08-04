@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Edit2, Trash2, ExternalLink, Globe } from 'lucide-react';
+import { Edit2, Trash2, ExternalLink, Globe, GripVertical } from 'lucide-react';
 import { getDomain, getFaviconUrl, getFallbackFaviconUrl } from '../utils/favicon';
 
-export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
+export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete, onMoveBookmark }) {
   const [imgSrc, setImgSrc] = useState(getFaviconUrl(bookmark.url));
   const [imgErrorCount, setImgErrorCount] = useState(0);
 
@@ -17,30 +17,52 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
     }
   };
 
+  const handleDragStart = (e) => {
+    e.dataTransfer.setData(
+      'application/json',
+      JSON.stringify({
+        type: 'BOOKMARK',
+        bookmarkId: bookmark.id || bookmark.url,
+        url: bookmark.url,
+        sourceBoard: boardName
+      })
+    );
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
   return (
-    <div className="bookmark-item group relative">
+    <div
+      draggable
+      onDragStart={handleDragStart}
+      className="bookmark-item group relative cursor-grab active:cursor-grabbing hover:bg-white/[0.05] transition-colors rounded-lg"
+    >
       <a
         href={bookmark.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-3 min-w-0 flex-1 no-underline"
+        className="flex items-center gap-2.5 min-w-0 flex-1 no-underline"
         style={{ textDecoration: 'none' }}
       >
+        {/* Subtle Grip Dot for dragging */}
+        <span className="opacity-0 group-hover:opacity-60 text-gray-500 transition-opacity flex-shrink-0 -ml-1">
+          <GripVertical className="w-3 h-3" />
+        </span>
+
         {/* Favicon */}
         {imgErrorCount < 2 && imgSrc ? (
           <img
             src={imgSrc}
             alt={bookmark.title}
             onError={handleImageError}
-            className="bookmark-favicon"
+            className="bookmark-favicon flex-shrink-0"
             loading="lazy"
           />
         ) : (
-          <Globe className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          <Globe className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--lumen-soft)' }} />
         )}
 
         {/* Link Title */}
-        <span className="bookmark-title bookmark-title-text">
+        <span className="bookmark-title bookmark-title-text truncate">
           {bookmark.title || domain}
         </span>
       </a>
@@ -52,7 +74,7 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }) {
             e.stopPropagation();
             onEdit(bookmark);
           }}
-          className="p-1 rounded text-gray-400 hover:text-emerald-400 hover:bg-white/10 bg-transparent border-0 cursor-pointer transition-colors"
+          className="p-1 rounded text-gray-400 hover:text-[var(--lumen-soft)] hover:bg-white/10 bg-transparent border-0 cursor-pointer transition-colors"
           title="Edit link"
         >
           <Edit2 className="w-3 h-3" />
