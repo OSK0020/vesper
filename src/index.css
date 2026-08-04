@@ -2,8 +2,8 @@
 @import "tailwindcss";
 
 /* ============================================================
-   LUMILIST — DESIGN TOKENS
-   Signature: "Lumen" — the real brand mark is a violet bolt of light.
+   VESPER — DESIGN TOKENS
+   "Your Digital Space, Illuminated."
    Violet carries identity; warm amber carries the literal "light"
    motif (cursor glow, beam sweep, light-catch edges on cards).
    ============================================================ */
@@ -382,7 +382,7 @@ body::before {
 /* ============================================================
    BOARD GRID (Bento columns)
    ============================================================ */
-.lumilist-container {
+.vesper-container {
   position: relative;
   z-index: 2;
   display: grid;
@@ -395,11 +395,11 @@ body::before {
 }
 
 @media (max-width: 1280px) {
-  .lumilist-container { grid-template-columns: repeat(2, 1fr); }
+  .vesper-container { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 640px) {
-  .lumilist-container { grid-template-columns: 1fr; padding: 12px 16px 80px; }
+  .vesper-container { grid-template-columns: 1fr; padding: 12px 16px 80px; }
 }
 
 .column {

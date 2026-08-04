@@ -14,8 +14,8 @@ import FloatingRail from './components/FloatingRail';
 import Toast from './components/Toast';
 import { SearchX } from 'lucide-react';
 
-const LOCAL_STORAGE_KEY = 'lumilist_clone_bookmarks_data';
-const LOCAL_STORAGE_BOARDS_KEY = 'lumilist_clone_boards_meta';
+const LOCAL_STORAGE_KEY = 'vesper_bookmarks_data';
+const LOCAL_STORAGE_BOARDS_KEY = 'vesper_boards_meta';
 
 export default function App() {
   // Load initial bookmarks state from LocalStorage or preloaded JSON file

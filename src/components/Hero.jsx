@@ -5,14 +5,14 @@ export default function Hero({ pageCount, boardCount, linkCount, currentPage }) 
     <header className="hero-mast">
       <div className="hero-mark">
         <span className="beam-dot" />
-        <span>Personal Visual Workspace · Built by Ori Stern</span>
+        <span>Your Digital Space, Illuminated · Built by Ori Stern</span>
       </div>
 
-      <h1 className="hero-title">OriList</h1>
+      <h1 className="hero-title">VESPER</h1>
 
       <p className="hero-sub">
-        Every link, lit and in its place. Designed for personal productivity with ambient light physics,
-        bento board grids, and zero artificial limits.
+        Your Digital Space, Illuminated. High-performance personal workspace designed for pure visual flow,
+        ambient lighting, bento board grids, and zero artificial limits.
       </p>
 
       <div className="hero-status">

@@ -80,7 +80,7 @@ export default function AddBookmarkModal({
               <h2 className="text-lg font-bold text-white tracking-tight">
                 {editingBookmark ? 'Edit Link' : 'Add New Link'}
               </h2>
-              <p className="text-xs text-gray-400 mt-0.5">Organize links into your visual LumiList boards</p>
+              <p className="text-xs text-gray-400 mt-0.5">Organize links into your visual Vesper boards</p>
             </div>
           </div>
 

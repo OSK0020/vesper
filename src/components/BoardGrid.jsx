@@ -54,7 +54,7 @@ export default function BoardGrid({
   };
 
   return (
-    <div className="lumilist-container">
+    <div className="vesper-container">
       {boards.length === 0 ? (
         <div className="board p-10 text-center flex flex-col items-center justify-center gap-4 col-span-4 max-w-md mx-auto my-12">
           <div className="p-4 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/25">

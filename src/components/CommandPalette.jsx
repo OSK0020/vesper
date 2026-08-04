@@ -256,7 +256,7 @@ export default function CommandPalette({
             <span>Esc Close</span>
           </div>
           <div className="flex items-center gap-1 text-[var(--lumen-soft)]">
-            <Sparkles className="w-3 h-3" /> Lumi Palette
+            <Sparkles className="w-3 h-3" /> Vesper Palette
           </div>
         </div>
 

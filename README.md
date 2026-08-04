@@ -1,9 +1,14 @@
 <div align="center">
 
-# ⚡ OriList — Personal Visual Workspace
+# 🌙 VESPER
 
 <p align="center">
-  <b>A high-performance, personal visual bookmark dashboard built by Ori Stern.</b><br/>
+  <b>Your Digital Space, Illuminated.</b><br/>
+  <i>Zero Friction. Pure Visual Flow.</i>
+</p>
+
+<p align="center">
+  A high-performance, private visual workspace built by <b>Ori Stern</b>.<br/>
   Featuring glassmorphic depth, cursor-reactive ambient lighting, bento grid layout, and an interactive Command Palette.
 </p>
 
@@ -17,7 +22,7 @@
 
 ---
 
-> ### 💬 Note from the Developer
+> ### 💬 Developer Origin Note
 > *"סך הכל היה נמאס לי מהמגבלות של לומי ליסט, אז יצרתי אחת משלי לשימוש הפרטי כדי לא לפגוע בהם."*  
 > 
 > *"Basically, I got tired of LumiList's artificial limitations and restrictions, so I built my own high-performance visual workspace from scratch for private productivity without interfering with their platform."*  
@@ -28,7 +33,6 @@
 ## ✨ Features Overview
 
 ### 🎨 1. Violet & Lumen Design Architecture
-Grounded in a bespoke dark glassmorphic palette:
 - **Warm Void (`#08070a`)** base background with subtle radial violet (`#863bff`) and lumen amber (`#f5b942`) aurora glows.
 - **Cursor-Reactive Lighting**: Radial light sweep follows cursor movement in real time.
 - **Interactive Light Particles**: Dynamic canvas micro-particles trailing pointer interaction.
@@ -60,10 +64,10 @@ Generates a crisp 1200x630 HTML5 Canvas graphic showcasing your active workspace
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🛠️ Tech Stack
 
 - **Core Framework**: [React 19](https://react.dev/) + [Vite 8](https://vitejs.dev/)
-- **Styling & Design System**: Tailwind CSS v4 + Vanilla CSS Custom Variables
+- **Styling & Design Tokens**: Tailwind CSS v4 + Custom CSS Properties
 - **Icons**: [Lucide React](https://lucide.react.dev/)
 - **Typography**: Space Grotesk (Display), Inter (Body), JetBrains Mono (Data & Status)
 - **Deployment**: Vercel
@@ -72,18 +76,12 @@ Generates a crisp 1200x630 HTML5 Canvas graphic showcasing your active workspace
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- Node.js `18.x` or higher
-- npm / yarn / pnpm
-
-### Installation
-
 ```bash
 # Clone the repository
-git clone https://github.com/OSK0020/lumilist-clone.git orilist
+git clone https://github.com/OSK0020/lumilist-clone.git vesper
 
 # Navigate to project directory
-cd orilist
+cd vesper
 
 # Install dependencies
 npm install
@@ -91,8 +89,6 @@ npm install
 # Start local development server
 npm run dev
 ```
-
-The application will be available at `http://localhost:5173`.
 
 ---
 
@@ -104,5 +100,5 @@ Crafted with care by **Ori Stern**
 ---
 
 <div align="center">
-  <sub>OriList © 2026. Personal productivity workspace built by Ori Stern.</sub>
+  <sub>VESPER © 2026. Your Digital Space, Illuminated. Built by Ori Stern.</sub>
 </div>

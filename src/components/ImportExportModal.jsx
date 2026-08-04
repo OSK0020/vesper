@@ -22,11 +22,11 @@ export default function ImportExportModal({
     const boardsSet = new Set(bookmarks.map((b) => b.boardName || 'MAIN'));
 
     const exportObject = {
-      exportType: 'lumilist-bookmark-portability',
+      exportType: 'vesper-bookmark-portability',
       exportVersion: 1,
       generatedAt: new Date().toISOString(),
       product: {
-        name: 'LumiList',
+        name: 'Vesper',
         dataType: 'bookmark-portability'
       },
       counts: {
@@ -41,7 +41,7 @@ export default function ImportExportModal({
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObject, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `lumilist-backup-${new Date().toISOString().slice(0,10)}.json`);
+    downloadAnchor.setAttribute("download", `vesper-backup-${new Date().toISOString().slice(0,10)}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -87,7 +87,7 @@ export default function ImportExportModal({
             </div>
             <div>
               <h2 className="text-lg font-bold text-white tracking-tight">Backup & Restore</h2>
-              <p className="text-xs text-gray-400 mt-0.5">Import or export your LumiList collection</p>
+              <p className="text-xs text-gray-400 mt-0.5">Import or export your Vesper collection</p>
             </div>
           </div>
           <button
