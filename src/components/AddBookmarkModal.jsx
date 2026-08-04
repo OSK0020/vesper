@@ -68,16 +68,16 @@ export default function AddBookmarkModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-xl p-8 sm:p-10 relative animate-modal">
+      <div className="modal-content w-full max-w-xl p-8 sm:p-9 relative animate-modal">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-7">
-          <div className="flex items-center gap-4">
-            <div className="p-3.5 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30 shadow-lg">
-              <Sparkles className="w-6 h-6" />
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+          <div className="flex items-center gap-3.5">
+            <div className="p-3 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30 shadow-lg">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-extrabold text-white tracking-tight">
+              <h2 className="text-xl font-bold text-white tracking-tight">
                 {editingBookmark ? 'Edit Link' : 'Add New Link'}
               </h2>
               <p className="text-xs text-gray-400 mt-1">Organize links into your visual Vesper boards</p>
@@ -86,18 +86,18 @@ export default function AddBookmarkModal({
 
           <button
             onClick={onClose}
-            className="p-2.5 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           
           {/* URL Field */}
           <div>
-            <label className="block text-xs font-extrabold text-gray-300 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+            <label className="ui-label">
               <Link2 className="w-4 h-4 text-[var(--lumen-soft)]" /> Web Address (URL) *
             </label>
             <div className="relative">
@@ -125,7 +125,7 @@ export default function AddBookmarkModal({
 
           {/* Title Field */}
           <div>
-            <label className="block text-xs font-extrabold text-gray-300 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+            <label className="ui-label">
               <Type className="w-4 h-4 text-[var(--lumen-soft)]" /> Link Title / Label
             </label>
             <input
@@ -142,7 +142,7 @@ export default function AddBookmarkModal({
             
             {/* Page */}
             <div>
-              <label className="block text-xs font-extrabold text-gray-300 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+              <label className="ui-label">
                 <BookOpen className="w-4 h-4 text-[var(--lumen-soft)]" /> Target Page
               </label>
               <select
@@ -158,7 +158,7 @@ export default function AddBookmarkModal({
 
             {/* Board */}
             <div>
-              <label className="block text-xs font-extrabold text-gray-300 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+              <label className="ui-label">
                 <Layout className="w-4 h-4 text-[var(--violet-soft)]" /> Target Board
               </label>
               <select
@@ -181,7 +181,7 @@ export default function AddBookmarkModal({
           {/* Custom Board Field if __NEW__ selected */}
           {boardName === '__NEW__' && (
             <div>
-              <label className="block text-xs font-extrabold text-[var(--lumen-soft)] uppercase tracking-wider mb-2.5">
+              <label className="ui-label text-[var(--lumen-soft)]">
                 New Board Name *
               </label>
               <input
@@ -196,7 +196,7 @@ export default function AddBookmarkModal({
           )}
 
           {/* Action Buttons Footer */}
-          <div className="flex items-center justify-end gap-4 mt-8 pt-6 pb-1 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3.5 mt-6 pt-5 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}

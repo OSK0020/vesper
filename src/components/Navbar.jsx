@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Search, Plus, Download, Layout, Share2, Sun, Moon, Sparkles } from 'lucide-react';
+import { Search, Plus, Download, Layout, Share2, Sun, Moon, Sparkles, Layers } from 'lucide-react';
 import { useMagnetic } from '../utils/useMagnetic';
 
 function BrandMark() {
@@ -35,7 +35,9 @@ export default function Navbar({
   onOpenCommandPalette,
   onOpenShareCardModal,
   brightnessMode,
-  onCycleBrightness
+  onCycleBrightness,
+  glassMode,
+  onCycleGlassMode
 }) {
   const searchInputRef = useRef(null);
   const magnetic = useMagnetic(0.25);
@@ -95,6 +97,15 @@ export default function Navbar({
             </kbd>
           </button>
         </div>
+
+        {/* Glass Transparency Mode Toggle */}
+        <button
+          onClick={onCycleGlassMode}
+          className="top-ctrl-btn hidden sm:inline-flex"
+          title={`Glass Style: ${glassMode ? glassMode.toUpperCase() : 'CRYSTAL'} (Click to change transparency)`}
+        >
+          <Layers className="w-3.5 h-3.5 text-emerald-400" />
+        </button>
 
         {/* Brightness Mode Toggle */}
         <button

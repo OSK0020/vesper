@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Download, Eye, EyeOff, SlidersHorizontal, Sun, Moon, Sparkles } from 'lucide-react';
+import { Search, Download, Eye, EyeOff, SlidersHorizontal, Sun, Moon, Sparkles, Layers } from 'lucide-react';
 import { useMagnetic } from '../utils/useMagnetic';
 
 export default function FloatingRail({
@@ -8,7 +8,9 @@ export default function FloatingRail({
   isBlurActive,
   onToggleBlur,
   brightnessMode,
-  onCycleBrightness
+  onCycleBrightness,
+  glassMode,
+  onCycleGlassMode
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const searchMagnetic = useMagnetic(0.3);
@@ -20,6 +22,15 @@ export default function FloatingRail({
       {/* Floating Tools Expanded Menu */}
       {isMenuOpen && (
         <div className="flex flex-col gap-2.5 p-2 rounded-2xl bg-[#0e0c12]/90 border border-white/10 backdrop-blur-2xl shadow-2xl animate-toast">
+
+          {/* Glass Transparency Mode Toggle */}
+          <button
+            onClick={onCycleGlassMode}
+            className="rail-btn w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer border bg-white/5 text-gray-300 hover:text-white border-white/10 hover:bg-white/10"
+            title={`Glass Style: ${glassMode.toUpperCase()} (Click to toggle transparency)`}
+          >
+            <Layers className="w-5 h-5 text-emerald-400" />
+          </button>
 
           {/* Brightness Mode Toggle */}
           <button
