@@ -2,32 +2,29 @@ import React from 'react';
 
 export default function Hero({ pageCount, boardCount, linkCount, currentPage }) {
   return (
-    <header className="hero-mast max-w-7xl mx-auto w-full px-6 pt-12 pb-6 flex flex-col gap-6 relative">
+    <header className="hero-mast max-w-7xl mx-auto w-full pt-6 pb-8 px-8 flex flex-col items-start relative overflow-hidden">
       
-      {/* Eyebrow Badge with Glowing Ping */}
-      <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-emerald-500/[0.08] border border-emerald-500/20 text-[11px] font-mono tracking-[0.18em] text-emerald-400 uppercase w-fit backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all hover:border-emerald-500/40">
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#10b981]" />
-        </span>
+      {/* Ambient Faint Radial Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
+
+      {/* Kicker / Subtitle Badge */}
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium tracking-wider uppercase mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)] relative z-10">
+        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
         <span>Your Digital Space, Illuminated</span>
       </div>
 
-      {/* Main Title & Description with Ambient Soft Glow */}
-      <div className="space-y-3 relative">
-        <div className="absolute -left-4 -top-6 w-80 h-28 bg-emerald-500/15 blur-3xl pointer-events-none rounded-full" />
-        
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-neutral-100 to-emerald-400 font-display leading-none drop-shadow-[0_4px_25px_rgba(0,0,0,0.6)]">
-          VESPER
-        </h1>
-        
-        <p className="text-sm sm:text-base text-neutral-400 max-w-2xl leading-relaxed font-normal pt-1">
-          High-performance personal workspace designed for pure visual flow, ambient lighting, bento board grids, and zero artificial limits.
-        </p>
-      </div>
+      {/* Main Title (VESPER) with Crisp Metallic Gradient */}
+      <h1 className="text-5xl sm:text-6xl font-black tracking-tight bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent drop-shadow-sm mb-3 font-display relative z-10 leading-none">
+        VESPER
+      </h1>
+
+      {/* Description Text */}
+      <p className="max-w-2xl text-sm sm:text-base text-neutral-400 font-normal leading-relaxed mb-6 relative z-10">
+        High-performance personal workspace designed for pure visual flow, ambient lighting, bento board grids, and zero artificial limits.
+      </p>
 
       {/* Glass Stats Bento Container */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.025] border border-white/10 backdrop-blur-xl shadow-2xl flex flex-wrap items-center justify-between gap-4 max-w-3xl hover:border-white/15 transition-all">
+      <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.025] border border-white/10 backdrop-blur-xl shadow-2xl flex flex-wrap items-center justify-between gap-4 max-w-3xl hover:border-white/15 transition-all relative z-10">
         
         <div className="flex items-center gap-3">
           <div className="text-xl sm:text-2xl font-bold text-white font-mono tracking-tight">{currentPage}</div>
@@ -58,6 +55,7 @@ export default function Hero({ pageCount, boardCount, linkCount, currentPage }) 
     </header>
   );
 }
+
 
 
 
