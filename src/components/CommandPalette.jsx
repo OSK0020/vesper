@@ -170,7 +170,7 @@ export default function CommandPalette({
 
   return (
     <div className="modal-overlay z-50">
-      <div className="modal-content w-full max-w-3xl p-8 sm:p-10 relative animate-modal shadow-2xl rounded-3xl border border-white/15 bg-[#0c120e]/95">
+      <div className="modal-content w-full max-w-3xl p-8 sm:p-10 relative animate-modal shadow-2xl rounded-3xl border border-white/15 bg-surface-3/95">
         
         {/* Command Search Header */}
         <div className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/12 mb-6 shadow-sm">

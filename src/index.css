@@ -1,6 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-surface-0: #08070a;
+  --color-surface-1: #0c120e;
+  --color-surface-2: #12181a;
+  --color-surface-3: #171d1f;
+
+  --color-border-subtle: rgb(255 255 255 / 0.06);
+  --color-border-default: rgb(255 255 255 / 0.10);
+  --color-border-strong: rgb(255 255 255 / 0.16);
+
+  --color-accent-500: #34d399;
+  --color-accent-glow: rgb(52 211 153 / 0.35);
+
+  --color-text-primary: #f5f5f4;
+  --color-text-secondary: #a3a3a3;
+  --color-text-tertiary: #6b7280;
+
+  --radius-card: 1rem;
+  --radius-pill: 9999px;
+  --radius-modal: 1.25rem;
+
+  --blur-surface: 20px;
+  --blur-modal: 40px;
+
+  --ease-vesper: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+@keyframes beamSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 :root {
   --bg-dark: #080c09;
   --bg-wallpaper: radial-gradient(circle at 80% 15%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
