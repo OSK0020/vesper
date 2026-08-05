@@ -30,18 +30,21 @@ export default function Hero({ pageCount, boardCount, linkCount, currentPage }) 
 
         <div className="h-8 w-px bg-white/10 hidden sm:block" />
 
-        <div className="flex items-center gap-8 text-xs font-mono">
-          <div>
-            <div className="text-xl font-bold text-white">{boardCount}</div>
-            <div className="text-neutral-400 mt-0.5">BOARD{boardCount === 1 ? '' : 'S'}</div>
+        {/* Clean Glass Pills Counters */}
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs font-mono flex items-center gap-2 text-neutral-300">
+            <span className="font-bold text-white text-sm">{boardCount}</span>
+            <span className="text-neutral-400">BOARD{boardCount === 1 ? '' : 'S'}</span>
           </div>
-          <div>
-            <div className="text-xl font-bold text-white">{linkCount}</div>
-            <div className="text-neutral-400 mt-0.5">LINK{linkCount === 1 ? '' : 'S'}</div>
+
+          <div className="px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs font-mono flex items-center gap-2 text-neutral-300">
+            <span className="font-bold text-white text-sm">{linkCount}</span>
+            <span className="text-neutral-400">LINK{linkCount === 1 ? '' : 'S'}</span>
           </div>
-          <div>
-            <div className="text-xl font-bold text-white">{pageCount}</div>
-            <div className="text-neutral-400 mt-0.5">PAGE{pageCount === 1 ? '' : 'S'}</div>
+
+          <div className="px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs font-mono flex items-center gap-2 text-neutral-300">
+            <span className="font-bold text-white text-sm">{pageCount}</span>
+            <span className="text-neutral-400">PAGE{pageCount === 1 ? '' : 'S'}</span>
           </div>
         </div>
 
@@ -49,4 +52,5 @@ export default function Hero({ pageCount, boardCount, linkCount, currentPage }) 
     </header>
   );
 }
+
 

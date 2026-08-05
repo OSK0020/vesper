@@ -34,7 +34,7 @@ export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete, on
     <div
       draggable
       onDragStart={handleDragStart}
-      className="bookmark-item group relative cursor-grab active:cursor-grabbing p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/15 hover:bg-white/[0.06] transition-all flex items-center justify-between gap-4 shadow-sm"
+      className="bookmark-item group relative cursor-grab active:cursor-grabbing py-3 px-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/15 hover:bg-white/[0.06] hover:scale-[1.01] transition-all flex items-center justify-between gap-4 shadow-sm"
     >
       <a
         href={bookmark.url}

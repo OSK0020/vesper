@@ -78,16 +78,17 @@ export default function BoardCard({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`board group/board transition-all relative ${
-        isDragOver ? 'ring-2 ring-[var(--violet-soft)] bg-white/[0.06] scale-[1.01]' : ''
+      className={`board group/board transition-all duration-300 relative rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] ${
+        isDragOver ? 'ring-2 ring-emerald-400 bg-white/[0.06] scale-[1.01]' : ''
       }`}
       style={{
         transformStyle: 'preserve-3d',
-        borderTop: `3px solid ${accentHex}`
+        borderTop: `3px solid ${accentHex}`,
+        boxShadow: isDragOver ? `0 0 25px ${accentHex}44` : undefined
       }}
     >
       {/* Board Header */}
-      <div className="board-header flex items-center justify-between">
+      <div className="board-header flex items-center justify-between p-4 pb-3">
         <div className="flex items-center gap-2 min-w-0">
           {/* Drag Handle */}
           <div
@@ -99,15 +100,15 @@ export default function BoardCard({
             <GripVertical className="w-3.5 h-3.5" />
           </div>
 
-          <h3 className="board-title truncate">
+          <h3 className="board-title truncate text-sm font-bold text-white tracking-wider uppercase">
             {boardName}
           </h3>
 
           <span
-            className="board-count font-mono"
+            className="board-count font-mono text-xs px-2 py-0.5 rounded-full border bg-white/5"
             style={{
               borderColor: `${accentHex}44`,
-              color: accentHex === '#863bff' ? 'var(--violet-soft)' : accentHex
+              color: accentHex === '#863bff' ? '#a970ff' : accentHex
             }}
           >
             {bookmarks.length}
@@ -128,7 +129,7 @@ export default function BoardCard({
           {/* Add Link Button */}
           <button
             onClick={() => onAddLinkToBoard(boardName)}
-            className="p-1 rounded text-gray-400 hover:text-[var(--lumen-soft)] hover:bg-white/10 bg-transparent border-0 cursor-pointer transition-colors"
+            className="p-1 rounded text-gray-400 hover:text-emerald-400 hover:bg-white/10 bg-transparent border-0 cursor-pointer transition-colors"
             title="Add link to board"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -165,10 +166,10 @@ export default function BoardCard({
         </div>
       )}
 
-      <div className="board-divider" />
+      <div className="board-divider h-px bg-white/10" />
 
-      {/* Bookmarks List */}
-      <div className="board-items">
+      {/* Bookmarks List with space-y-2.5 container */}
+      <div className="board-items p-4 flex flex-col gap-2.5">
         {bookmarks.map((bookmark, idx) => (
           <BookmarkItem
             key={bookmark.id || `${bookmark.url}-${idx}`}
@@ -183,9 +184,9 @@ export default function BoardCard({
         {bookmarks.length === 0 && (
           <div
             onClick={() => onAddLinkToBoard(boardName)}
-            className="py-3 px-2 rounded-lg border border-dashed border-white/10 hover:border-[var(--violet)]/50 text-center cursor-pointer text-xs text-gray-500 hover:text-[var(--lumen-soft)] transition-all my-1 flex items-center justify-center gap-1.5"
+            className="py-3 px-3 rounded-xl border border-dashed border-white/10 hover:border-emerald-500/50 text-center cursor-pointer text-xs text-gray-400 hover:text-white transition-all my-1 flex items-center justify-center gap-2 bg-white/[0.01] hover:bg-white/[0.04]"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4 text-emerald-400" />
             <span>Add First Link</span>
           </div>
         )}
