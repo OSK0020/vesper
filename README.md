@@ -19,6 +19,10 @@
 > **Notice of Origin & Inspiration:**  
 > This project is a personal clone/rebuild heavily inspired by **LumiList - Smart Bookmark Manager**. It is created purely for self-learning, experimentation, and private personal use. **It is not intended to compete with LumiList in any way.**
 
+## 🧠 Why This Was Built
+
+This project was created out of a desire to learn and practice modern front-end engineering (React 19 & Tailwind CSS v4) and local-first software architecture. Additionally, it serves as a customized, limit-free personal dashboard for my daily use as a custom new tab page (`chrome://newtab/`).
+
 ---
 
 ## ✨ Features
