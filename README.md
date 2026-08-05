@@ -17,7 +17,7 @@
 
 > [!IMPORTANT]
 > **Notice of Origin & Inspiration:**  
-> This project is a personal clone/rebuild heavily inspired by **LoomiList**. It is created purely for self-learning, experimentation, and private personal use. **It is not intended to compete with LoomiList in any way.**
+> This project is a personal clone/rebuild heavily inspired by **LumiList - Smart Bookmark Manager**. It is created purely for self-learning, experimentation, and private personal use. **It is not intended to compete with LumiList in any way.**
 
 ---
 
@@ -42,5 +42,5 @@ npm run dev
 ---
 
 <div align="center">
-  <sub>VESPER © 2026 • Rebuilt & customized based on LoomiList for personal use</sub>
+  <sub>VESPER © 2026 • Rebuilt & customized based on LumiList for personal use</sub>
 </div>
