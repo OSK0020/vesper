@@ -4,12 +4,14 @@ import { X, BookOpen } from 'lucide-react';
 import { useEscapeClose } from '../utils/useEscapeClose';
 import { scaleIn, easeVesper } from '../utils/motion';
 
-export default function AddPageModal({ isOpen, onClose, onAddPage }) {
+import { AddPageModalProps } from '../types';
+
+export default function AddPageModal({ isOpen, onClose, onAddPage }: AddPageModalProps) {
   const [pageName, setPageName] = useState('');
 
   useEscapeClose(isOpen, onClose);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!pageName.trim()) return;
     onAddPage(pageName.trim().toUpperCase());
@@ -91,15 +93,15 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
                     background: 'rgba(255,255,255,0.04)',
                     border: '1px solid rgba(255,255,255,0.09)',
                   }}
-                  onFocus={(e) => {
-                    e.target.style.border = '1px solid rgba(56,189,248,0.5)';
-                    e.target.style.background = 'rgba(255,255,255,0.06)';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.1)';
+                  onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
+                    e.currentTarget.style.border = '1px solid rgba(56,189,248,0.5)';
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.1)';
                   }}
-                  onBlur={(e) => {
-                    e.target.style.border = '1px solid rgba(255,255,255,0.09)';
-                    e.target.style.background = 'rgba(255,255,255,0.04)';
-                    e.target.style.boxShadow = 'none';
+                  onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                    e.currentTarget.style.border = '1px solid rgba(255,255,255,0.09)';
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                    e.currentTarget.style.boxShadow = 'none';
                   }}
                 />
                 <p className="text-xs text-zinc-600 mt-1.5">Will be converted to uppercase automatically</p>

@@ -4,16 +4,34 @@ import { X, Download, Upload, RefreshCw, HardDrive, ShieldCheck, Check, AlertCir
 import { useEscapeClose } from '../utils/useEscapeClose';
 import { scaleIn, easeVesper } from '../utils/motion';
 
+import { Bookmark, CustomBoardMeta } from '../types';
+
+interface ImportExportModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  bookmarks: Bookmark[];
+  customBoardsMeta: CustomBoardMeta[];
+  brightnessMode: string;
+  glassMode: string;
+  onImportFullWorkspace: (data: {
+    importedBookmarks: Bookmark[];
+    importedBoardsMeta: CustomBoardMeta[];
+    importedPreferences?: { brightnessMode?: string; glassMode?: string };
+  }) => void;
+  onResetData: () => void;
+}
+
 export default function ImportExportModal({
   isOpen,
   onClose,
   bookmarks = [],
-  boards = [],
-  pages = [],
-  onImportData,
+  customBoardsMeta = [],
+  brightnessMode,
+  glassMode,
+  onImportFullWorkspace,
   onResetData
-}) {
-  const fileInputRef = useRef(null);
+}: ImportExportModalProps) {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -21,13 +39,17 @@ export default function ImportExportModal({
 
   const handleExport = () => {
     try {
-      const dataStr = JSON.stringify({ bookmarks, boards, pages }, null, 2);
+      const dataStr = JSON.stringify({
+        importedBookmarks: bookmarks,
+        importedBoardsMeta: customBoardsMeta,
+        importedPreferences: { brightnessMode, glassMode }
+      }, null, 2);
       const blob = new Blob([dataStr], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
 
       const link = document.createElement('a');
       link.href = url;
-      link.download = `lumilist-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      link.download = `vesper-backup-${new Date().toISOString().slice(0, 10)}.json`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -41,16 +63,16 @@ export default function ImportExportModal({
     }
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const imported = JSON.parse(event.target.result);
-        if (onImportData) {
-          onImportData(imported);
+        const imported = JSON.parse(event.target?.result as string);
+        if (onImportFullWorkspace) {
+          onImportFullWorkspace(imported);
           setSuccessMsg('Backup JSON imported successfully!');
           setTimeout(() => {
             setSuccessMsg('');

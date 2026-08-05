@@ -4,6 +4,21 @@ import BoardCard from './BoardCard';
 import { Plus } from 'lucide-react';
 import { staggerContainer, fadeUp, getPrefersReducedMotion } from '../utils/motion';
 
+import { Bookmark, Board } from '../types';
+
+interface BoardGridProps {
+  boards: Board[];
+  bookmarksByBoard: Record<string, Bookmark[]>;
+  onAddLinkToBoard: (boardName: string) => void;
+  onEditBookmark: (bookmark: Bookmark) => void;
+  onDeleteBookmark: (bookmark: Bookmark) => void;
+  onDeleteBoard?: (boardName: string) => void;
+  onAddBoard: () => void;
+  onChangeBoardColor: (boardName: string, color: string) => void;
+  onMoveBoard: (boardName: string, targetColIdx: number) => void;
+  onMoveBookmark: (bookmarkId: string, targetBoardName: string) => void;
+}
+
 export default function BoardGrid({ 
   boards, 
   bookmarksByBoard, 
@@ -15,8 +30,8 @@ export default function BoardGrid({
   onChangeBoardColor,
   onMoveBoard,
   onMoveBookmark
-}) {
-  const [activeColOver, setActiveColOver] = useState(null);
+}: BoardGridProps) {
+  const [activeColOver, setActiveColOver] = useState<number | null>(null);
   const isReducedMotion = getPrefersReducedMotion();
 
   // Compute initial featured board ONCE on page load using useState lazy initializer (guaranteed mount stability)
@@ -35,7 +50,7 @@ export default function BoardGrid({
   });
 
   // Distribute boards into 4 columns matching official LumiList structure
-  const columns = [[], [], [], []];
+  const columns: Board[][] = [[], [], [], []];
 
   boards.forEach((board, index) => {
     let colIdx = board.columnIndex;
@@ -45,7 +60,7 @@ export default function BoardGrid({
     columns[colIdx].push(board);
   });
 
-  const handleColDragOver = (e, colIdx) => {
+  const handleColDragOver = (e: React.DragEvent<HTMLDivElement>, colIdx: number) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
     if (activeColOver !== colIdx) setActiveColOver(colIdx);
@@ -55,7 +70,7 @@ export default function BoardGrid({
     setActiveColOver(null);
   };
 
-  const handleColDrop = (e, targetColIdx) => {
+  const handleColDrop = (e: React.DragEvent<HTMLDivElement>, targetColIdx: number) => {
     e.preventDefault();
     setActiveColOver(null);
     try {

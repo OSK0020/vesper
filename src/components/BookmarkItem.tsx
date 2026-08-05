@@ -3,10 +3,18 @@ import { motion } from 'framer-motion';
 import { Pencil, Trash2, ExternalLink, Globe, GripVertical } from 'lucide-react';
 import { getDomain, getFaviconUrl, getFallbackFaviconUrl } from '../utils/favicon';
 
-function IconButton({ icon: Icon, label, onClick }) {
+import { Bookmark } from '../types';
+
+interface IconButtonProps {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  onClick: () => void;
+}
+
+function IconButton({ icon: Icon, label, onClick }: IconButtonProps) {
   return (
     <button
-      onClick={(e) => {
+      onClick={(e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
         onClick();
@@ -20,8 +28,16 @@ function IconButton({ icon: Icon, label, onClick }) {
   );
 }
 
-export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete }) {
-  const [imgSrc, setImgSrc] = useState(getFaviconUrl(bookmark.url));
+interface BookmarkItemProps {
+  bookmark: Bookmark;
+  boardName: string;
+  onEdit: (bookmark: Bookmark) => void;
+  onDelete: (bookmark: Bookmark) => void;
+  onMoveBookmark?: (bookmarkId: string, targetBoardName: string) => void;
+}
+
+export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete }: BookmarkItemProps) {
+  const [imgSrc, setImgSrc] = useState<string | null>(getFaviconUrl(bookmark.url));
   const [imgErrorCount, setImgErrorCount] = useState(0);
 
   const domain = getDomain(bookmark.url);
@@ -35,7 +51,7 @@ export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete }) 
     }
   };
 
-  const handleDragStart = (e) => {
+  const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData(
       'application/json',
       JSON.stringify({
@@ -54,7 +70,7 @@ export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete }) 
       target="_blank"
       rel="noopener noreferrer"
       draggable
-      onDragStart={handleDragStart}
+      onDragStart={handleDragStart as any}
       className="group flex items-center justify-between p-3 -mx-3 rounded-xl transition-all duration-200 hover:scale-[1.01] hover:bg-white/[0.06] active:scale-[0.99] cursor-pointer no-underline"
       style={{ textDecoration: 'none' }}
     >

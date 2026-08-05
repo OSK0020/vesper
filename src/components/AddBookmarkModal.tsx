@@ -5,6 +5,8 @@ import { useEscapeClose } from '../utils/useEscapeClose';
 import { getFaviconUrl } from '../utils/favicon';
 import { scaleIn, easeVesper } from '../utils/motion';
 
+import { AddBookmarkModalProps } from '../types';
+
 export default function AddBookmarkModal({
   isOpen,
   onClose,
@@ -14,7 +16,7 @@ export default function AddBookmarkModal({
   availablePages = [],
   currentPage = 'MAIN',
   defaultBoard = ''
-}) {
+}: AddBookmarkModalProps) {
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
   const [boardName, setBoardName] = useState(defaultBoard || availableBoards[0] || 'GENERAL');
@@ -41,13 +43,13 @@ export default function AddBookmarkModal({
 
   useEffect(() => {
     if (url.trim() && (url.startsWith('http://') || url.startsWith('https://'))) {
-      setPreviewFavicon(getFaviconUrl(url));
+      setPreviewFavicon(getFaviconUrl(url) || '');
     } else {
       setPreviewFavicon('');
     }
   }, [url]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) return;
 
@@ -59,7 +61,7 @@ export default function AddBookmarkModal({
 
     const payload = editingBookmark
       ? { ...editingBookmark, url: finalUrl, title: title.trim(), boardName: finalBoard, pageName }
-      : { url: finalUrl, title: title.trim(), boardName: finalBoard, pageName };
+      : { id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(), url: finalUrl, title: title.trim(), boardName: finalBoard, pageName };
 
     if (onSave) onSave(payload);
     onClose();
@@ -69,15 +71,15 @@ export default function AddBookmarkModal({
     background: 'rgba(255,255,255,0.04)',
     border: '1px solid rgba(255,255,255,0.09)',
   };
-  const inputFocus = (e) => {
-    e.target.style.border = '1px solid rgba(52,211,153,0.5)';
-    e.target.style.background = 'rgba(255,255,255,0.06)';
-    e.target.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.08)';
+  const inputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.currentTarget.style.border = '1px solid rgba(52,211,153,0.5)';
+    e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.08)';
   };
-  const inputBlur = (e) => {
-    e.target.style.border = '1px solid rgba(255,255,255,0.09)';
-    e.target.style.background = 'rgba(255,255,255,0.04)';
-    e.target.style.boxShadow = 'none';
+  const inputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.currentTarget.style.border = '1px solid rgba(255,255,255,0.09)';
+    e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+    e.currentTarget.style.boxShadow = 'none';
   };
 
   return (
@@ -164,7 +166,7 @@ export default function AddBookmarkModal({
                     />
                     {previewFavicon && (
                       <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                        <img src={previewFavicon} alt="" className="w-5 h-5 object-contain rounded" onError={(e) => (e.target.style.display = 'none')} />
+                        <img src={previewFavicon} alt="" className="w-5 h-5 object-contain rounded" onError={(e) => (e.currentTarget.style.display = 'none')} />
                       </div>
                     )}
                   </div>

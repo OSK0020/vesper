@@ -6,7 +6,7 @@ import { useRef, useCallback } from 'react';
  * Respects prefers-reduced-motion and skips on touch devices.
  */
 export function useMagnetic(strength = 0.35) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLButtonElement | null>(null);
 
   const reduceMotion =
     typeof window !== 'undefined' &&
@@ -14,7 +14,7 @@ export function useMagnetic(strength = 0.35) {
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const onMouseMove = useCallback(
-    (e) => {
+    (e: React.MouseEvent<HTMLElement>) => {
       if (reduceMotion || !ref.current) return;
       const rect = ref.current.getBoundingClientRect();
       const x = e.clientX - (rect.left + rect.width / 2);

@@ -7,6 +7,23 @@ import { useReveal } from '../utils/useReveal';
 import { BOARD_ACCENTS } from '../constants/boardAccents';
 import { easeVesper, getPrefersReducedMotion } from '../utils/motion';
 
+import { Bookmark, Board } from '../types';
+
+interface BoardCardProps {
+  board: Board;
+  boardName: string;
+  bookmarks: Bookmark[];
+  featured?: boolean;
+  onAddLinkToBoard: (boardName: string) => void;
+  onEditBookmark: (bookmark: Bookmark) => void;
+  onDeleteBookmark: (bookmark: Bookmark) => void;
+  onDeleteBoard?: (boardName: string) => void;
+  onChangeBoardColor?: (boardName: string, color: string) => void;
+  onMoveBoard?: (boardName: string, targetColIdx: number) => void;
+  onMoveBookmark?: (bookmarkId: string, targetBoardName: string) => void;
+  revealDelay?: number;
+}
+
 export default function BoardCard({
   board,
   boardName,
@@ -20,7 +37,7 @@ export default function BoardCard({
   onMoveBoard,
   onMoveBookmark,
   revealDelay = 0
-}) {
+}: BoardCardProps) {
   const tilt = useTilt();
   const reveal = useReveal(revealDelay);
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -32,13 +49,13 @@ export default function BoardCard({
   const accentHex = board?.accentHex || '#34d399';
 
   // Combine both refs onto the same node
-  const setRefs = (node) => {
+  const setRefs = (node: HTMLDivElement | null) => {
     tilt.ref.current = node;
-    reveal.current = node;
+    (reveal as React.MutableRefObject<HTMLDivElement | null>).current = node;
   };
 
   // Drag Board Handlers
-  const handleBoardDragStart = (e) => {
+  const handleBoardDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData(
       'application/json',
       JSON.stringify({ type: 'BOARD', boardName: boardName, colIndex: board?.columnIndex })
@@ -47,7 +64,7 @@ export default function BoardCard({
   };
 
   // Drag Bookmark drop zone
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
     if (!isDragOver) setIsDragOver(true);
@@ -57,7 +74,7 @@ export default function BoardCard({
     setIsDragOver(false);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
     try {
@@ -75,15 +92,15 @@ export default function BoardCard({
     }
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (tilt.onMouseMove) tilt.onMouseMove(e);
     if (!tilt.ref.current) return;
     const rect = tilt.ref.current.getBoundingClientRect();
     setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
-  const handleMouseLeave = (e) => {
-    if (tilt.onMouseLeave) tilt.onMouseLeave(e);
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (tilt.onMouseLeave) tilt.onMouseLeave();
     setIsFocused(false);
   };
 

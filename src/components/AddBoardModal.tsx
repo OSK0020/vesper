@@ -13,9 +13,11 @@ const ACCENT_COLORS = [
   { id: 'sapphire', label: 'Blue', hex: '#3b82f6', ring: 'ring-blue-500' },
 ];
 
-export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
+import { AddBoardModalProps } from '../types';
+
+export default function AddBoardModal({ isOpen, onClose, onAddBoard }: AddBoardModalProps) {
   const [title, setTitle] = useState('');
-  const [column, setColumn] = useState(0);
+  const [column, setColumn] = useState<string | number>(0);
   const [selectedColor, setSelectedColor] = useState('violet');
 
   useEscapeClose(isOpen, onClose);
@@ -28,7 +30,7 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
     }
   }, [isOpen]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
     onAddBoard({
@@ -118,15 +120,15 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
                       background: 'rgba(255,255,255,0.05)',
                       border: '1px solid rgba(255,255,255,0.12)',
                     }}
-                    onFocus={(e) => {
-                      e.target.style.border = '1px solid rgba(139,92,246,0.6)';
-                      e.target.style.background = 'rgba(255,255,255,0.08)';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(139,92,246,0.15)';
+                    onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
+                      e.currentTarget.style.border = '1px solid rgba(139,92,246,0.6)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139,92,246,0.15)';
                     }}
-                    onBlur={(e) => {
-                      e.target.style.border = '1px solid rgba(255,255,255,0.12)';
-                      e.target.style.background = 'rgba(255,255,255,0.05)';
-                      e.target.style.boxShadow = 'none';
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                      e.currentTarget.style.border = '1px solid rgba(255,255,255,0.12)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                      e.currentTarget.style.boxShadow = 'none';
                     }}
                   />
                 </div>

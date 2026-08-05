@@ -1,0 +1,10 @@
+- [x] Install dependencies (`typescript`, `@types/node`, etc.)
+- [x] Create `tsconfig.json` & `tsconfig.node.json`
+- [x] Update `package.json` dev scripts & update `index.html` script reference
+- [x] Create `src/types/index.ts` type definitions
+- [x] Convert `src/constants/boardAccents.js` to `.ts`
+- [x] Convert utility hooks in `src/utils/` to `.ts`
+- [x] Convert React components in `src/components/` to `.tsx`
+- [x] Convert `src/App.jsx` and `src/main.jsx` to `.tsx`
+- [x] Run `npx tsc --noEmit` and clean up any type issues
+- [x] Run production build `npm run build` to verify clean compilation

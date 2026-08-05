@@ -13,13 +13,14 @@ import LumenParticles from './components/LumenParticles';
 import FloatingRail from './components/FloatingRail';
 import Toast from './components/Toast';
 import { SearchX } from 'lucide-react';
+import { Bookmark, Board, CustomBoardMeta, ToastData } from './types';
 
 const LOCAL_STORAGE_KEY = 'vesper_bookmarks_data';
 const LOCAL_STORAGE_BOARDS_KEY = 'vesper_boards_meta';
 
 export default function App() {
   // Load initial bookmarks state from LocalStorage or preloaded JSON file
-  const [bookmarks, setBookmarks] = useState(() => {
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
@@ -29,26 +30,26 @@ export default function App() {
     } catch (e) {
       console.error('Failed to load saved bookmarks from localStorage', e);
     }
-    return initialData.bookmarks || [];
+    return (initialData.bookmarks as Bookmark[]) || [];
   });
 
   // Additional custom boards metadata (color, column position, order)
-  const [customBoardsMeta, setCustomBoardsMeta] = useState(() => {
+  const [customBoardsMeta, setCustomBoardsMeta] = useState<CustomBoardMeta[]>(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_BOARDS_KEY);
       if (saved) return JSON.parse(saved);
     } catch (e) {}
-    return initialData.customBoardsMeta || [];
+    return (initialData.customBoardsMeta as CustomBoardMeta[]) || [];
   });
 
   // Current selected page
-  const [currentPage, setCurrentPage] = useState('HOME');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [toast, setToast] = useState(null);
-  const [isBlurActive, setIsBlurActive] = useState(false);
+  const [currentPage, setCurrentPage] = useState<string>('HOME');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [toast, setToast] = useState<ToastData | null>(null);
+  const [isBlurActive, setIsBlurActive] = useState<boolean>(false);
 
   // Brightness mode state: luminous, normal, dim
-  const [brightnessMode, setBrightnessMode] = useState(() => {
+  const [brightnessMode, setBrightnessMode] = useState<string>(() => {
     try {
       return localStorage.getItem('vesper_brightness_mode') || 'luminous';
     } catch (e) {
@@ -68,7 +69,7 @@ export default function App() {
   };
 
   // Glass style state: crystal, frosted, solid
-  const [glassMode, setGlassMode] = useState(() => {
+  const [glassMode, setGlassMode] = useState<string>(() => {
     try {
       return localStorage.getItem('vesper_glass_mode') || 'crystal';
     } catch (e) {
@@ -88,19 +89,19 @@ export default function App() {
   };
 
   // Modals state
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false);
-  const [isAddPageModalOpen, setIsAddPageModalOpen] = useState(false);
-  const [isImportExportModalOpen, setIsImportExportModalOpen] = useState(false);
-  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [isShareCardModalOpen, setIsShareCardModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState<boolean>(false);
+  const [isAddPageModalOpen, setIsAddPageModalOpen] = useState<boolean>(false);
+  const [isImportExportModalOpen, setIsImportExportModalOpen] = useState<boolean>(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
+  const [isShareCardModalOpen, setIsShareCardModalOpen] = useState<boolean>(false);
 
-  const [editingBookmark, setEditingBookmark] = useState(null);
-  const [defaultBoardForAdd, setDefaultBoardForAdd] = useState(null);
+  const [editingBookmark, setEditingBookmark] = useState<Bookmark | null>(null);
+  const [defaultBoardForAdd, setDefaultBoardForAdd] = useState<string | null>(null);
 
   // Global Keyboard Listener for Ctrl+K / Cmd+K Command Palette
   useEffect(() => {
-    const handleGlobalKeyDown = (e) => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         setIsCommandPaletteOpen((prev) => !prev);
@@ -111,10 +112,10 @@ export default function App() {
   }, []);
 
   // Cursor-reactive ambient glow
-  const glowRef = useRef(null);
+  const glowRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    let frame = null;
-    const handlePointerMove = (e) => {
+    let frame: number | null = null;
+    const handlePointerMove = (e: PointerEvent) => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
         if (glowRef.current) {
@@ -131,7 +132,7 @@ export default function App() {
     };
   }, []);
 
-  const showToast = (message, type = 'success') => {
+  const showToast = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
     setToast({ message, type });
     setTimeout(() => {
       setToast((current) => (current?.message === message ? null : current));
@@ -186,8 +187,8 @@ export default function App() {
   }, [pageBookmarks, searchQuery]);
 
   // Extract unique boards for current page
-  const boardsList = useMemo(() => {
-    const boardMap = new Map();
+  const boardsList = useMemo<Board[]>(() => {
+    const boardMap = new Map<string, Board>();
 
     // Map bookmarks to boards
     pageBookmarks.forEach((b) => {
@@ -225,7 +226,7 @@ export default function App() {
 
   // Group bookmarks by boardName
   const bookmarksByBoard = useMemo(() => {
-    const grouped = {};
+    const grouped: Record<string, Bookmark[]> = {};
     boardsList.forEach((b) => {
       grouped[b.name] = [];
     });
@@ -242,7 +243,7 @@ export default function App() {
   }, [boardsList, filteredBookmarks]);
 
   // CRUD & Drag-and-Drop Handlers
-  const handleSaveBookmark = (newOrUpdatedBookmark) => {
+  const handleSaveBookmark = (newOrUpdatedBookmark: Bookmark) => {
     const isEdit = bookmarks.some((b) => b.id === newOrUpdatedBookmark.id);
     setBookmarks((prev) => {
       const existingIdx = prev.findIndex((b) => b.id === newOrUpdatedBookmark.id);
@@ -256,14 +257,14 @@ export default function App() {
     showToast(isEdit ? `Link "${newOrUpdatedBookmark.title}" updated!` : `Link "${newOrUpdatedBookmark.title}" added to ${newOrUpdatedBookmark.boardName}!`);
   };
 
-  const handleDeleteBookmark = (bookmarkToDelete) => {
+  const handleDeleteBookmark = (bookmarkToDelete: Bookmark) => {
     if (window.confirm(`Delete "${bookmarkToDelete.title || bookmarkToDelete.url}"?`)) {
       setBookmarks((prev) => prev.filter((b) => b.id !== bookmarkToDelete.id && b.url !== bookmarkToDelete.url));
       showToast(`Link deleted`, 'info');
     }
   };
 
-  const handleAddBoard = (newBoard) => {
+  const handleAddBoard = (newBoard: { name: string; columnIndex: number; accentColor: string }) => {
     const bName = newBoard.name.toUpperCase();
     const hex = newBoard.accentColor === 'lumen' ? '#f5b942' :
                  newBoard.accentColor === 'emerald' ? '#10b981' :
@@ -283,7 +284,7 @@ export default function App() {
     showToast(`Board "${bName}" created!`);
   };
 
-  const handleDeleteBoard = (boardName) => {
+  const handleDeleteBoard = (boardName: string) => {
     if (window.confirm(`Delete board "${boardName}"?`)) {
       setBookmarks((prev) => prev.filter((b) => (b.boardName || '').toUpperCase() !== boardName.toUpperCase()));
       setCustomBoardsMeta((prev) => prev.filter((b) => b.name.toUpperCase() !== boardName.toUpperCase()));
@@ -291,7 +292,7 @@ export default function App() {
     }
   };
 
-  const handleMoveBoard = (boardName, targetColIndex) => {
+  const handleMoveBoard = (boardName: string, targetColIndex: number) => {
     const bName = boardName.toUpperCase();
     setCustomBoardsMeta((prev) => {
       const existing = prev.find((c) => c.name.toUpperCase() === bName);
@@ -308,14 +309,14 @@ export default function App() {
     showToast(`Board "${bName}" moved to column ${targetColIndex + 1}`);
   };
 
-  const handleMoveBookmark = (bookmarkId, targetBoardName) => {
+  const handleMoveBookmark = (bookmarkId: string, targetBoardName: string) => {
     setBookmarks((prev) =>
       prev.map((b) => (b.id === bookmarkId || b.url === bookmarkId ? { ...b, boardName: targetBoardName.toUpperCase() } : b))
     );
     showToast(`Link moved to board ${targetBoardName.toUpperCase()}`);
   };
 
-  const handleChangeBoardColor = (boardName, accentHex) => {
+  const handleChangeBoardColor = (boardName: string, accentHex: string) => {
     const bName = boardName.toUpperCase();
     setCustomBoardsMeta((prev) => {
       const existing = prev.find((c) => c.name.toUpperCase() === bName);
@@ -327,12 +328,20 @@ export default function App() {
     showToast(`Updated theme for board ${bName}`);
   };
 
-  const handleAddPage = (newPageName) => {
+  const handleAddPage = (newPageName: string) => {
     setCurrentPage(newPageName.toUpperCase());
     showToast(`Page "${newPageName.toUpperCase()}" created!`);
   };
 
-  const handleImportFullWorkspace = ({ importedBookmarks, importedBoardsMeta, importedPreferences }) => {
+  const handleImportFullWorkspace = ({
+    importedBookmarks,
+    importedBoardsMeta,
+    importedPreferences
+  }: {
+    importedBookmarks?: Bookmark[];
+    importedBoardsMeta?: CustomBoardMeta[];
+    importedPreferences?: { brightnessMode?: string; glassMode?: string };
+  }) => {
     if (Array.isArray(importedBookmarks)) {
       setBookmarks(importedBookmarks);
     }
@@ -347,8 +356,8 @@ export default function App() {
   };
 
   const handleResetData = () => {
-    setBookmarks(initialData.bookmarks || []);
-    setCustomBoardsMeta(initialData.customBoardsMeta || []);
+    setBookmarks((initialData.bookmarks as Bookmark[]) || []);
+    setCustomBoardsMeta((initialData.customBoardsMeta as CustomBoardMeta[]) || []);
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     localStorage.removeItem(LOCAL_STORAGE_BOARDS_KEY);
     showToast(`Reset to default dataset complete`, 'info');
@@ -498,7 +507,7 @@ export default function App() {
         onSelectPage={setCurrentPage}
         onOpenAddModal={(boardName) => {
           setEditingBookmark(null);
-          setDefaultBoardForAdd(boardName);
+          setDefaultBoardForAdd(boardName || null);
           setIsAddModalOpen(true);
         }}
         onOpenAddBoardModal={() => setIsAddBoardModalOpen(true)}

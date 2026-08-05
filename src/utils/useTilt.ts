@@ -6,7 +6,7 @@ import { useRef, useCallback } from 'react';
  * gradient reads from. Also applies a very subtle 3D tilt for depth.
  */
 export function useTilt() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const reduceMotion =
     typeof window !== 'undefined' &&
@@ -14,7 +14,7 @@ export function useTilt() {
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const onMouseMove = useCallback(
-    (e) => {
+    (e: React.MouseEvent<HTMLElement>) => {
       const node = ref.current;
       if (!node || reduceMotion) return;
       const rect = node.getBoundingClientRect();

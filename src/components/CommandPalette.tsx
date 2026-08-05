@@ -4,6 +4,8 @@ import { Search, Plus, Layout, FileText, Download, Eye, ExternalLink, Command, S
 import { useEscapeClose } from '../utils/useEscapeClose';
 import { scaleIn, easeVesper } from '../utils/motion';
 
+import { CommandPaletteProps } from '../types';
+
 export default function CommandPalette({
   isOpen,
   onClose,
@@ -17,10 +19,10 @@ export default function CommandPalette({
   onOpenImportExportModal,
   onToggleBlur,
   onOpenShareCardModal
-}) {
+}: CommandPaletteProps) {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEscapeClose(isOpen, onClose);
 
@@ -32,10 +34,19 @@ export default function CommandPalette({
     }
   }, [isOpen]);
 
+  interface CommandPaletteItem {
+    id: string;
+    label: string;
+    subLabel?: string;
+    category: string;
+    icon: React.ComponentType<{ className?: string }>;
+    run: () => void;
+  }
+
   const items = useMemo(() => {
     const q = query.trim().toLowerCase();
 
-    const actionItems = [
+    const actionItems: CommandPaletteItem[] = [
       {
         id: 'cmd-add-link',
         label: 'Add New Link / Bookmark',
@@ -80,7 +91,7 @@ export default function CommandPalette({
       }
     ];
 
-    const result = [];
+    const result: CommandPaletteItem[] = [];
 
     actionItems.forEach((act) => {
       if (!q || act.label.toLowerCase().includes(q)) {
@@ -143,7 +154,7 @@ export default function CommandPalette({
     setSelectedIndex(0);
   }, [query]);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setSelectedIndex((prev) => (prev + 1) % Math.max(1, items.length));

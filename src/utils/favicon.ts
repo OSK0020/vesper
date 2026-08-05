@@ -2,7 +2,7 @@
  * Utility functions for extracting domains and fetching high-resolution favicons/logos
  */
 
-export function getDomain(url) {
+export function getDomain(url: string): string {
   if (!url) return '';
   try {
     const parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
@@ -12,21 +12,21 @@ export function getDomain(url) {
   }
 }
 
-export function getFaviconUrl(url) {
+export function getFaviconUrl(url: string): string | null {
   const domain = getDomain(url);
   if (!domain) return null;
   // Google S2 Favicon API provides clean 128px icons
   return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
 }
 
-export function getFallbackFaviconUrl(url) {
+export function getFallbackFaviconUrl(url: string): string | null {
   const domain = getDomain(url);
   if (!domain) return null;
   // DuckDuckGo fallback icon
   return `https://icons.duckduckgo.com/ip3/${encodeURIComponent(domain)}.ico`;
 }
 
-export function getInitialLetter(title, url) {
+export function getInitialLetter(title: string | undefined | null, url: string): string {
   if (title && title.trim()) {
     return title.trim()[0].toUpperCase();
   }
@@ -34,7 +34,7 @@ export function getInitialLetter(title, url) {
   return domain ? domain[0].toUpperCase() : '?';
 }
 
-export function getRandomGradient(seedStr) {
+export function getRandomGradient(seedStr: string): string {
   const gradients = [
     'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
     'linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%)',

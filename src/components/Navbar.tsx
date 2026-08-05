@@ -22,6 +22,24 @@ function BrandMark() {
   );
 }
 
+interface NavbarProps {
+  pages: string[];
+  currentPage: string;
+  onSelectPage: (pageName: string) => void;
+  onAddPage: () => void;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  onOpenAddModal: (boardName?: string | null) => void;
+  onOpenAddBoardModal: () => void;
+  onOpenImportExportModal: () => void;
+  onOpenCommandPalette: () => void;
+  onOpenShareCardModal: () => void;
+  brightnessMode: string;
+  onCycleBrightness: () => void;
+  glassMode: string;
+  onCycleGlassMode: () => void;
+}
+
 export default function Navbar({
   pages,
   currentPage,
@@ -38,8 +56,8 @@ export default function Navbar({
   onCycleBrightness,
   glassMode,
   onCycleGlassMode
-}) {
-  const searchInputRef = useRef(null);
+}: NavbarProps) {
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const magnetic = useMagnetic(0.25);
 
   return (

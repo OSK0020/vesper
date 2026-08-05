@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
 /** useEscapeClose — calls onClose when Escape is pressed while isOpen. */
-export function useEscapeClose(isOpen, onClose) {
+export function useEscapeClose(isOpen: boolean, onClose: () => void) {
   useEffect(() => {
     if (!isOpen) return;
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);

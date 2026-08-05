@@ -3,7 +3,13 @@ import { motion, useSpring, useTransform } from 'framer-motion';
 import { LayoutGrid, Link2, BookOpen } from 'lucide-react';
 import { getPrefersReducedMotion } from '../utils/motion';
 
-function StatPill({ icon: Icon, value, label }) {
+interface StatPillProps {
+  icon: React.ComponentType<{ className?: string }>;
+  value: number;
+  label: string;
+}
+
+function StatPill({ icon: Icon, value, label }: StatPillProps) {
   const isReducedMotion = getPrefersReducedMotion();
   const spring = useSpring(0, { stiffness: 100, damping: 20 });
   const display = useTransform(spring, (v) => Math.round(v));
@@ -25,7 +31,14 @@ function StatPill({ icon: Icon, value, label }) {
   );
 }
 
-export default function Hero({ pageCount, boardCount, linkCount, currentPage }) {
+interface HeroProps {
+  pageCount: number;
+  boardCount: number;
+  linkCount: number;
+  currentPage: string;
+}
+
+export default function Hero({ pageCount, boardCount, linkCount, currentPage }: HeroProps) {
   return (
     <header className="hero-mast max-w-[1700px] mx-auto w-full pt-8 pb-6 px-4 sm:px-8 flex flex-col gap-5 relative">
       

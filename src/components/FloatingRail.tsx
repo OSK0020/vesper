@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import { Search, Download, Eye, EyeOff, SlidersHorizontal } from 'lucide-react';
 
+interface FloatingRailProps {
+  onOpenSearch: () => void;
+  onOpenImportExport: () => void;
+  isBlurActive: boolean;
+  onToggleBlur: () => void;
+  brightnessMode?: string;
+  onCycleBrightness?: () => void;
+  glassMode?: string;
+  onCycleGlassMode?: () => void;
+}
+
 export default function FloatingRail({
   onOpenSearch,
   onOpenImportExport,
   isBlurActive,
   onToggleBlur
-}) {
+}: FloatingRailProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (

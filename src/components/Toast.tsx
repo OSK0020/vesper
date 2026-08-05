@@ -1,7 +1,12 @@
-import React from 'react';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
+import { ToastData } from '../types';
 
-export default function Toast({ toast, onClose }) {
+interface ToastProps {
+  toast: ToastData | null;
+  onClose: () => void;
+}
+
+export default function Toast({ toast, onClose }: ToastProps) {
   if (!toast) return null;
 
   const isSuccess = toast.type === 'success';

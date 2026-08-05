@@ -4,14 +4,20 @@ import { X, Download, Share2, Sparkles } from 'lucide-react';
 import { useEscapeClose } from '../utils/useEscapeClose';
 import { scaleIn, easeVesper } from '../utils/motion';
 
+import { ShareCardModalProps } from '../types';
+
 export default function ShareCardModal({
   isOpen,
   onClose,
-  pageName = 'MAIN',
-  bookmarkCount = 0,
-  boardCount = 0
-}) {
-  const canvasRef = useRef(null);
+  currentPage,
+  boards = [],
+  bookmarksCount = 0
+}: ShareCardModalProps) {
+  const pageName = currentPage;
+  const bookmarkCount = bookmarksCount;
+  const boardCount = boards.length;
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEscapeClose(isOpen, onClose);
 
@@ -20,6 +26,7 @@ export default function ShareCardModal({
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     // 1200x630 Social Preview Card Dimensions
     canvas.width = 1200;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 export default function LumenParticles() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -12,7 +12,9 @@ export default function LumenParticles() {
     if (mediaQuery.matches) return;
 
     const ctx = canvas.getContext('2d');
-    let animationFrameId;
+    if (!ctx) return;
+
+    let animationFrameId: number;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
@@ -24,7 +26,7 @@ export default function LumenParticles() {
 
     const mouse = { x: width / 2, y: height / 2, active: false };
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: PointerEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       mouse.active = true;
@@ -40,7 +42,19 @@ export default function LumenParticles() {
       'rgba(255, 210, 122, 0.3)'  // soft lumen
     ];
 
-    const particles = Array.from({ length: count }, () => ({
+    interface Particle {
+      x: number;
+      y: number;
+      size: number;
+      baseX: number;
+      baseY: number;
+      vx: number;
+      vy: number;
+      color: string;
+      alpha: number;
+    }
+
+    const particles: Particle[] = Array.from({ length: count }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       size: Math.random() * 2.5 + 1,
