@@ -87,6 +87,7 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
               </div>
               <button
                 onClick={onClose}
+                aria-label="Close dialog"
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-all border-0 bg-transparent cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />

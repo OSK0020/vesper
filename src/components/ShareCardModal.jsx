@@ -147,15 +147,15 @@ export default function ShareCardModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-10">
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 overflow-y-auto">
           
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-2xl"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-2xl"
             onClick={onClose}
           />
 
@@ -164,56 +164,76 @@ export default function ShareCardModal({
             initial={scaleIn.initial}
             animate={scaleIn.animate}
             exit={scaleIn.exit}
-            transition={{ duration: 0.2, ease: easeVesper }}
-            className="relative z-10 w-full max-w-4xl rounded-3xl bg-[#0c120e]/90 backdrop-blur-3xl border border-white/15 shadow-[0_24px_80px_-16px_rgb(0_0_0_/_0.6)] p-8 sm:p-10"
+            transition={{ duration: 0.25, ease: easeVesper }}
+            className="relative z-10 w-full max-w-4xl rounded-2xl overflow-hidden my-auto"
+            style={{
+              background: 'linear-gradient(135deg, #0e1411 0%, #080c09 100%)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 40px 100px -20px rgba(0,0,0,0.95), 0 0 60px -20px rgba(16, 185, 129, 0.25)'
+            }}
             role="dialog"
             aria-modal="true"
+            aria-label="Social Share Card Preview"
           >
-            
+            {/* Top Accent Line */}
+            <div className="h-[2px] w-full" style={{ background: 'linear-gradient(90deg, transparent 0%, #10b981 50%, transparent 100%)' }} />
+
             {/* Header Section */}
-            <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
+            <div className="flex items-center justify-between px-8 pt-7 pb-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-md shrink-0 flex items-center justify-center">
-                  <Share2 className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.3)', boxShadow: '0 0 20px rgba(16,185,129,0.2)' }}>
+                  <Share2 className="w-6 h-6 text-emerald-400" />
                 </div>
-                <div className="space-y-1">
-                  <h2 className="text-xl font-semibold text-white tracking-tight leading-snug">Social Share Card</h2>
-                  <p className="text-sm text-neutral-400">High-resolution 1200x630 preview graphic for social platforms</p>
+                <div>
+                  <h2 className="text-2xl font-bold text-white tracking-tight leading-snug">Social Share Card</h2>
+                  <p className="text-sm text-zinc-400 mt-0.5 leading-normal">High-resolution 1200x630 preview graphic for social platforms</p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
+                aria-label="Close share card dialog"
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-all border-0 bg-transparent cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
+            {/* Divider */}
+            <div className="h-px mx-8 bg-white/[0.08]" />
+
             {/* Canvas Render Container */}
-            <div className="relative rounded-2xl overflow-hidden border border-white/12 shadow-2xl bg-black/40 p-1.5">
-              <canvas
-                ref={canvasRef}
-                className="w-full h-auto block rounded-xl"
-                style={{ width: '100%', height: 'auto', aspectRatio: '1200 / 630' }}
-              />
+            <div className="px-8 py-6">
+              <div className="relative rounded-xl overflow-hidden border border-white/12 shadow-2xl bg-black/40 p-1.5">
+                <canvas
+                  ref={canvasRef}
+                  aria-label="Generated social preview card"
+                  className="w-full h-auto block rounded-lg"
+                  style={{ width: '100%', height: 'auto', aspectRatio: '1200 / 630' }}
+                />
+              </div>
             </div>
 
+            {/* Divider */}
+            <div className="h-px mx-8 bg-white/[0.08]" />
+
             {/* Floating Action Footer Bar */}
-            <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10 gap-6">
-              <div className="text-xs text-neutral-400 flex items-center gap-2 font-mono">
+            <div className="px-8 py-6 flex items-center justify-between gap-6">
+              <div className="text-xs text-zinc-400 flex items-center gap-2 font-mono">
                 <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
-                Ready to share or export
+                Ready to share or export PNG image
               </div>
               <div className="flex items-center gap-3 shrink-0">
                 <button
                   onClick={onClose}
-                  className="action-btn h-10 px-5 font-semibold"
+                  className="h-11 px-6 rounded-xl text-sm font-semibold text-zinc-300 hover:text-white transition-all cursor-pointer"
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
                 >
                   Close
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="action-btn action-btn-primary h-10 px-6 font-semibold"
+                  className="h-11 px-7 rounded-xl text-sm font-bold text-black transition-all cursor-pointer hover:brightness-110 active:scale-95 flex items-center gap-2"
+                  style={{ background: '#10b981', boxShadow: '0 4px 20px rgba(16,185,129,0.4)' }}
                 >
                   <Download className="w-4 h-4" /> Download PNG (1200x630)
                 </button>
