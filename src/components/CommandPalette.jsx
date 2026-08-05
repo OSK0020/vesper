@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Search, Plus, Layout, FileText, Download, Eye, ExternalLink, Command, Share2, Sparkles, Sun } from 'lucide-react';
+import { Search, Plus, Layout, FileText, Download, Eye, ExternalLink, Command, Share2, Sparkles } from 'lucide-react';
 import { useEscapeClose } from '../utils/useEscapeClose';
 
 export default function CommandPalette({
   isOpen,
   onClose,
-  bookmarks,
-  boards,
-  pages,
-  currentPage,
+  bookmarks = [],
+  boards = [],
+  pages = [],
   onSelectPage,
   onOpenAddModal,
   onOpenAddBoardModal,
@@ -31,11 +30,9 @@ export default function CommandPalette({
     }
   }, [isOpen]);
 
-  // Aggregate items into list
   const items = useMemo(() => {
     const q = query.trim().toLowerCase();
 
-    // Quick Actions
     const actions = [
       {
         id: 'action-add-link',
@@ -43,8 +40,7 @@ export default function CommandPalette({
         label: 'Add New Link / Bookmark',
         category: 'Actions',
         icon: Plus,
-        shortcut: 'N',
-        run: () => onOpenAddModal()
+        run: () => onOpenAddModal && onOpenAddModal()
       },
       {
         id: 'action-add-board',
@@ -52,7 +48,7 @@ export default function CommandPalette({
         label: 'Create New Column Board',
         category: 'Actions',
         icon: Layout,
-        run: () => onOpenAddBoardModal()
+        run: () => onOpenAddBoardModal && onOpenAddBoardModal()
       },
       {
         id: 'action-add-page',
@@ -60,15 +56,15 @@ export default function CommandPalette({
         label: 'Create New Page Tab',
         category: 'Actions',
         icon: FileText,
-        run: () => onOpenAddPageModal()
+        run: () => onOpenAddPageModal && onOpenAddPageModal()
       },
       {
         id: 'action-share',
         type: 'action',
-        label: 'Generate Social Share Card (OG Image)',
+        label: 'Generate Social Share Card',
         category: 'Actions',
         icon: Share2,
-        run: () => onOpenShareCardModal()
+        run: () => onOpenShareCardModal && onOpenShareCardModal()
       },
       {
         id: 'action-blur',
@@ -76,7 +72,7 @@ export default function CommandPalette({
         label: 'Toggle Privacy Blur Mode',
         category: 'Actions',
         icon: Eye,
-        run: () => onToggleBlur()
+        run: () => onToggleBlur && onToggleBlur()
       },
       {
         id: 'action-export',
@@ -84,7 +80,7 @@ export default function CommandPalette({
         label: 'Import / Export JSON Data',
         category: 'Actions',
         icon: Download,
-        run: () => onOpenImportExportModal()
+        run: () => onOpenImportExportModal && onOpenImportExportModal()
       }
     ];
 
@@ -96,7 +92,6 @@ export default function CommandPalette({
       }
     });
 
-    // Pages
     pages.forEach((p) => {
       if (!q || p.toLowerCase().includes(q) || 'page'.includes(q)) {
         result.push({
@@ -105,29 +100,28 @@ export default function CommandPalette({
           label: `Switch to ${p} Page`,
           category: 'Pages',
           icon: FileText,
-          run: () => onSelectPage(p)
+          run: () => onSelectPage && onSelectPage(p)
         });
       }
     });
 
-    // Boards
     boards.forEach((b) => {
-      if (!q || b.name.toLowerCase().includes(q) || 'board'.includes(q)) {
+      const bName = typeof b === 'string' ? b : b.name;
+      if (!q || bName.toLowerCase().includes(q) || 'board'.includes(q)) {
         result.push({
-          id: `board-${b.name}`,
+          id: `board-${bName}`,
           type: 'board',
-          label: `Board: ${b.name}`,
+          label: `Board: ${bName}`,
           category: 'Boards',
           icon: Layout,
           run: () => {
-            const el = document.querySelector(`[data-board="${b.name}"]`);
+            const el = document.querySelector(`[data-board="${bName}"]`);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }
         });
       }
     });
 
-    // Bookmarks / Links
     if (q) {
       bookmarks.forEach((b) => {
         if (
@@ -152,7 +146,6 @@ export default function CommandPalette({
     return result.slice(0, 20);
   }, [query, pages, boards, bookmarks, onOpenAddModal, onOpenAddBoardModal, onOpenAddPageModal, onOpenShareCardModal, onToggleBlur, onOpenImportExportModal, onSelectPage]);
 
-  // Adjust selected index when items change
   useEffect(() => {
     setSelectedIndex(0);
   }, [items]);
@@ -177,11 +170,11 @@ export default function CommandPalette({
 
   return (
     <div className="modal-overlay z-50">
-      <div className="modal-content w-full max-w-3xl p-6 sm:p-8 relative animate-modal shadow-2xl rounded-3xl border border-white/16 bg-[#120f1a]">
+      <div className="modal-content w-full max-w-3xl p-6 sm:p-8 relative animate-modal shadow-2xl rounded-3xl border border-white/16 bg-[#0e1410]">
         
-        {/* Command Search Header Card */}
-        <div className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/12 mb-5">
-          <Search className="w-6 h-6 text-[var(--violet-soft)] flex-shrink-0" />
+        {/* Command Search Header */}
+        <div className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/15 mb-6 shadow-sm">
+          <Search className="w-6 h-6 text-emerald-400 shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -189,17 +182,17 @@ export default function CommandPalette({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="cmd-search-input flex-1 text-white placeholder-gray-400 font-medium"
+            className="cmd-search-input flex-1 text-white placeholder-neutral-400 font-medium"
           />
-          <kbd className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1.5 rounded-xl bg-white/10 text-gray-300 border border-white/10 flex-shrink-0">
+          <kbd className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1.5 rounded-xl bg-white/10 text-neutral-300 border border-white/10 shrink-0">
             <Command className="w-3.5 h-3.5" /> K
           </kbd>
         </div>
 
         {/* Command Results List */}
-        <div className="max-h-96 overflow-y-auto pr-1">
+        <div className="max-h-96 overflow-y-auto pr-1 flex flex-col gap-1">
           {items.length === 0 ? (
-            <div className="py-12 text-center text-sm text-gray-400">
+            <div className="py-12 text-center text-sm text-neutral-400">
               No matching commands or links found for "{query}"
             </div>
           ) : (
@@ -214,33 +207,33 @@ export default function CommandPalette({
                     onClose();
                   }}
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl text-left transition-all cursor-pointer mb-2.5 ${
+                  className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl text-left transition-all cursor-pointer border ${
                     isSelected
-                      ? 'bg-[var(--violet)]/30 text-white border border-[var(--violet)]/60 shadow-lg'
-                      : 'bg-white/[0.03] text-gray-200 hover:bg-white/[0.07] border border-transparent'
+                      ? 'bg-emerald-500/25 text-white border-emerald-500/50 shadow-lg'
+                      : 'bg-white/[0.03] text-neutral-200 hover:bg-white/[0.07] border-white/5'
                   }`}
                 >
                   <div className="flex items-center gap-4 min-w-0 pr-4">
                     <div
-                      className={`p-2.5 rounded-xl flex-shrink-0 ${
+                      className={`p-2.5 rounded-xl shrink-0 ${
                         isSelected
-                          ? 'bg-[var(--violet)] text-white shadow-md'
-                          : 'bg-white/5 text-gray-400'
+                          ? 'bg-emerald-500 text-neutral-950 shadow-md'
+                          : 'bg-white/5 text-neutral-400'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-bold truncate">{item.label}</div>
+                      <div className="text-sm font-semibold truncate leading-snug">{item.label}</div>
                       {item.subLabel && (
-                        <div className="text-xs text-gray-400 truncate mt-0.5 font-mono">
+                        <div className="text-xs text-neutral-400 truncate mt-1 font-mono">
                           {item.subLabel}
                         </div>
                       )}
                     </div>
                   </div>
 
-                  <span className="text-[11px] font-mono px-3 py-1.5 rounded-xl bg-white/10 text-gray-300 uppercase tracking-wider flex-shrink-0 ml-3 border border-white/10">
+                  <span className="text-[11px] font-mono px-3 py-1 rounded-lg bg-white/10 text-neutral-300 uppercase tracking-wider shrink-0 ml-4 border border-white/10">
                     {item.category}
                   </span>
                 </button>
@@ -249,15 +242,15 @@ export default function CommandPalette({
           )}
         </div>
 
-        {/* Command Footer Card */}
-        <div className="px-5 py-3.5 rounded-2xl bg-white/[0.02] border border-white/10 mt-5 flex items-center justify-between text-xs text-gray-400 font-mono">
-          <div className="flex items-center gap-4">
+        {/* Command Footer */}
+        <div className="px-5 py-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mt-6 flex items-center justify-between text-xs text-neutral-400 font-mono">
+          <div className="flex items-center gap-5">
             <span>↑↓ Navigate</span>
             <span>↵ Select</span>
             <span>Esc Close</span>
           </div>
-          <div className="flex items-center gap-2 text-[var(--lumen-soft)] font-bold">
-            <Sparkles className="w-4 h-4" /> Vesper Palette
+          <div className="flex items-center gap-2 text-emerald-400 font-semibold">
+            <Sparkles className="w-4 h-4" /> LumiList Palette
           </div>
         </div>
 

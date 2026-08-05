@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Link2, Type, BookOpen, Layout, Sparkles } from 'lucide-react';
 import { getDomain, getFaviconUrl } from '../utils/favicon';
-import { useEscapeClose } from '../utils/useEscapeClose';
 
 export default function AddBookmarkModal({ 
   isOpen, 
@@ -35,8 +34,6 @@ export default function AddBookmarkModal({
     }
   }, [editingBookmark, isOpen, defaultBoard, currentPage, availableBoards]);
 
-  useEscapeClose(isOpen, onClose);
-
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
@@ -68,37 +65,37 @@ export default function AddBookmarkModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-xl p-8 sm:p-9 relative animate-modal">
+      <div className="modal-content w-full max-w-2xl p-8 sm:p-10 relative animate-modal">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
-          <div className="flex items-center gap-3.5">
-            <div className="p-3 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30 shadow-lg">
-              <Sparkles className="w-5 h-5" />
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
+          <div className="flex items-center gap-4">
+            <div className="p-3.5 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+              <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-tight">
+              <h2 className="text-xl font-semibold text-white tracking-tight leading-snug">
                 {editingBookmark ? 'Edit Link' : 'Add New Link'}
               </h2>
-              <p className="text-xs text-gray-400 mt-1">Organize links into your visual Vesper boards</p>
+              <p className="text-sm text-neutral-400 mt-1">Organize links into your visual LumiList boards</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2.5 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           
           {/* URL Field */}
           <div>
             <label className="ui-label">
-              <Link2 className="w-4 h-4 text-[var(--lumen-soft)]" /> Web Address (URL) *
+              <Link2 className="w-4 h-4 text-emerald-400" /> Web Address (URL) *
             </label>
             <div className="relative">
               <input
@@ -111,7 +108,7 @@ export default function AddBookmarkModal({
                 autoFocus
               />
               {previewFavicon && (
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                   <img
                     src={previewFavicon}
                     alt="Favicon preview"
@@ -126,7 +123,7 @@ export default function AddBookmarkModal({
           {/* Title Field */}
           <div>
             <label className="ui-label">
-              <Type className="w-4 h-4 text-[var(--lumen-soft)]" /> Link Title / Label
+              <Type className="w-4 h-4 text-emerald-400" /> Link Title / Label
             </label>
             <input
               type="text"
@@ -138,12 +135,12 @@ export default function AddBookmarkModal({
           </div>
 
           {/* Page & Board Selection */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             
             {/* Page */}
             <div>
               <label className="ui-label">
-                <BookOpen className="w-4 h-4 text-[var(--lumen-soft)]" /> Target Page
+                <BookOpen className="w-4 h-4 text-sky-400" /> Target Page
               </label>
               <select
                 value={pageName}
@@ -159,7 +156,7 @@ export default function AddBookmarkModal({
             {/* Board */}
             <div>
               <label className="ui-label">
-                <Layout className="w-4 h-4 text-[var(--violet-soft)]" /> Target Board
+                <Layout className="w-4 h-4 text-purple-400" /> Target Board
               </label>
               <select
                 value={boardName}
@@ -181,7 +178,7 @@ export default function AddBookmarkModal({
           {/* Custom Board Field if __NEW__ selected */}
           {boardName === '__NEW__' && (
             <div>
-              <label className="ui-label text-[var(--lumen-soft)]">
+              <label className="ui-label text-emerald-400">
                 New Board Name *
               </label>
               <input
@@ -190,23 +187,23 @@ export default function AddBookmarkModal({
                 value={customBoard}
                 onChange={(e) => setCustomBoard(e.target.value)}
                 required
-                className="ui-input border-[var(--violet)]/50"
+                className="ui-input border-emerald-500/50"
               />
             </div>
           )}
 
-          {/* Action Buttons Footer */}
-          <div className="flex items-center justify-end gap-3.5 mt-6 pt-5 border-t border-white/10">
+          {/* Action Buttons */}
+          <div className="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="action-btn px-6"
+              className="action-btn h-10 px-6 font-semibold"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="action-btn action-btn-primary px-8"
+              className="action-btn action-btn-primary h-10 px-8 font-semibold"
             >
               {editingBookmark ? 'Save Changes' : 'Add Link'}
             </button>

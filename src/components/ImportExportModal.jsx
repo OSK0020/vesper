@@ -1,130 +1,72 @@
 import React, { useRef, useState } from 'react';
-import { X, Download, Upload, RefreshCw, Check, AlertCircle, HardDrive, ShieldCheck } from 'lucide-react';
-import { useEscapeClose } from '../utils/useEscapeClose';
-
-const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB Safety Limit
+import { X, Download, Upload, RefreshCw, Check, AlertCircle } from 'lucide-react';
 
 export default function ImportExportModal({ 
   isOpen, 
   onClose, 
   bookmarks, 
-  customBoardsMeta = [],
-  brightnessMode = 'luminous',
-  glassMode = 'crystal',
-  onImportFullWorkspace, 
+  onImportData, 
   onResetData 
 }) {
   const fileInputRef = useRef(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  useEscapeClose(isOpen, onClose);
-
   if (!isOpen) return null;
 
   const handleExport = () => {
-    const pagesSet = new Set(bookmarks.map((b) => (b.pageName || 'HOME').toUpperCase()));
-    const boardsSet = new Set(bookmarks.map((b) => (b.boardName || 'GENERAL').toUpperCase()));
+    const pagesSet = new Set(bookmarks.map((b) => b.pageName || 'HOME'));
+    const boardsSet = new Set(bookmarks.map((b) => b.boardName || 'MAIN'));
 
     const exportObject = {
-      exportType: 'vesper-full-workspace-backup',
-      exportVersion: 2,
+      exportType: 'lumilist-bookmark-portability',
+      exportVersion: 1,
       generatedAt: new Date().toISOString(),
       product: {
-        name: 'Vesper',
-        description: 'Full workspace backup package for seamless computer transfer'
+        name: 'LumiList',
+        dataType: 'bookmark-portability'
       },
       counts: {
         bookmarks: bookmarks.length,
-        activeBookmarks: bookmarks.filter((b) => b.status !== 'deleted').length,
-        pagesCount: pagesSet.size,
-        boardsCount: boardsSet.size
+        activeBookmarks: bookmarks.filter(b => b.status !== 'deleted').length,
+        pagesReferenced: pagesSet.size,
+        boardsReferenced: boardsSet.size
       },
-      bookmarks: bookmarks,
-      customBoardsMeta: customBoardsMeta,
-      preferences: {
-        brightnessMode,
-        glassMode
-      }
+      bookmarks: bookmarks
     };
 
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObject, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `vesper-workspace-backup-${new Date().toISOString().slice(0,10)}.json`);
+    downloadAnchor.setAttribute("download", `lumilist-backup-${new Date().toISOString().slice(0,10)}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
 
-    setSuccessMsg('Full workspace package exported successfully!');
+    setSuccessMsg('Bookmarks exported successfully!');
     setTimeout(() => setSuccessMsg(''), 3000);
   };
 
   const handleFileUpload = (e) => {
-    setErrorMsg('');
-    setSuccessMsg('');
     const file = e.target.files[0];
     if (!file) return;
-
-    // Safety Limit Check: Reject files larger than 5MB
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      setErrorMsg(`File too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Maximum allowed backup file size is 5MB.`);
-      return;
-    }
 
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
         const json = JSON.parse(event.target.result);
-        
-        // Support both legacy bookmarks array format & v2 full workspace format
-        let importedBookmarks = [];
-        let importedBoards = [];
-        let importedPrefs = null;
-
-        if (Array.isArray(json)) {
-          importedBookmarks = json;
-        } else if (json && Array.isArray(json.bookmarks)) {
-          importedBookmarks = json.bookmarks;
-          importedBoards = Array.isArray(json.customBoardsMeta) ? json.customBoardsMeta : [];
-          importedPrefs = json.preferences || null;
+        if (json && Array.isArray(json.bookmarks)) {
+          onImportData(json.bookmarks);
+          setSuccessMsg(`Imported ${json.bookmarks.length} bookmarks!`);
+          setTimeout(() => {
+            setSuccessMsg('');
+            onClose();
+          }, 1500);
         } else {
-          setErrorMsg('Invalid backup file format: Missing "bookmarks" data.');
-          return;
+          setErrorMsg('Invalid JSON: Missing "bookmarks" array.');
         }
-
-        // Auto-generate missing boards/tables metadata if needed
-        if (importedBoards.length === 0 && importedBookmarks.length > 0) {
-          const autoBoardMap = new Map();
-          importedBookmarks.forEach((b) => {
-            const bName = (b.boardName || 'GENERAL').toUpperCase();
-            const pName = (b.pageName || 'HOME').toUpperCase();
-            const key = `${pName}:${bName}`;
-            if (!autoBoardMap.has(key)) {
-              autoBoardMap.set(key, {
-                name: bName,
-                pageName: pName,
-                columnIndex: b.boardColumnIndex !== undefined ? b.boardColumnIndex : 0,
-                accentHex: '#863bff'
-              });
-            }
-          });
-          importedBoards = Array.from(autoBoardMap.values());
-        }
-
-        onImportFullWorkspace({
-          importedBookmarks,
-          importedBoardsMeta: importedBoards,
-          importedPreferences: importedPrefs
-        });
-
-        setSuccessMsg(`Successfully restored workspace! (${importedBookmarks.length} links, ${importedBoards.length} boards/tables)`);
-        setTimeout(() => {
-          setSuccessMsg('');
-          onClose();
-        }, 1800);
       } catch (err) {
-        setErrorMsg('Error parsing JSON backup file. Please ensure it is a valid Vesper backup.');
+        setErrorMsg('Error parsing JSON file.');
       }
     };
     reader.readAsText(file);
@@ -132,37 +74,28 @@ export default function ImportExportModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-lg p-8 sm:p-10 relative animate-modal">
+      <div className="modal-content w-full max-w-2xl p-8 sm:p-10 relative animate-modal">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-7">
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
           <div className="flex items-center gap-4">
-            <div className="p-3.5 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30 shadow-lg">
-              <HardDrive className="w-6 h-6" />
+            <div className="p-3.5 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+              <Download className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-extrabold text-white tracking-tight">Computer Transfer & Backup</h2>
-              <p className="text-xs text-gray-400 mt-1">Export your full workspace to transfer to a new computer</p>
+              <h2 className="text-xl font-semibold text-white tracking-tight leading-snug">Backup & Restore</h2>
+              <p className="text-sm text-neutral-400 mt-1">Import or export your LumiList bookmark collection</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2.5 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2.5 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Safety Badge Notice */}
-        <div className="mb-6 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between text-xs text-gray-400 font-mono">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Local Storage Persistence</span>
-          </div>
-          <span className="text-[11px] text-gray-500">Max File Size: 5MB</span>
-        </div>
-
-        {/* Success/Error Alerts */}
+        {/* Notifications */}
         {successMsg && (
           <div className="mb-6 p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2.5 shadow-lg">
             <Check className="w-5 h-5 flex-shrink-0" />
@@ -176,35 +109,29 @@ export default function ImportExportModal({
           </div>
         )}
 
-        {/* Action Options */}
-        <div className="flex flex-col gap-5">
+        {/* Action Grid */}
+        <div className="flex flex-col gap-4">
           
-          {/* Export Option */}
-          <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between shadow-sm">
-            <div>
-              <h3 className="text-sm font-bold text-white">Export Full Workspace</h3>
-              <p className="text-xs text-gray-400 mt-1">Download links, boards & settings for computer transfer</p>
+          {/* Export */}
+          <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/30 transition-all flex items-center justify-between gap-6 shadow-sm">
+            <div className="min-w-0 pr-2">
+              <h3 className="text-base font-semibold text-white leading-snug">Export Bookmarks</h3>
+              <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">Download current dataset ({bookmarks.length} links) as JSON package</p>
             </div>
             <button
               onClick={handleExport}
-              className="action-btn action-btn-primary py-2.5 px-5 text-xs"
+              className="action-btn action-btn-primary h-10 px-5 text-xs font-semibold shrink-0"
             >
-              <Download className="w-4 h-4" /> Export Package
+              <Download className="w-4 h-4" /> Export
             </button>
           </div>
 
-          {/* Import Option */}
-          <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between shadow-sm">
-            <div>
-              <h3 className="text-sm font-bold text-white">Import Workspace JSON</h3>
-              <p className="text-xs text-gray-400 mt-1">Automatically rebuilds pages, boards & links (Max 5MB)</p>
+          {/* Import */}
+          <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/30 transition-all flex items-center justify-between gap-6 shadow-sm">
+            <div className="min-w-0 pr-2">
+              <h3 className="text-base font-semibold text-white leading-snug">Import JSON File</h3>
+              <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">Load bookmarks from a `.json` backup file</p>
             </div>
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="action-btn py-2.5 px-5 text-xs"
-            >
-              <Upload className="w-4 h-4" /> Import Backup
-            </button>
             <input
               ref={fileInputRef}
               type="file"
@@ -212,22 +139,32 @@ export default function ImportExportModal({
               onChange={handleFileUpload}
               className="hidden"
             />
+            <button
+              onClick={() => fileInputRef.current && fileInputRef.current.click()}
+              className="action-btn h-10 px-5 text-xs font-semibold shrink-0"
+            >
+              <Upload className="w-4 h-4 text-emerald-400" /> Import
+            </button>
           </div>
 
-          {/* Reset Option */}
-          <div className="p-5 rounded-2xl bg-rose-500/[0.06] border border-rose-500/20 flex items-center justify-between mt-2">
-            <div>
-              <h3 className="text-sm font-bold text-rose-300">Reset Local Storage</h3>
-              <p className="text-xs text-rose-400/80 mt-1">Clear local data and restore initial default dataset</p>
+          {/* Reset */}
+          <div className="p-5 rounded-2xl bg-rose-500/[0.05] border border-rose-500/20 hover:border-rose-500/30 transition-all flex items-center justify-between gap-6">
+            <div className="min-w-0 pr-2">
+              <h3 className="text-base font-semibold text-rose-300 leading-snug">Reset to Defaults</h3>
+              <p className="text-xs text-rose-400/80 mt-1.5 leading-relaxed">Restore original preloaded bookmarks dataset</p>
             </div>
             <button
               onClick={() => {
-                if (window.confirm('Are you sure you want to clear local storage and reset all boards to defaults?')) {
+                if (window.confirm('Reset all bookmarks to original initial dataset?')) {
                   onResetData();
-                  onClose();
+                  setSuccessMsg('Reset completed!');
+                  setTimeout(() => {
+                    setSuccessMsg('');
+                    onClose();
+                  }, 1500);
                 }
               }}
-              className="action-btn text-xs py-2.5 px-5 border-rose-500/40 text-rose-300 hover:bg-rose-500/20"
+              className="action-btn h-10 px-5 text-xs font-semibold border-rose-500/40 text-rose-300 hover:bg-rose-500/20 shrink-0"
             >
               <RefreshCw className="w-4 h-4" /> Reset
             </button>
@@ -236,10 +173,11 @@ export default function ImportExportModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end mt-8 pt-6 pb-1 border-t border-white/10">
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
+          <p className="text-xs text-neutral-500 font-mono">Fully compatible with official LumiList export schema</p>
           <button
             onClick={onClose}
-            className="action-btn px-8"
+            className="action-btn h-10 px-8 font-semibold"
           >
             Close
           </button>

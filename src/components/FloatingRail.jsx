@@ -1,58 +1,27 @@
 import React, { useState } from 'react';
-import { Search, Download, Eye, EyeOff, SlidersHorizontal, Sun, Moon, Sparkles, Layers } from 'lucide-react';
-import { useMagnetic } from '../utils/useMagnetic';
+import { Search, Download, Eye, EyeOff, SlidersHorizontal } from 'lucide-react';
 
 export default function FloatingRail({
   onOpenSearch,
   onOpenImportExport,
   isBlurActive,
-  onToggleBlur,
-  brightnessMode,
-  onCycleBrightness,
-  glassMode,
-  onCycleGlassMode
+  onToggleBlur
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const searchMagnetic = useMagnetic(0.3);
-  const menuMagnetic = useMagnetic(0.3);
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-
+      
       {/* Floating Tools Expanded Menu */}
       {isMenuOpen && (
-        <div className="flex flex-col gap-2.5 p-2 rounded-2xl bg-[#0e0c12]/90 border border-white/10 backdrop-blur-2xl shadow-2xl animate-toast">
-
-          {/* Glass Transparency Mode Toggle */}
-          <button
-            onClick={onCycleGlassMode}
-            className="rail-btn w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer border bg-white/5 text-gray-300 hover:text-white border-white/10 hover:bg-white/10"
-            title={`Glass Style: ${glassMode ? glassMode.toUpperCase() : 'CRYSTAL'} (Click to toggle transparency)`}
-          >
-            <Layers className="w-5 h-5 text-emerald-400" />
-          </button>
-
-          {/* Brightness Mode Toggle */}
-          <button
-            onClick={onCycleBrightness}
-            className="rail-btn w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer border bg-white/5 text-gray-300 hover:text-white border-white/10 hover:bg-white/10"
-            title={`Brightness Mode: ${brightnessMode} (Click to toggle)`}
-          >
-            {brightnessMode === 'luminous' ? (
-              <Sun className="w-5 h-5 text-[var(--lumen-soft)]" />
-            ) : brightnessMode === 'dim' ? (
-              <Moon className="w-5 h-5 text-purple-400" />
-            ) : (
-              <Sparkles className="w-5 h-5 text-[var(--violet-soft)]" />
-            )}
-          </button>
-
+        <div className="flex flex-col gap-2.5 p-2 rounded-2xl bg-[#090d0b]/90 border border-white/10 backdrop-blur-2xl shadow-2xl animate-toast">
+          
           {/* Privacy Blur Toggle */}
           <button
             onClick={onToggleBlur}
-            className={`rail-btn w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer border ${
+            className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
               isBlurActive
-                ? 'bg-[var(--lumen-dim)] text-[var(--lumen-soft)] border-[var(--lumen)]/40 shadow-lg'
+                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 shadow-lg shadow-emerald-950/40'
                 : 'bg-white/5 text-gray-300 hover:text-white border-white/10 hover:bg-white/10'
             }`}
             title={isBlurActive ? 'Disable Privacy Blur' : 'Enable Privacy Blur'}
@@ -63,39 +32,33 @@ export default function FloatingRail({
           {/* Backup / Import Button */}
           <button
             onClick={onOpenImportExport}
-            className="rail-btn w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 flex items-center justify-center cursor-pointer"
+            className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 flex items-center justify-center transition-all cursor-pointer"
             title="Import / Export Data"
           >
-            <Download className="w-5 h-5" style={{ color: 'var(--lumen-soft)' }} />
+            <Download className="w-5 h-5 text-emerald-400" />
           </button>
 
         </div>
       )}
 
       {/* Main Floating Trigger Group */}
-      <div className="flex items-center gap-2.5 p-1.5 rounded-2xl bg-[var(--void)]/90 border border-white/10 backdrop-blur-xl shadow-2xl">
-
+      <div className="flex items-center gap-2.5 p-1.5 rounded-2xl bg-[#080c09]/90 border border-white/10 backdrop-blur-xl shadow-2xl">
+        
         {/* Quick Search */}
         <button
-          ref={searchMagnetic.ref}
-          onMouseMove={searchMagnetic.onMouseMove}
-          onMouseLeave={searchMagnetic.onMouseLeave}
           onClick={onOpenSearch}
-          className="rail-btn magnetic w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white border border-white/10 flex items-center justify-center cursor-pointer shadow-sm"
+          className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white border border-white/10 flex items-center justify-center transition-all cursor-pointer shadow-sm"
           title="Search bookmarks (Ctrl + K)"
         >
-          <Search className="w-5 h-5" style={{ color: 'var(--lumen-soft)' }} />
+          <Search className="w-5 h-5 text-emerald-400" />
         </button>
 
         {/* Toggle Tools Menu */}
         <button
-          ref={menuMagnetic.ref}
-          onMouseMove={menuMagnetic.onMouseMove}
-          onMouseLeave={menuMagnetic.onMouseLeave}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className={`rail-btn magnetic w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer border ${
-            isMenuOpen
-              ? 'bg-[var(--violet)] text-white border-[var(--violet-soft)] shadow-lg'
+          className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
+            isMenuOpen 
+              ? 'bg-emerald-500 text-emerald-950 border-emerald-400 shadow-lg shadow-emerald-500/30' 
               : 'bg-white/5 text-gray-300 hover:text-white border-white/10 hover:bg-white/10'
           }`}
           title="More tools"

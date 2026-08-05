@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { X, Layout, Palette } from 'lucide-react';
-import { useEscapeClose } from '../utils/useEscapeClose';
-import { BOARD_ACCENTS } from '../constants/boardAccents';
+import { X, Layout } from 'lucide-react';
 
 export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
   const [boardName, setBoardName] = useState('');
   const [columnIndex, setColumnIndex] = useState(0);
-  const [accentColor, setAccentColor] = useState('violet');
-
-  useEscapeClose(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -18,38 +13,38 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
 
     onAddBoard({
       name: boardName.trim().toUpperCase(),
-      columnIndex: Number(columnIndex),
-      accentColor
+      columnIndex: Number(columnIndex)
     });
 
     setBoardName('');
-    setAccentColor('violet');
     onClose();
   };
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-lg p-8 sm:p-9 relative animate-modal">
+      <div className="modal-content w-full max-w-xl p-8 sm:p-10 relative animate-modal">
         
-        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
-          <div className="flex items-center gap-3.5">
-            <div className="p-3 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/30 shadow-lg">
-              <Layout className="w-5 h-5" />
+        {/* Header */}
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
+          <div className="flex items-center gap-4">
+            <div className="p-3.5 rounded-2xl bg-purple-500/15 text-purple-400 border border-purple-500/30 shrink-0">
+              <Layout className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-tight">Create New Board</h2>
-              <p className="text-xs text-gray-400 mt-1">Add a column board to group your links</p>
+              <h2 className="text-xl font-semibold text-white tracking-tight leading-snug">Create New Board</h2>
+              <p className="text-sm text-neutral-400 mt-1">Add a column board to group your links</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer"
+            className="p-2.5 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div>
             <label className="ui-label">
               Board Title *
@@ -81,44 +76,18 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
             </select>
           </div>
 
-          {/* Accent Color Picker */}
-          <div>
-            <label className="ui-label flex items-center gap-2">
-              <Palette className="w-4 h-4 text-[var(--lumen-soft)]" /> Board Color Theme
-            </label>
-            <div className="grid grid-cols-6 gap-3 pt-1">
-              {BOARD_ACCENTS.map((acc) => (
-                <button
-                  key={acc.id}
-                  type="button"
-                  onClick={() => setAccentColor(acc.id)}
-                  className={`h-11 rounded-2xl border flex items-center justify-center transition-all cursor-pointer ${
-                    accentColor === acc.id
-                      ? 'border-white scale-110 shadow-xl ring-2 ring-white/30'
-                      : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105'
-                  }`}
-                  style={{ backgroundColor: acc.hex }}
-                  title={acc.name}
-                >
-                  {accentColor === acc.id && (
-                    <div className="w-3 h-3 rounded-full bg-white shadow-md" />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex items-center justify-end gap-3.5 mt-6 pt-5 border-t border-white/10">
+          {/* Footer */}
+          <div className="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="action-btn px-6"
+              className="action-btn h-10 px-6 font-semibold"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="action-btn action-btn-primary px-8"
+              className="action-btn action-btn-primary h-10 px-8 font-semibold"
             >
               Create Board
             </button>
