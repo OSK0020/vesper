@@ -67,6 +67,26 @@ export default function App() {
     });
   };
 
+  // Glass style state: crystal, frosted, solid
+  const [glassMode, setGlassMode] = useState(() => {
+    try {
+      return localStorage.getItem('vesper_glass_mode') || 'crystal';
+    } catch (e) {
+      return 'crystal';
+    }
+  });
+
+  const handleCycleGlassMode = () => {
+    setGlassMode((prev) => {
+      const next = prev === 'crystal' ? 'frosted' : prev === 'frosted' ? 'solid' : 'crystal';
+      try {
+        localStorage.setItem('vesper_glass_mode', next);
+      } catch (e) {}
+      showToast(`Glass style: ${next.toUpperCase()}`);
+      return next;
+    });
+  };
+
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false);
@@ -335,7 +355,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col relative brightness-${brightnessMode} ${isBlurActive ? 'privacy-blur-active' : ''}`}>
+    <div className={`min-h-screen flex flex-col relative brightness-${brightnessMode} glass-${glassMode} ${isBlurActive ? 'privacy-blur-active' : ''}`}>
       {/* Interactive Canvas Light Particles */}
       <LumenParticles />
 
@@ -365,6 +385,8 @@ export default function App() {
         onOpenShareCardModal={() => setIsShareCardModalOpen(true)}
         brightnessMode={brightnessMode}
         onCycleBrightness={handleCycleBrightness}
+        glassMode={glassMode}
+        onCycleGlassMode={handleCycleGlassMode}
       />
 
       <Hero
@@ -425,6 +447,8 @@ export default function App() {
         }}
         brightnessMode={brightnessMode}
         onCycleBrightness={handleCycleBrightness}
+        glassMode={glassMode}
+        onCycleGlassMode={handleCycleGlassMode}
       />
 
       {/* Modals */}

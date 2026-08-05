@@ -27,7 +27,7 @@ export default function FloatingRail({
           <button
             onClick={onCycleGlassMode}
             className="rail-btn w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer border bg-white/5 text-gray-300 hover:text-white border-white/10 hover:bg-white/10"
-            title={`Glass Style: ${glassMode.toUpperCase()} (Click to toggle transparency)`}
+            title={`Glass Style: ${glassMode ? glassMode.toUpperCase() : 'CRYSTAL'} (Click to toggle transparency)`}
           >
             <Layers className="w-5 h-5 text-emerald-400" />
           </button>
