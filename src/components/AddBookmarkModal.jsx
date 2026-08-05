@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { X, Link2, Type, BookOpen, Layout, Sparkles } from 'lucide-react';
 import { getDomain, getFaviconUrl } from '../utils/favicon';
+import { useEscapeClose } from '../utils/useEscapeClose';
 
 export default function AddBookmarkModal({ 
   isOpen, 
   onClose, 
   onSave, 
   editingBookmark, 
-  availablePages, 
-  availableBoards, 
+  availablePages = [], 
+  availableBoards = [], 
   defaultBoard,
   currentPage 
 }) {
@@ -33,6 +34,8 @@ export default function AddBookmarkModal({
       setCustomBoard('');
     }
   }, [editingBookmark, isOpen, defaultBoard, currentPage, availableBoards]);
+
+  useEscapeClose(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -65,32 +68,32 @@ export default function AddBookmarkModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-2xl p-8 sm:p-10 relative animate-modal">
+      <div className="modal-content w-full max-w-2xl p-6 sm:p-8 relative animate-modal">
         
-        {/* Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
+        {/* Header Section */}
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
           <div className="flex items-center gap-4">
-            <div className="p-3.5 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+            <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-md shrink-0 flex items-center justify-center">
               <Sparkles className="w-6 h-6" />
             </div>
-            <div>
+            <div className="space-y-1">
               <h2 className="text-xl font-semibold text-white tracking-tight leading-snug">
                 {editingBookmark ? 'Edit Link' : 'Add New Link'}
               </h2>
-              <p className="text-sm text-neutral-400 mt-1">Organize links into your visual LumiList boards</p>
+              <p className="text-sm text-neutral-400">Organize links into your visual LumiList boards</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2.5 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
+            className="p-2 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           
           {/* URL Field */}
           <div>
@@ -135,7 +138,7 @@ export default function AddBookmarkModal({
           </div>
 
           {/* Page & Board Selection */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             
             {/* Page */}
             <div>
@@ -192,18 +195,18 @@ export default function AddBookmarkModal({
             </div>
           )}
 
-          {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-white/10">
+          {/* Dedicated Footer Action Bar */}
+          <div className="flex items-center justify-end gap-3 mt-8 pt-5 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="action-btn h-10 px-6 font-semibold"
+              className="action-btn h-10 px-5 font-semibold"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="action-btn action-btn-primary h-10 px-8 font-semibold"
+              className="action-btn action-btn-primary h-10 px-6 font-semibold"
             >
               {editingBookmark ? 'Save Changes' : 'Add Link'}
             </button>
@@ -214,3 +217,4 @@ export default function AddBookmarkModal({
     </div>
   );
 }
+

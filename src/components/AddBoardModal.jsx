@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { X, Layout } from 'lucide-react';
+import { useEscapeClose } from '../utils/useEscapeClose';
 
 export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
   const [boardName, setBoardName] = useState('');
   const [columnIndex, setColumnIndex] = useState(0);
+
+  useEscapeClose(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -22,29 +25,29 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-xl p-8 sm:p-10 relative animate-modal">
+      <div className="modal-content w-full max-w-xl p-6 sm:p-8 relative animate-modal">
         
-        {/* Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
+        {/* Header Section */}
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
           <div className="flex items-center gap-4">
-            <div className="p-3.5 rounded-2xl bg-purple-500/15 text-purple-400 border border-purple-500/30 shrink-0">
+            <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-md shrink-0 flex items-center justify-center">
               <Layout className="w-6 h-6" />
             </div>
-            <div>
+            <div className="space-y-1">
               <h2 className="text-xl font-semibold text-white tracking-tight leading-snug">Create New Board</h2>
-              <p className="text-sm text-neutral-400 mt-1">Add a column board to group your links</p>
+              <p className="text-sm text-neutral-400">Add a column board to group your links</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2.5 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
+            className="p-2 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-0 bg-transparent cursor-pointer shrink-0 ml-4"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div>
             <label className="ui-label">
               Board Title *
@@ -76,18 +79,18 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
             </select>
           </div>
 
-          {/* Footer */}
-          <div className="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-white/10">
+          {/* Dedicated Footer Action Bar */}
+          <div className="flex items-center justify-end gap-3 mt-8 pt-5 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="action-btn h-10 px-6 font-semibold"
+              className="action-btn h-10 px-5 font-semibold"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="action-btn action-btn-primary h-10 px-8 font-semibold"
+              className="action-btn action-btn-primary h-10 px-6 font-semibold"
             >
               Create Board
             </button>
@@ -98,3 +101,4 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
     </div>
   );
 }
+
