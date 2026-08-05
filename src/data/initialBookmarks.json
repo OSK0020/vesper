@@ -1,73 +1,16 @@
 {
   "exportType": "vesper-bookmark-portability",
   "exportVersion": 2,
-  "generatedAt": "2026-08-04T00:00:00.000Z",
+  "generatedAt": "2026-08-05T00:00:00.000Z",
   "product": {
     "name": "Vesper",
     "dataType": "bookmark-portability"
   },
   "counts": {
-    "bookmarks": 4,
-    "activeBookmarks": 4,
-    "pagesReferenced": 1,
-    "boardsReferenced": 1
+    "bookmarks": 0,
+    "activeBookmarks": 0,
+    "pagesReferenced": 0,
+    "boardsReferenced": 0
   },
-  "bookmarks": [
-    {
-      "id": "bm-demo-1",
-      "title": "Google",
-      "url": "https://google.com",
-      "description": "Web Search Engine",
-      "pageName": "HOME",
-      "boardName": "QUICK START",
-      "boardColumnIndex": 0,
-      "boardOrder": 0,
-      "bookmarkOrder": 0,
-      "status": "active",
-      "createdAt": "2026-08-04T00:00:00.000Z",
-      "updatedAt": "2026-08-04T00:00:00.000Z"
-    },
-    {
-      "id": "bm-demo-2",
-      "title": "GitHub",
-      "url": "https://github.com",
-      "description": "Code Repository",
-      "pageName": "HOME",
-      "boardName": "QUICK START",
-      "boardColumnIndex": 0,
-      "boardOrder": 0,
-      "bookmarkOrder": 1,
-      "status": "active",
-      "createdAt": "2026-08-04T00:00:00.000Z",
-      "updatedAt": "2026-08-04T00:00:00.000Z"
-    },
-    {
-      "id": "bm-demo-3",
-      "title": "React",
-      "url": "https://react.dev",
-      "description": "UI Library",
-      "pageName": "HOME",
-      "boardName": "QUICK START",
-      "boardColumnIndex": 0,
-      "boardOrder": 0,
-      "bookmarkOrder": 2,
-      "status": "active",
-      "createdAt": "2026-08-04T00:00:00.000Z",
-      "updatedAt": "2026-08-04T00:00:00.000Z"
-    },
-    {
-      "id": "bm-demo-4",
-      "title": "Vite",
-      "url": "https://vitejs.dev",
-      "description": "Frontend Build Tool",
-      "pageName": "HOME",
-      "boardName": "QUICK START",
-      "boardColumnIndex": 0,
-      "boardOrder": 0,
-      "bookmarkOrder": 3,
-      "status": "active",
-      "createdAt": "2026-08-04T00:00:00.000Z",
-      "updatedAt": "2026-08-04T00:00:00.000Z"
-    }
-  ]
+  "bookmarks": []
 }
