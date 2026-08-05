@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import BoardCard from './BoardCard';
 import { Plus } from 'lucide-react';
+import { staggerContainer, fadeUp, getPrefersReducedMotion } from '../utils/motion';
 
 export default function BoardGrid({ 
   boards, 
@@ -15,6 +17,22 @@ export default function BoardGrid({
   onMoveBookmark
 }) {
   const [activeColOver, setActiveColOver] = useState(null);
+  const isReducedMotion = getPrefersReducedMotion();
+
+  // Compute initial featured board ONCE on page load using useState lazy initializer (guaranteed mount stability)
+  const [featuredBoardName] = useState(() => {
+    if (!boards || boards.length === 0) return null;
+    let maxCount = -1;
+    let maxBoard = boards[0]?.name;
+    boards.forEach((board) => {
+      const count = (bookmarksByBoard[board.name] || []).length;
+      if (count > maxCount) {
+        maxCount = count;
+        maxBoard = board.name;
+      }
+    });
+    return maxBoard;
+  });
 
   // Distribute boards into 4 columns matching official LumiList structure
   const columns = [[], [], [], []];
@@ -54,9 +72,14 @@ export default function BoardGrid({
   };
 
   return (
-    <div className="vesper-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 sm:p-8 max-w-[1700px] mx-auto w-full">
+    <motion.div 
+      className="vesper-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-6 sm:p-8 max-w-[1700px] mx-auto w-full"
+      variants={isReducedMotion ? undefined : staggerContainer}
+      initial={isReducedMotion ? false : "initial"}
+      animate={isReducedMotion ? false : "animate"}
+    >
       {boards.length === 0 ? (
-        <div className="board p-10 text-center flex flex-col items-center justify-center gap-4 col-span-full max-w-md mx-auto my-12 bg-white/[0.03] border border-white/10 rounded-2xl">
+        <div className="board p-10 text-center flex flex-col items-center justify-center gap-4 col-span-full max-w-md mx-auto my-12 bg-surface-1/80 border border-white/10 rounded-2xl backdrop-blur-xl">
           <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
             <Plus className="w-8 h-8" />
           </div>
@@ -75,7 +98,7 @@ export default function BoardGrid({
         columns.map((colBoards, colIdx) => (
           <div
             key={colIdx}
-            className={`column flex flex-col gap-6 w-full min-w-0 transition-colors rounded-2xl p-1.5 ${
+            className={`column flex flex-col gap-4 w-full min-w-0 transition-colors rounded-2xl p-1.5 ${
               activeColOver === colIdx ? 'bg-white/[0.03] ring-1 ring-white/10' : ''
             }`}
             data-column={colIdx}
@@ -83,26 +106,35 @@ export default function BoardGrid({
             onDragLeave={handleColDragLeave}
             onDrop={(e) => handleColDrop(e, colIdx)}
           >
-            {colBoards.map((board, rowIdx) => (
-              <BoardCard
-                key={board.name}
-                board={board}
-                boardName={board.name}
-                bookmarks={bookmarksByBoard[board.name] || []}
-                onAddLinkToBoard={onAddLinkToBoard}
-                onEditBookmark={onEditBookmark}
-                onDeleteBookmark={onDeleteBookmark}
-                onDeleteBoard={onDeleteBoard}
-                onChangeBoardColor={onChangeBoardColor}
-                onMoveBoard={onMoveBoard}
-                onMoveBookmark={onMoveBookmark}
-                revealDelay={(colIdx * 70) + (rowIdx * 90)}
-              />
-            ))}
+            {colBoards.map((board) => {
+              const isFeatured = board.name === featuredBoardName;
+              return (
+                <motion.div 
+                  key={board.name} 
+                  variants={isReducedMotion ? undefined : fadeUp}
+                  className={isFeatured ? 'sm:col-span-2 sm:row-span-2' : ''}
+                >
+                  <BoardCard
+                    board={board}
+                    boardName={board.name}
+                    bookmarks={bookmarksByBoard[board.name] || []}
+                    featured={isFeatured}
+                    onAddLinkToBoard={onAddLinkToBoard}
+                    onEditBookmark={onEditBookmark}
+                    onDeleteBookmark={onDeleteBookmark}
+                    onDeleteBoard={onDeleteBoard}
+                    onChangeBoardColor={onChangeBoardColor}
+                    onMoveBoard={onMoveBoard}
+                    onMoveBookmark={onMoveBookmark}
+                  />
+                </motion.div>
+              );
+            })}
           </div>
         ))
       )}
-    </div>
+    </motion.div>
   );
 }
+
 
