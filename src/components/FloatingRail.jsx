@@ -14,7 +14,7 @@ export default function FloatingRail({
       
       {/* Floating Tools Expanded Menu */}
       {isMenuOpen && (
-        <div className="flex flex-col gap-2.5 p-2 rounded-2xl bg-[#090d0b]/90 border border-white/10 backdrop-blur-2xl shadow-2xl animate-toast">
+        <div className="flex flex-col gap-2.5 p-2 rounded-2xl bg-surface-2/95 border border-white/10 backdrop-blur-2xl shadow-2xl animate-toast">
           
           {/* Privacy Blur Toggle */}
           <button
@@ -42,7 +42,7 @@ export default function FloatingRail({
       )}
 
       {/* Main Floating Trigger Group */}
-      <div className="flex items-center gap-2.5 p-1.5 rounded-2xl bg-[#080c09]/90 border border-white/10 backdrop-blur-xl shadow-2xl">
+      <div className="flex items-center gap-2.5 p-1.5 rounded-2xl bg-surface-1/95 border border-white/10 backdrop-blur-xl shadow-2xl">
         
         {/* Quick Search */}
         <button

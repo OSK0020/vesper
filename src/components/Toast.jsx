@@ -11,10 +11,10 @@ export default function Toast({ toast, onClose }) {
     <div className="fixed bottom-6 right-6 z-[9999] animate-toast">
       <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border backdrop-blur-xl shadow-2xl ${
         isSuccess 
-          ? 'bg-[#150c1f]/90 border-[var(--violet)]/40 text-[var(--violet-soft)] shadow-black/40' 
+          ? 'bg-surface-3/95 border-accent-500/40 text-emerald-300 shadow-black/40' 
           : isError 
-            ? 'bg-[#1c0a0e]/90 border-rose-500/40 text-rose-300 shadow-rose-950/40' 
-            : 'bg-[#1a140a]/90 border-[var(--lumen)]/40 text-[var(--lumen-soft)] shadow-black/40'
+            ? 'bg-surface-3/95 border-rose-500/40 text-rose-300 shadow-rose-950/40' 
+            : 'bg-surface-3/95 border-white/20 text-neutral-200 shadow-black/40'
       }`}>
         {isSuccess && <CheckCircle2 className="w-5 h-5 flex-shrink-0" style={{ color: 'var(--violet-soft)' }} />}
         {isError && <AlertCircle className="w-5 h-5 text-rose-400 flex-shrink-0" />}
