@@ -1,16 +1,227 @@
 {
-  "exportType": "vesper-bookmark-portability",
+  "exportType": "vesper-full-workspace-backup",
   "exportVersion": 2,
   "generatedAt": "2026-08-05T00:00:00.000Z",
   "product": {
     "name": "Vesper",
-    "dataType": "bookmark-portability"
+    "description": "Curated ambient sample workspace for new users"
   },
   "counts": {
-    "bookmarks": 0,
-    "activeBookmarks": 0,
-    "pagesReferenced": 0,
-    "boardsReferenced": 0
+    "bookmarks": 12,
+    "activeBookmarks": 12,
+    "pagesCount": 1,
+    "boardsCount": 4
   },
-  "bookmarks": []
+  "customBoardsMeta": [
+    {
+      "name": "GETTING STARTED",
+      "columnIndex": 0,
+      "boardOrder": 0,
+      "accentHex": "#f5b942",
+      "pageName": "HOME"
+    },
+    {
+      "name": "DESIGN & INSPIRATION",
+      "columnIndex": 1,
+      "boardOrder": 0,
+      "accentHex": "#863bff",
+      "pageName": "HOME"
+    },
+    {
+      "name": "DEV TOOLS & AI",
+      "columnIndex": 2,
+      "boardOrder": 0,
+      "accentHex": "#06b6d4",
+      "pageName": "HOME"
+    },
+    {
+      "name": "ESSENTIALS",
+      "columnIndex": 3,
+      "boardOrder": 0,
+      "accentHex": "#10b981",
+      "pageName": "HOME"
+    }
+  ],
+  "bookmarks": [
+    {
+      "id": "sample-bm-1",
+      "title": "Welcome to Vesper",
+      "url": "https://vesper-jet.vercel.app",
+      "description": "Your ambient digital space. High-performance bookmark workspace.",
+      "pageName": "HOME",
+      "boardName": "GETTING STARTED",
+      "boardColumnIndex": 0,
+      "boardOrder": 0,
+      "bookmarkOrder": 0,
+      "boardAccentHex": "#f5b942",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-2",
+      "title": "Command Palette",
+      "url": "https://vesper-jet.vercel.app",
+      "description": "Press Ctrl+K (or Cmd+K) anywhere for instant global search and actions.",
+      "pageName": "HOME",
+      "boardName": "GETTING STARTED",
+      "boardColumnIndex": 0,
+      "boardOrder": 0,
+      "bookmarkOrder": 1,
+      "boardAccentHex": "#f5b942",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-3",
+      "title": "Backup & Portability",
+      "url": "https://vesper-jet.vercel.app",
+      "description": "Export your entire setup as a JSON package anytime.",
+      "pageName": "HOME",
+      "boardName": "GETTING STARTED",
+      "boardColumnIndex": 0,
+      "boardOrder": 0,
+      "bookmarkOrder": 2,
+      "boardAccentHex": "#f5b942",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-4",
+      "title": "Dribbble",
+      "url": "https://dribbble.com",
+      "description": "Discover top UI/UX design concepts and visual inspiration",
+      "pageName": "HOME",
+      "boardName": "DESIGN & INSPIRATION",
+      "boardColumnIndex": 1,
+      "boardOrder": 0,
+      "bookmarkOrder": 0,
+      "boardAccentHex": "#863bff",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-5",
+      "title": "Figma Community",
+      "url": "https://figma.com/community",
+      "description": "Free UI kits, icon sets, and vector design systems",
+      "pageName": "HOME",
+      "boardName": "DESIGN & INSPIRATION",
+      "boardColumnIndex": 1,
+      "boardOrder": 0,
+      "bookmarkOrder": 1,
+      "boardAccentHex": "#863bff",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-6",
+      "title": "Mobbin Design",
+      "url": "https://mobbin.com",
+      "description": "Real-world mobile and web interface design patterns",
+      "pageName": "HOME",
+      "boardName": "DESIGN & INSPIRATION",
+      "boardColumnIndex": 1,
+      "boardOrder": 0,
+      "bookmarkOrder": 2,
+      "boardAccentHex": "#863bff",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-7",
+      "title": "GitHub",
+      "url": "https://github.com",
+      "description": "Build, ship, and host software repositories",
+      "pageName": "HOME",
+      "boardName": "DEV TOOLS & AI",
+      "boardColumnIndex": 2,
+      "boardOrder": 0,
+      "bookmarkOrder": 0,
+      "boardAccentHex": "#06b6d4",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-8",
+      "title": "ChatGPT",
+      "url": "https://chatgpt.com",
+      "description": "Conversational AI model for coding, writing, and research",
+      "pageName": "HOME",
+      "boardName": "DEV TOOLS & AI",
+      "boardColumnIndex": 2,
+      "boardOrder": 0,
+      "bookmarkOrder": 1,
+      "boardAccentHex": "#06b6d4",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-9",
+      "title": "Vercel Dashboard",
+      "url": "https://vercel.com",
+      "description": "Develop, preview, and deploy web applications instantly",
+      "pageName": "HOME",
+      "boardName": "DEV TOOLS & AI",
+      "boardColumnIndex": 2,
+      "boardOrder": 0,
+      "bookmarkOrder": 2,
+      "boardAccentHex": "#06b6d4",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-10",
+      "title": "YouTube",
+      "url": "https://youtube.com",
+      "description": "Video tutorials, music, and livestreaming",
+      "pageName": "HOME",
+      "boardName": "ESSENTIALS",
+      "boardColumnIndex": 3,
+      "boardOrder": 0,
+      "bookmarkOrder": 0,
+      "boardAccentHex": "#10b981",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-11",
+      "title": "Notion Workspace",
+      "url": "https://notion.so",
+      "description": "Connected workspace for notes, wiki, and docs",
+      "pageName": "HOME",
+      "boardName": "ESSENTIALS",
+      "boardColumnIndex": 3,
+      "boardOrder": 0,
+      "bookmarkOrder": 1,
+      "boardAccentHex": "#10b981",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "sample-bm-12",
+      "title": "Spotify Web",
+      "url": "https://open.spotify.com",
+      "description": "Ambient soundtracks and playlists for deep focus",
+      "pageName": "HOME",
+      "boardName": "ESSENTIALS",
+      "boardColumnIndex": 3,
+      "boardOrder": 0,
+      "bookmarkOrder": 2,
+      "boardAccentHex": "#10b981",
+      "status": "active",
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    }
+  ]
 }

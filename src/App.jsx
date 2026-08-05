@@ -38,7 +38,7 @@ export default function App() {
       const saved = localStorage.getItem(LOCAL_STORAGE_BOARDS_KEY);
       if (saved) return JSON.parse(saved);
     } catch (e) {}
-    return [];
+    return initialData.customBoardsMeta || [];
   });
 
   // Current selected page
@@ -348,7 +348,7 @@ export default function App() {
 
   const handleResetData = () => {
     setBookmarks(initialData.bookmarks || []);
-    setCustomBoardsMeta([]);
+    setCustomBoardsMeta(initialData.customBoardsMeta || []);
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     localStorage.removeItem(LOCAL_STORAGE_BOARDS_KEY);
     showToast(`Reset to default dataset complete`, 'info');
