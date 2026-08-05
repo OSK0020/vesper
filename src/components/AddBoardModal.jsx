@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { LayoutGrid, X, CornerDownLeft } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LayoutGrid, X, Check } from 'lucide-react';
+import { useEscapeClose } from '../utils/useEscapeClose';
+import { scaleIn, easeVesper } from '../utils/motion';
 
 const ACCENT_COLORS = [
   { id: 'violet', label: 'Violet', hex: '#8b5cf6', ring: 'ring-violet-500' },
@@ -15,7 +18,15 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
   const [column, setColumn] = useState(0);
   const [selectedColor, setSelectedColor] = useState('violet');
 
-  if (!isOpen) return null;
+  useEscapeClose(isOpen, onClose);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle('');
+      setSelectedColor('violet');
+      setColumn(0);
+    }
+  }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,130 +36,197 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
       columnIndex: Number(column),
       accentColor: selectedColor,
     });
-    setTitle('');
-    setSelectedColor('violet');
     onClose();
   };
 
   const selectedAccent = ACCENT_COLORS.find((c) => c.id === selectedColor);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-xl bg-black/70"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-2xl bg-[#0c120e]/95 border border-white/12 rounded-3xl p-8 sm:p-10 shadow-[0_32px_90px_rgba(0,0,0,0.85)] space-y-8"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-4">
-            <div className="p-3.5 rounded-2xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
-              <LayoutGrid className="w-7 h-7" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-white tracking-tight">Create New Board</h2>
-              <p className="text-sm text-neutral-400 mt-1">Organize your links into a focused collection</p>
-            </div>
-          </div>
-          <button
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 overflow-y-auto">
+
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-2xl"
             onClick={onClose}
-            className="p-2 text-neutral-400 hover:text-white hover:bg-white/10 rounded-xl transition-all border-0 bg-transparent cursor-pointer"
+          />
+
+          {/* Modal Panel */}
+          <motion.div
+            initial={scaleIn.initial}
+            animate={scaleIn.animate}
+            exit={scaleIn.exit}
+            transition={{ duration: 0.25, ease: easeVesper }}
+            className="relative z-10 w-full max-w-xl rounded-2xl overflow-hidden my-auto"
+            style={{
+              background: 'linear-gradient(135deg, #100d1a 0%, #0a0812 100%)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 40px 100px -20px rgba(0,0,0,0.9), 0 0 60px -20px rgba(139, 92, 246, 0.25)'
+            }}
+            role="dialog"
+            aria-modal="true"
           >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+            {/* Top Accent Line */}
+            <div className="h-[2px] w-full" style={{ background: 'linear-gradient(90deg, transparent 0%, #8b5cf6 50%, transparent 100%)' }} />
 
-        {/* Form Body */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Board Title Input */}
-          <div className="space-y-2.5">
-            <label className="text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
-              Board Title <span className="text-violet-400">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              autoFocus
-              placeholder="e.g. DESIGN RESOURCES"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full h-13 px-5 bg-white/[0.04] border border-white/10 rounded-xl text-base text-white placeholder:text-neutral-600 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all font-mono"
-            />
-          </div>
-
-          {/* Column Position Select */}
-          <div className="space-y-2.5">
-            <label className="text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
-              Column Position
-            </label>
-            <select
-              value={column}
-              onChange={(e) => setColumn(e.target.value)}
-              className="w-full h-13 px-5 bg-white/[0.04] border border-white/10 rounded-xl text-base text-white focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all cursor-pointer"
-            >
-              <option value={0} className="bg-[#0c120e]">Column 1 — Left</option>
-              <option value={1} className="bg-[#0c120e]">Column 2 — Center Left</option>
-              <option value={2} className="bg-[#0c120e]">Column 3 — Center Right</option>
-              <option value={3} className="bg-[#0c120e]">Column 4 — Right</option>
-            </select>
-          </div>
-
-          {/* Accent Color Picker */}
-          <div className="space-y-2.5">
-            <label className="text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
-              Accent Color
-            </label>
-            <div className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/[0.08] rounded-xl">
-              {ACCENT_COLORS.map((color) => (
-                <button
-                  key={color.id}
-                  type="button"
-                  onClick={() => setSelectedColor(color.id)}
-                  style={{ backgroundColor: color.hex }}
-                  title={color.label}
-                  className={`w-9 h-9 rounded-full transition-all border-0 cursor-pointer flex items-center justify-center ${
-                    selectedColor === color.id
-                      ? `ring-2 ring-offset-2 ring-offset-[#0c120e] ${color.ring} scale-110`
-                      : 'opacity-70 hover:opacity-100 hover:scale-105'
-                  }`}
-                />
-              ))}
-              <span className="ml-auto text-xs font-mono text-neutral-300 capitalize">
-                {selectedAccent?.label}
-              </span>
-            </div>
-          </div>
-
-          {/* Footer Bar */}
-          <div className="flex items-center justify-between pt-6 border-t border-white/10 mt-4">
-            <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-500">
-              <span>Press</span>
-              <kbd className="px-1.5 py-0.5 text-[10px] bg-white/10 border border-white/10 rounded text-neutral-300 flex items-center gap-0.5">
-                <CornerDownLeft className="w-3 h-3" /> Enter
-              </kbd>
-              <span>to create</span>
-            </div>
-
-            <div className="flex items-center gap-3">
+            {/* Header */}
+            <div className="flex items-center justify-between px-8 pt-7 pb-6">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.3)', boxShadow: '0 0 20px rgba(139,92,246,0.2)' }}>
+                  <LayoutGrid className="w-6 h-6 text-violet-400" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-white tracking-tight leading-snug">Create New Board</h2>
+                  <p className="text-sm text-zinc-400 mt-0.5 leading-normal">Organize your links into a focused collection</p>
+                </div>
+              </div>
               <button
-                type="button"
                 onClick={onClose}
-                className="px-6 h-11 rounded-xl text-sm font-semibold text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent transition-all cursor-pointer"
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-all border-0 bg-transparent cursor-pointer shrink-0"
               >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-7 h-11 rounded-xl text-sm font-semibold text-white bg-violet-600 hover:bg-violet-500 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] transition-all flex items-center justify-center whitespace-nowrap cursor-pointer"
-              >
-                Create Board
+                <X className="w-5 h-5" />
               </button>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
+
+            {/* Divider */}
+            <div className="h-px mx-8 bg-white/[0.08]" />
+
+            {/* Form */}
+            <form onSubmit={handleSubmit}>
+              <div className="px-8 py-7 flex flex-col gap-6">
+
+                {/* Board Title Input */}
+                <div className="flex flex-col gap-2.5">
+                  <label className="text-xs font-bold text-zinc-300 tracking-[0.1em] uppercase flex items-center gap-1.5">
+                    Board Title <span className="text-violet-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    autoFocus
+                    placeholder="e.g. DESIGN RESOURCES, WORK, DEV TOOLS"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full h-13 px-5 rounded-xl text-base font-medium text-white placeholder-zinc-500 outline-none transition-all"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.12)',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.border = '1px solid rgba(139,92,246,0.6)';
+                      e.target.style.background = 'rgba(255,255,255,0.08)';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(139,92,246,0.15)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.border = '1px solid rgba(255,255,255,0.12)';
+                      e.target.style.background = 'rgba(255,255,255,0.05)';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  />
+                </div>
+
+                {/* Column Position Select */}
+                <div className="flex flex-col gap-2.5">
+                  <label className="text-xs font-bold text-zinc-300 tracking-[0.1em] uppercase">
+                    Column Position
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={column}
+                      onChange={(e) => setColumn(e.target.value)}
+                      className="w-full h-13 px-5 pr-10 rounded-xl text-sm font-medium text-white outline-none appearance-none cursor-pointer transition-all"
+                      style={{
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'right 16px center'
+                      }}
+                    >
+                      <option value={0} className="bg-[#100d1a] text-white">Column 1 — Left</option>
+                      <option value={1} className="bg-[#100d1a] text-white">Column 2 — Center Left</option>
+                      <option value={2} className="bg-[#100d1a] text-white">Column 3 — Center Right</option>
+                      <option value={3} className="bg-[#100d1a] text-white">Column 4 — Right</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Accent Color Picker */}
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-zinc-300 tracking-[0.1em] uppercase">
+                      Board Color Theme
+                    </label>
+                    <span className="text-xs font-semibold text-violet-400 capitalize">
+                      {selectedAccent?.label}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-6 gap-3 p-3.5 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    {ACCENT_COLORS.map((color) => {
+                      const isSelected = selectedColor === color.id;
+                      return (
+                        <button
+                          key={color.id}
+                          type="button"
+                          onClick={() => setSelectedColor(color.id)}
+                          style={{ backgroundColor: color.hex }}
+                          title={color.label}
+                          className={`h-11 rounded-xl transition-all border-0 cursor-pointer flex items-center justify-center ${
+                            isSelected
+                              ? 'ring-2 ring-white ring-offset-2 ring-offset-[#100d1a] scale-105 shadow-lg'
+                              : 'opacity-70 hover:opacity-100 hover:scale-105'
+                          }`}
+                        >
+                          {isSelected && <Check className="w-5 h-5 text-white drop-shadow-md" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Divider */}
+              <div className="h-px mx-8 bg-white/[0.08]" />
+
+              {/* Footer */}
+              <div className="px-8 py-6 flex items-center justify-between">
+                <span className="text-xs text-zinc-400 font-mono">
+                  Press{' '}
+                  <kbd className="inline-flex items-center px-2 py-0.5 rounded-md text-zinc-300 font-sans text-xs" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                    ↵ Enter
+                  </kbd>{' '}
+                  to create
+                </span>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="h-11 px-6 rounded-xl text-sm font-semibold text-zinc-300 hover:text-white hover:bg-white/8 transition-all border border-transparent cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="h-11 px-7 rounded-xl text-sm font-bold text-white transition-all cursor-pointer hover:brightness-110 active:scale-95 flex items-center justify-center whitespace-nowrap"
+                    style={{ background: '#8b5cf6', boxShadow: '0 4px 20px rgba(139,92,246,0.45)' }}
+                  >
+                    Create Board
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }
+

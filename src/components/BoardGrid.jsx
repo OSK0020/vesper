@@ -71,9 +71,28 @@ export default function BoardGrid({
     }
   };
 
+  // Compute highest active column index to scale grid dynamically
+  const highestColIdx = boards.reduce((max, b) => {
+    const c = b.columnIndex !== undefined && b.columnIndex >= 0 && b.columnIndex <= 3 ? b.columnIndex : 0;
+    return Math.max(max, c);
+  }, 0);
+
+  // Determine how many columns to display (1 to 4)
+  const displayColCount = Math.max(1, Math.min(4, highestColIdx + 1));
+  const columnsToRender = columns.slice(0, displayColCount);
+
+  const gridLayoutClass = 
+    displayColCount === 1 
+      ? 'grid-cols-1 max-w-3xl' 
+      : displayColCount === 2 
+      ? 'grid-cols-1 md:grid-cols-2 max-w-5xl' 
+      : displayColCount === 3 
+      ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-[1400px]' 
+      : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-[1700px]';
+
   return (
     <motion.div 
-      className="vesper-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 auto-rows-[minmax(180px,auto)] p-4 sm:p-8 max-w-[1700px] mx-auto w-full"
+      className={`vesper-container grid ${gridLayoutClass} gap-6 p-4 sm:p-8 mx-auto w-full transition-all duration-300`}
       variants={isReducedMotion ? undefined : staggerContainer}
       initial={isReducedMotion ? false : "initial"}
       animate={isReducedMotion ? false : "animate"}
@@ -95,7 +114,7 @@ export default function BoardGrid({
           </button>
         </div>
       ) : (
-        columns.map((colBoards, colIdx) => (
+        columnsToRender.map((colBoards, colIdx) => (
           <div
             key={colIdx}
             className={`column flex flex-col gap-4 w-full min-w-0 transition-colors rounded-2xl p-1.5 ${
@@ -107,7 +126,7 @@ export default function BoardGrid({
             onDrop={(e) => handleColDrop(e, colIdx)}
           >
             {colBoards.map((board) => {
-              const isFeatured = board.name === featuredBoardName;
+              const isFeatured = board.name === featuredBoardName && displayColCount > 1;
               return (
                 <motion.div 
                   key={board.name} 
