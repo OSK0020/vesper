@@ -44,123 +44,125 @@ export default function Navbar({
 
   return (
     <nav className="page-navigation">
-      {/* Left: Brand + Page Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none min-w-0">
-        <BrandMark />
-        {pages.map((page) => {
-          const isActive = page.toUpperCase() === currentPage.toUpperCase();
-          return (
-            <button
-              key={page}
-              onClick={() => onSelectPage(page)}
-              className={isActive ? 'page-tab page-tab-active' : 'page-tab'}
-            >
-              {page}
-            </button>
-          );
-        })}
+      <div className="max-w-[1700px] mx-auto w-full flex items-center justify-between gap-4">
+        {/* Left: Brand + Page Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none min-w-0">
+          <BrandMark />
+          {pages.map((page) => {
+            const isActive = page.toUpperCase() === currentPage.toUpperCase();
+            return (
+              <button
+                key={page}
+                onClick={() => onSelectPage(page)}
+                className={isActive ? 'page-tab page-tab-active' : 'page-tab'}
+              >
+                {page}
+              </button>
+            );
+          })}
 
-        <button
-          onClick={onAddPage}
-          className="add-tab-btn"
-          title="Add Page"
-        >
-          <Plus className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* Right: Search & Action Controls */}
-      <div className="flex items-center gap-2.5 flex-shrink-0">
-        {/* Search Bar / Command Palette Trigger */}
-        <div className="relative w-36 sm:w-60">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-            <Search className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
-          </div>
-          <input
-            ref={searchInputRef}
-            type="text"
-            placeholder="Search... (Ctrl+K)"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            onFocus={() => {
-              if (onOpenCommandPalette) onOpenCommandPalette();
-            }}
-            className="ui-input pl-9 pr-8 py-1.5 text-xs cursor-pointer"
-          />
           <button
-            onClick={onOpenCommandPalette}
-            className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-400 hover:text-white bg-transparent border-0 cursor-pointer"
-            title="Open Command Palette (Ctrl+K)"
+            onClick={onAddPage}
+            className="add-tab-btn"
+            title="Add Page"
           >
-            <kbd className="hidden sm:inline-flex items-center text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-gray-300">
-              ⌘K
-            </kbd>
+            <Plus className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Glass Transparency Mode Toggle */}
-        <button
-          onClick={onCycleGlassMode}
-          className="top-ctrl-btn hidden sm:inline-flex"
-          title={`Glass Style: ${glassMode ? glassMode.toUpperCase() : 'CRYSTAL'} (Click to change transparency)`}
-        >
-          <Layers className="w-3.5 h-3.5 text-emerald-400" />
-        </button>
+        {/* Right: Search & Action Controls */}
+        <div className="flex items-center gap-2.5 flex-shrink-0">
+          {/* Search Bar / Command Palette Trigger */}
+          <div className="relative w-36 sm:w-60">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+              <Search className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
+            </div>
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search... (Ctrl+K)"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              onFocus={() => {
+                if (onOpenCommandPalette) onOpenCommandPalette();
+              }}
+              className="ui-input pl-9 pr-8 py-1.5 text-xs cursor-pointer"
+            />
+            <button
+              onClick={onOpenCommandPalette}
+              className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-400 hover:text-white bg-transparent border-0 cursor-pointer"
+              title="Open Command Palette (Ctrl+K)"
+            >
+              <kbd className="hidden sm:inline-flex items-center text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-gray-300">
+                ⌘K
+              </kbd>
+            </button>
+          </div>
 
-        {/* Brightness Mode Toggle */}
-        <button
-          onClick={onCycleBrightness}
-          className="top-ctrl-btn hidden sm:inline-flex"
-          title={`Brightness Mode: ${brightnessMode} (Click to change)`}
-        >
-          {brightnessMode === 'luminous' ? (
-            <Sun className="w-3.5 h-3.5 text-[var(--lumen-soft)]" />
-          ) : brightnessMode === 'dim' ? (
-            <Moon className="w-3.5 h-3.5 text-purple-400" />
-          ) : (
-            <Sparkles className="w-3.5 h-3.5 text-[var(--violet-soft)]" />
-          )}
-        </button>
+          {/* Glass Transparency Mode Toggle */}
+          <button
+            onClick={onCycleGlassMode}
+            className="top-ctrl-btn hidden sm:inline-flex"
+            title={`Glass Style: ${glassMode ? glassMode.toUpperCase() : 'CRYSTAL'} (Click to change transparency)`}
+          >
+            <Layers className="w-3.5 h-3.5 text-emerald-400" />
+          </button>
 
-        {/* Share Button */}
-        <button
-          onClick={onOpenShareCardModal}
-          className="top-ctrl-btn hidden sm:inline-flex"
-          title="Generate Social Share Image"
-        >
-          <Share2 className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
-        </button>
+          {/* Brightness Mode Toggle */}
+          <button
+            onClick={onCycleBrightness}
+            className="top-ctrl-btn hidden sm:inline-flex"
+            title={`Brightness Mode: ${brightnessMode} (Click to change)`}
+          >
+            {brightnessMode === 'luminous' ? (
+              <Sun className="w-3.5 h-3.5 text-[var(--lumen-soft)]" />
+            ) : brightnessMode === 'dim' ? (
+              <Moon className="w-3.5 h-3.5 text-purple-400" />
+            ) : (
+              <Sparkles className="w-3.5 h-3.5 text-[var(--violet-soft)]" />
+            )}
+          </button>
 
-        {/* Backup Button */}
-        <button
-          onClick={onOpenImportExportModal}
-          className="top-ctrl-btn hidden sm:inline-flex"
-          title="Backup & Restore"
-        >
-          <Download className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
-        </button>
+          {/* Share Button */}
+          <button
+            onClick={onOpenShareCardModal}
+            className="top-ctrl-btn hidden sm:inline-flex"
+            title="Generate Social Share Image"
+          >
+            <Share2 className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
+          </button>
 
-        {/* Add Board */}
-        <button
-          onClick={onOpenAddBoardModal}
-          className="top-ctrl-btn hidden sm:inline-flex"
-          title="Add Board"
-        >
-          <Layout className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
-          <span className="hidden md:inline">+ Board</span>
-        </button>
+          {/* Backup Button */}
+          <button
+            onClick={onOpenImportExportModal}
+            className="top-ctrl-btn hidden sm:inline-flex"
+            title="Backup & Restore"
+          >
+            <Download className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
+          </button>
 
-        {/* Add Link */}
-        <button
-          ref={magnetic.ref}
-          onMouseMove={magnetic.onMouseMove}
-          onMouseLeave={magnetic.onMouseLeave}
-          onClick={() => onOpenAddModal()}
-          className="top-ctrl-btn top-ctrl-btn-primary magnetic"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add Link</span>
-        </button>
+          {/* Add Board */}
+          <button
+            onClick={onOpenAddBoardModal}
+            className="top-ctrl-btn hidden sm:inline-flex"
+            title="Add Board"
+          >
+            <Layout className="w-3.5 h-3.5" style={{ color: 'var(--lumen-soft)' }} />
+            <span className="hidden md:inline">+ Board</span>
+          </button>
+
+          {/* Add Link */}
+          <button
+            ref={magnetic.ref}
+            onMouseMove={magnetic.onMouseMove}
+            onMouseLeave={magnetic.onMouseLeave}
+            onClick={() => onOpenAddModal()}
+            className="top-ctrl-btn top-ctrl-btn-primary magnetic"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add Link</span>
+          </button>
+        </div>
       </div>
     </nav>
   );
