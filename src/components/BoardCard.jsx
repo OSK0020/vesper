@@ -187,19 +187,29 @@ export default function BoardCard({
 
         {/* Color Picker Dropdown */}
         {showColorPicker && (
-          <div className="flex items-center justify-center gap-1.5 py-2 px-3 bg-white/[0.05] border-y border-white/10 animate-fadeIn">
-            {BOARD_ACCENTS.map((acc) => (
-              <button
-                key={acc.id}
-                onClick={() => {
-                  if (onChangeBoardColor) onChangeBoardColor(boardName, acc.hex);
-                  setShowColorPicker(false);
-                }}
-                className="w-5 h-5 rounded-full border border-white/30 hover:scale-125 transition-transform cursor-pointer"
-                style={{ backgroundColor: acc.hex }}
-                title={acc.name}
-              />
-            ))}
+          <div className="flex items-center justify-center gap-3 py-3 px-4 bg-black/60 backdrop-blur-md border-y border-white/10 animate-fadeIn">
+            {BOARD_ACCENTS.map((acc) => {
+              const isSelected = board?.accentHex === acc.hex;
+              return (
+                <button
+                  key={acc.id}
+                  onClick={() => {
+                    if (onChangeBoardColor) onChangeBoardColor(boardName, acc.hex);
+                    setShowColorPicker(false);
+                  }}
+                  className={`w-7 h-7 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
+                    isSelected 
+                      ? 'border-white scale-110 ring-2 ring-emerald-500/50' 
+                      : 'border-white/20 hover:scale-110 hover:border-white/50'
+                  }`}
+                  style={{ backgroundColor: acc.hex }}
+                  title={acc.name}
+                  aria-label={`Change board accent to ${acc.name}`}
+                >
+                  {isSelected && <div className="w-2 h-2 rounded-full bg-white shadow-sm" />}
+                </button>
+              );
+            })}
           </div>
         )}
 
