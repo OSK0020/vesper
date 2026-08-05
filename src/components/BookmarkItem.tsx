@@ -110,16 +110,17 @@ export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete }: 
       <div className="flex-none flex items-center gap-1 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 focus-within:opacity-100 focus-within:translate-x-0 transition-all duration-150 ml-1">
         <IconButton icon={Pencil} label="Edit link" onClick={() => onEdit(bookmark)} />
         <IconButton icon={Trash2} label="Delete link" onClick={() => onDelete(bookmark)} />
-        <a
-          href={bookmark.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="p-1.5 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/50"
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            window.open(bookmark.url, '_blank');
+          }}
+          className="p-1.5 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 bg-transparent border-0 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/50"
           title="Open in new tab"
         >
           <ExternalLink className="w-3.5 h-3.5" />
-        </a>
+        </button>
       </div>
     </motion.a>
   );

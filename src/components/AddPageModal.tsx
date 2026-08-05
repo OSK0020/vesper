@@ -88,21 +88,7 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }: AddPageModa
                   onChange={(e) => setPageName(e.target.value)}
                   required
                   autoFocus
-                  className="w-full h-13 px-5 rounded-xl text-base font-medium text-white placeholder-zinc-600 outline-none transition-all"
-                  style={{
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.09)',
-                  }}
-                  onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
-                    e.currentTarget.style.border = '1px solid rgba(56,189,248,0.5)';
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.1)';
-                  }}
-                  onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-                    e.currentTarget.style.border = '1px solid rgba(255,255,255,0.09)';
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
+                  className="w-full h-13 px-5 rounded-xl text-base font-medium text-white placeholder-zinc-600 outline-none bg-white/[0.04] border border-white/[0.09] focus:bg-white/[0.06] focus:border-sky-400/50 focus:ring-4 focus:ring-sky-400/15 transition-all duration-200"
                 />
                 <p className="text-xs text-zinc-600 mt-1.5">Will be converted to uppercase automatically</p>
               </div>

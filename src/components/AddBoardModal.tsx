@@ -115,21 +115,7 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }: AddBoardM
                     placeholder="e.g. DESIGN RESOURCES, WORK, DEV TOOLS"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full h-13 px-5 rounded-xl text-base font-medium text-white placeholder-zinc-500 outline-none transition-all"
-                    style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                    }}
-                    onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
-                      e.currentTarget.style.border = '1px solid rgba(139,92,246,0.6)';
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139,92,246,0.15)';
-                    }}
-                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-                      e.currentTarget.style.border = '1px solid rgba(255,255,255,0.12)';
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
+                    className="w-full h-13 px-5 rounded-xl text-base font-medium text-white placeholder-zinc-500 outline-none bg-white/[0.05] border border-white/[0.12] focus:bg-white/[0.08] focus:border-violet-500/60 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
                   />
                 </div>
 
@@ -142,10 +128,8 @@ export default function AddBoardModal({ isOpen, onClose, onAddBoard }: AddBoardM
                     <select
                       value={column}
                       onChange={(e) => setColumn(e.target.value)}
-                      className="w-full h-13 px-5 pr-10 rounded-xl text-sm font-medium text-white outline-none appearance-none cursor-pointer transition-all"
+                      className="w-full h-13 px-5 pr-10 rounded-xl text-sm font-medium text-white outline-none appearance-none cursor-pointer bg-white/[0.05] border border-white/[0.12] focus:bg-white/[0.08] focus:border-violet-500/60 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
                       style={{
-                        background: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.12)',
                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'right 16px center'

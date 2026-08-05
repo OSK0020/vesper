@@ -67,21 +67,6 @@ export default function AddBookmarkModal({
     onClose();
   };
 
-  const inputStyle = {
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.09)',
-  };
-  const inputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.currentTarget.style.border = '1px solid rgba(52,211,153,0.5)';
-    e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.08)';
-  };
-  const inputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.currentTarget.style.border = '1px solid rgba(255,255,255,0.09)';
-    e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-    e.currentTarget.style.boxShadow = 'none';
-  };
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -159,10 +144,7 @@ export default function AddBookmarkModal({
                       onChange={(e) => setUrl(e.target.value)}
                       required
                       autoFocus
-                      className="w-full h-13 px-5 pr-12 rounded-xl text-base font-medium text-white placeholder-zinc-600 outline-none transition-all"
-                      style={inputStyle}
-                      onFocus={inputFocus}
-                      onBlur={inputBlur}
+                      className="w-full h-13 px-5 pr-12 rounded-xl text-base font-medium text-white placeholder-zinc-600 outline-none bg-white/[0.04] border border-white/[0.09] focus:bg-white/[0.06] focus:border-emerald-400/50 focus:ring-4 focus:ring-emerald-400/15 transition-all duration-200"
                     />
                     {previewFavicon && (
                       <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
@@ -182,10 +164,7 @@ export default function AddBookmarkModal({
                     placeholder="e.g. My Favorite Tool"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full h-13 px-5 rounded-xl text-base font-medium text-white placeholder-zinc-600 outline-none transition-all"
-                    style={inputStyle}
-                    onFocus={inputFocus}
-                    onBlur={inputBlur}
+                    className="w-full h-13 px-5 rounded-xl text-base font-medium text-white placeholder-zinc-600 outline-none bg-white/[0.04] border border-white/[0.09] focus:bg-white/[0.06] focus:border-emerald-400/50 focus:ring-4 focus:ring-emerald-400/15 transition-all duration-200"
                   />
                 </div>
 
@@ -199,8 +178,8 @@ export default function AddBookmarkModal({
                       <select
                         value={pageName}
                         onChange={(e) => setPageName(e.target.value)}
-                        className="w-full h-12 px-4 pr-9 rounded-xl text-sm text-white outline-none appearance-none cursor-pointer transition-all"
-                        style={{ ...inputStyle, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                        className="w-full h-12 px-4 pr-9 rounded-xl text-sm text-white outline-none appearance-none cursor-pointer bg-white/[0.04] border border-white/[0.09] focus:bg-white/[0.06] focus:border-emerald-400/50 focus:ring-4 focus:ring-emerald-400/15 transition-all duration-200"
+                        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                       >
                         {availablePages.map((p) => <option key={p} value={p} className="bg-[#0f1a12]">{p}</option>)}
                       </select>
@@ -214,8 +193,8 @@ export default function AddBookmarkModal({
                       <select
                         value={boardName}
                         onChange={(e) => { setBoardName(e.target.value); if (e.target.value !== '__NEW__') setCustomBoard(''); }}
-                        className="w-full h-12 px-4 pr-9 rounded-xl text-sm text-white outline-none appearance-none cursor-pointer transition-all"
-                        style={{ ...inputStyle, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                        className="w-full h-12 px-4 pr-9 rounded-xl text-sm text-white outline-none appearance-none cursor-pointer bg-white/[0.04] border border-white/[0.09] focus:bg-white/[0.06] focus:border-emerald-400/50 focus:ring-4 focus:ring-emerald-400/15 transition-all duration-200"
+                        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                       >
                         {availableBoards.map((b) => <option key={b} value={b} className="bg-[#0f1a12]">{b}</option>)}
                         <option value="__NEW__" className="bg-[#0f1a12]">+ New Board</option>
@@ -234,8 +213,7 @@ export default function AddBookmarkModal({
                       value={customBoard}
                       onChange={(e) => setCustomBoard(e.target.value)}
                       required
-                      className="w-full h-12 px-4 rounded-xl text-sm font-medium text-white placeholder-zinc-600 outline-none transition-all"
-                      style={{ background: 'rgba(52,211,153,0.06)', border: '1px solid rgba(52,211,153,0.3)' }}
+                      className="w-full h-12 px-4 rounded-xl text-sm font-medium text-white placeholder-zinc-600 outline-none bg-emerald-500/[0.06] border border-emerald-500/30 focus:border-emerald-400/60 focus:ring-4 focus:ring-emerald-400/15 transition-all duration-200"
                     />
                   </div>
                 )}
