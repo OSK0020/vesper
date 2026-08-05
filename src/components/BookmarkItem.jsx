@@ -55,38 +55,39 @@ export default function BookmarkItem({ bookmark, boardName, onEdit, onDelete }) 
       rel="noopener noreferrer"
       draggable
       onDragStart={handleDragStart}
-      whileTap={{ scale: 0.99 }}
-      className="group relative flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-1/80 border border-white/[0.06] hover:border-white/15 hover:bg-surface-2 transition-colors duration-150 shadow-sm no-underline"
+      className="group flex items-center justify-between p-3 -mx-3 rounded-xl transition-all duration-200 hover:scale-[1.01] hover:bg-white/[0.06] active:scale-[0.99] cursor-pointer no-underline"
       style={{ textDecoration: 'none' }}
     >
-      {/* Subtle Grip Handle on Hover */}
-      <span className="opacity-0 group-hover:opacity-60 focus-within:opacity-60 text-neutral-500 transition-opacity flex-none -ml-1">
-        <GripVertical className="w-3.5 h-3.5" />
-      </span>
+      <div className="flex items-center gap-4 min-w-0 flex-1">
+        {/* Subtle Grip Handle on Hover */}
+        <span className="opacity-0 group-hover:opacity-60 focus-within:opacity-60 text-neutral-500 transition-opacity flex-none -ml-1">
+          <GripVertical className="w-3.5 h-3.5" />
+        </span>
 
-      {/* Fixed Favicon Box — prevents layout collapses */}
-      <div className="flex-none w-7 h-7 rounded-md bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-        {imgErrorCount < 2 && imgSrc ? (
-          <img
-            src={imgSrc}
-            alt=""
-            onError={handleImageError}
-            className="w-4 h-4 object-contain"
-            loading="lazy"
-          />
-        ) : (
-          <Globe className="w-3.5 h-3.5 text-neutral-500" />
-        )}
-      </div>
+        {/* Fixed Favicon Box — prevents layout collapses */}
+        <div className="w-8 h-8 rounded-md bg-zinc-800/80 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden shadow-inner backdrop-blur-md">
+          {imgErrorCount < 2 && imgSrc ? (
+            <img
+              src={imgSrc}
+              alt=""
+              onError={handleImageError}
+              className="w-5 h-5 object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <Globe className="w-4 h-4 text-neutral-500" />
+          )}
+        </div>
 
-      {/* Title & Display URL Stack — Scan Hierarchy */}
-      <div className="min-w-0 flex-1">
-        <p className="bookmark-title-text text-sm font-medium text-neutral-100 group-hover:text-white truncate leading-tight">
-          {bookmark.title || domain}
-        </p>
-        <p className="text-xs text-neutral-500 truncate leading-tight mt-0.5 font-mono">
-          {domain}
-        </p>
+        {/* Title & Display URL Stack — Scan Hierarchy */}
+        <div className="flex flex-col truncate flex-1 min-w-0">
+          <span className="bookmark-title-text text-sm font-medium text-zinc-200 group-hover:text-white transition-colors truncate">
+            {bookmark.title || domain}
+          </span>
+          <span className="text-xs text-zinc-500 font-mono truncate max-w-[200px] sm:max-w-[300px]">
+            {domain}
+          </span>
+        </div>
       </div>
 
       {/* Quick Action Buttons — revealed on hover AND keyboard focus-within */}

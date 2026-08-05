@@ -29,28 +29,33 @@ export default function Hero({ pageCount, boardCount, linkCount, currentPage }) 
   return (
     <header className="hero-mast max-w-7xl mx-auto w-full pt-10 pb-8 px-6 sm:px-8 flex flex-col gap-6 relative">
       
-      {/* Dual Ambient Backdrop Glow Layer */}
-      <div className="absolute inset-x-0 top-0 h-[600px] -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute left-1/2 top-[-200px] -translate-x-1/2 w-[900px] h-[500px] bg-[radial-gradient(ellipse_at_center,var(--color-accent-glow)_0%,transparent_65%)] opacity-40 blur-3xl" />
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 w-[500px] h-[300px] bg-[radial-gradient(ellipse_at_center,rgb(255_255_255_/_0.08)_0%,transparent_70%)] blur-2xl" />
-      </div>
+      {/* Unified Ambient Backdrop Glow Layer */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] max-w-[1200px] max-h-[800px] bg-white/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
       {/* Status Pill with Pulsing LED */}
-      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-sm text-xs font-medium text-neutral-300 w-fit">
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md shadow-sm w-fit"
+      >
         <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full rounded-full bg-accent-500 opacity-75 animate-ping motion-reduce:animate-none" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500 shadow-[0_0_8px_#34d399]" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
-        <span>Private workspace · live sync</span>
-      </div>
+        <span className="text-xs font-medium tracking-wide text-zinc-300">
+          VESPER v2.0 Live
+        </span>
+      </motion.div>
 
-      {/* Vertical Metallic Gradient Headline & Subtitle */}
-      <div className="space-y-3">
-        <h1 className="bg-gradient-to-b from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05] [text-wrap:balance] font-display">
-          Your Digital Space, Illuminated
+      {/* Metallic Gradient Headline & Subtitle */}
+      <div className="space-y-3 relative z-10">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight pb-2 leading-[1.05] [text-wrap:balance] font-display">
+          <span className="bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent drop-shadow-sm">
+            Curate Your Digital Mind.
+          </span>
         </h1>
-        <p className="max-w-2xl text-sm sm:text-base text-neutral-400 font-normal leading-relaxed">
-          High-performance personal workspace designed for pure visual flow, ambient lighting, bento board grids, and zero artificial limits.
+        <p className="max-w-2xl text-lg text-zinc-400 font-medium leading-relaxed">
+          The visual workspace for elite engineers and designers.
         </p>
       </div>
 

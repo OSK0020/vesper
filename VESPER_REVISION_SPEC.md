@@ -1,527 +1,248 @@
-# VESPER — UI/UX Enhancement Specification
-**Prepared for:** Ori Stern / VESPER (Visual Bookmark & Workspace Manager)
-**Stack:** React 19 · Vite · Tailwind CSS v4 · Framer Motion
-**Target:** `vesper-jet.vercel.app`
-**Doc type:** Implementation spec for autonomous AI coding agent (Antigravity IDE)
+# VESPER: UI/UX Enhancement & Design System Specification
+
+**Project**: VESPER (Visual Bookmark & Workspace Manager)
+**Target Stack**: React 19, Vite, Tailwind CSS v4, Framer Motion
+**Design Philosophy**: Elite Developer Tools, High-End Visual Workspaces, Glassmorphism, Micro-interactions
 
 ---
 
-## 0. How to use this document
+## 1. Executive Audit & Design Vision
 
-Every section below is self-contained: problem → fix → exact class string / JSX / motion config. Implement top to bottom. Do not paraphrase class strings — copy them verbatim, then adjust only the values called out as variables (color stops, timing, board accent hue). Where a pattern references a named library (React Bits, Aceternity, Magic UI), the JSX given is a VESPER-native reimplementation in the app's own component style — not a copy-pasted import — so it inherits the existing design tokens instead of introducing a second design language.
+Based on the audit of the live VESPER application (`vesper-jet.vercel.app`), the core structure demonstrates a solid foundation. However, to elevate the platform to the caliber of tools like Linear, Vercel, and Raycast, we must refine the visual density, elevate the surface treatments (glassmorphism), and integrate dynamic micro-interactions.
 
----
-
-## 1. Design Token Layer
-
-Add these as CSS custom properties in `src/index.css` (Tailwind v4 `@theme` block), so every component below can reference them instead of hardcoding values. This is the single source of truth the rest of the spec depends on.
-
-```css
-@theme {
-  /* Surface levels — glass depth system */
-  --color-surface-0: #08070a;        /* app background */
-  --color-surface-1: #0c120e;        /* board/card base, 80% opacity via /80 */
-  --color-surface-2: #12181a;        /* elevated card / hover state */
-  --color-surface-3: #171d1f;        /* modal / command palette */
-
-  /* Borders — glass edges */
-  --color-border-subtle: rgb(255 255 255 / 0.06);
-  --color-border-default: rgb(255 255 255 / 0.10);
-  --color-border-strong: rgb(255 255 255 / 0.16);
-
-  /* Accent — board-assignable hue, default emerald per current brand */
-  --color-accent-500: #34d399;
-  --color-accent-glow: rgb(52 211 153 / 0.35);
-
-  /* Text */
-  --color-text-primary: #f5f5f4;
-  --color-text-secondary: #a3a3a3;
-  --color-text-tertiary: #6b7280;
-
-  /* Radii */
-  --radius-card: 1rem;      /* 16px */
-  --radius-pill: 9999px;
-  --radius-modal: 1.25rem;  /* 20px */
-
-  /* Blur scale */
-  --blur-surface: 20px;   /* backdrop-blur-xl equivalent */
-  --blur-modal: 40px;     /* backdrop-blur-2xl equivalent */
-
-  /* Motion */
-  --ease-vesper: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out, Linear/Vercel signature ease */
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 400ms;
-}
-```
-
-**Rule going forward:** any new `bg-[#0c120e]/80` in the codebase should become `bg-surface-1/80` once the token is registered as a Tailwind color (`--color-surface-1` auto-generates `bg-surface-1`, `border-surface-1`, `text-surface-1` utilities in v4). This removes the drift risk of five slightly-different "near-black" values across components, which is the #1 cause of glass surfaces looking inconsistent at scale.
+**Key Areas for Fidelity Upgrades:**
+- **Hero Title**: Current headers lack the metallic typographic gradients needed for premium visual weight.
+- **Card Surfaces**: Bento boards and link cards require dynamic hover glow states, border beam effects, and magnetic interactions inspired by Aceternity UI and Magic UI.
+- **Grid Architecture**: Enhance the bento board gaps for perfect layout rhythm and clearance.
+- **Z-Index & Blur Balance**: Modals and palettes require deeper, richer background blurs (`backdrop-blur-2xl bg-black/60`) to emulate native macOS/Raycast ergonomics.
 
 ---
 
-## 2. Hero Section
+## 2. Global Design Tokens & Tailwind v4 Primitives
 
-### 2.1 Problems identified
-- Flat white or single-tone title text reads as a placeholder, not a crafted brand mark — needs the metallic gradient treatment Linear/Vercel use on headline copy.
-- No ambient light source behind the hero — the composition feels front-lit/flat instead of having the "illuminated" quality the tagline promises.
-- Status pill (if present) likely lacks the pulsing-LED affordance that signals "live/active" state at a glance (Vercel deployment badges, Raycast status dots).
+Establish a consistent foundation of utility variables utilizing Tailwind v4's modern engine.
 
-### 2.2 Metallic gradient headline
-
-```jsx
-<h1 className="
-  bg-gradient-to-b from-white via-neutral-200 to-neutral-500
-  bg-clip-text text-transparent
-  text-5xl sm:text-6xl lg:text-7xl
-  font-semibold tracking-tight leading-[1.05]
-  [text-wrap:balance]
-">
-  Your Digital Space, Illuminated
-</h1>
-```
-
-Use `bg-gradient-to-b` (vertical), not `to-r` — vertical metallic gradients read as light hitting brushed metal from above; horizontal gradients read as a rainbow/brand-color sweep, which undersells the "premium developer tool" register the rest of the site is going for.
-
-### 2.3 Ambient backdrop glow (ties into "Illuminated")
-
-Place this as a sibling of the hero content, absolutely positioned behind it:
-
-```jsx
-<div className="absolute inset-x-0 top-0 h-[600px] -z-10 pointer-events-none overflow-hidden">
-  <div className="
-    absolute left-1/2 top-[-200px] -translate-x-1/2
-    w-[900px] h-[500px]
-    bg-[radial-gradient(ellipse_at_center,_var(--color-accent-glow)_0%,_transparent_65%)]
-    opacity-40 blur-3xl
-  " />
-  <div className="
-    absolute left-1/2 top-0 -translate-x-1/2
-    w-[500px] h-[300px]
-    bg-[radial-gradient(ellipse_at_center,_rgb(255_255_255_/_0.08)_0%,_transparent_70%)]
-    blur-2xl
-  " />
-</div>
-```
-
-Two overlapping radial gradients, not one: a wide dim accent-colored glow plus a tighter white "hot spot" near the top. Single-glow hero backgrounds (the common Aceternity "Lamp" pattern) look correct on a full-viewport dark page but flatten out once real UI content (nav, pills, cards) sits inside the same viewport — the second white core keeps a visible light source even with content on top.
-
-### 2.4 Status pill with pulsing LED
-
-```jsx
-<div className="
-  inline-flex items-center gap-2
-  px-3 py-1.5
-  rounded-full
-  bg-white/[0.04] border border-white/10
-  backdrop-blur-sm
-  text-xs font-medium text-neutral-300
-">
-  <span className="relative flex h-2 w-2">
-    <span className="
-      absolute inline-flex h-full w-full rounded-full
-      bg-accent-500 opacity-75 animate-ping
-    " />
-    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500" />
-  </span>
-  Private workspace · live sync
-</div>
-```
-
-This is the standard two-layer ping pattern (Tailwind's built-in `animate-ping` on an absolutely-positioned duplicate), which is what Vercel's own deployment-status badges use — do not attempt a custom `@keyframes` for this, the built-in utility already handles the scale+fade correctly.
+### Core Surface Classes
+- **App Background**: `bg-zinc-950 text-zinc-50 selection:bg-white/20 selection:text-white`
+- **Glass Base (Vercel-inspired)**: `bg-[#0c120e]/80 backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.5)]`
+- **Elevated Glass (Hover)**: `hover:bg-zinc-800/60 hover:border-white/20 transition-all duration-300 ease-out`
 
 ---
 
-## 3. Bento Board Grid
+## 3. Hero Section & Typography Engine
 
-### 3.1 Problems identified
-- Grid gap likely uses a single uniform value (`gap-4` or `gap-6` everywhere) — bento layouts read as "designed" only when row-gap and column-gap are tuned independently, and when the grid has at least one asymmetric span (a 2×1 or 2×2 featured card) to break the monotony of equal-sized tiles.
-- Card hover elevation is probably `hover:scale-105` with a plain shadow, which is the single most overused, most template-looking hover effect in Tailwind UI work in 2024–2026. It needs to be replaced with the combination below.
+The hero section must immediately communicate premium quality. We deploy a metallic gradient text effect, an ambient glow background (React Bits / Aceternity inspired), and a highly refined status pill.
 
-### 3.2 Grid container
+### 3.1 Status Pill Badge (Linear Inspired)
+A crisp, compact status indicator featuring a pulsing LED dot.
 
 ```jsx
-<div className="
-  grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4
-  auto-rows-[180px]
-  gap-x-4 gap-y-4
-  p-6 sm:p-8
-">
-  {/* featured board card spans 2 cols x 2 rows */}
-  <BoardCard className="col-span-2 row-span-2" featured />
-  <BoardCard />
-  <BoardCard />
-  {/* ... */}
-</div>
+import { motion } from "framer-motion";
+
+export const StatusBadge = () => (
+  <motion.div 
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md shadow-sm"
+  >
+    <span className="relative flex h-2 w-2">
+      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+    </span>
+    <span className="text-xs font-medium tracking-wide text-zinc-300">
+      VESPER v2.0 Live
+    </span>
+  </motion.div>
+);
 ```
 
-### 3.3 Board card — glass surface + border beam + elevation
+### 3.2 Metallic Hero Typography
+Utilizing advanced background clipping for a sleek, anodized metal look with ambient background glow.
 
 ```jsx
-function BoardCard({ board, featured = false, className = "" }) {
-  return (
-    <motion.div
-      className={`
-        group relative overflow-hidden
-        rounded-2xl
-        bg-surface-1/80 backdrop-blur-xl
-        border border-white/10
-        p-5
-        ${className}
-      `}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {/* border beam — animated gradient traveling around the card edge on hover */}
-      <div className="
-        absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100
-        transition-opacity duration-300
-        pointer-events-none
-      ">
-        <div className="
-          absolute inset-0 rounded-2xl
-          [background:conic-gradient(from_var(--beam-angle),transparent_0deg,var(--color-accent-500)_20deg,transparent_40deg)]
-          animate-[spin_3s_linear_infinite]
-          [mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)]
-          [mask-composite:exclude]
-          p-px
-        " style={{ '--beam-angle': '0deg' }} />
-      </div>
-
-      {/* static border, sits above the beam mask so the card edge stays crisp */}
-      <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-white/[0.14] transition-colors pointer-events-none" />
-
-      {/* ambient glow that follows elevation, not cursor — cheaper than a mousemove spotlight and reads just as premium at card scale */}
-      <div className="
-        absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100
-        transition-opacity duration-300
-        bg-[radial-gradient(120px_circle_at_50%_0%,var(--color-accent-glow),transparent_70%)]
-        pointer-events-none -z-10
-      " />
-
-      <div className="relative z-10">
-        {/* card content */}
-      </div>
-    </motion.div>
-  );
-}
-```
-
-**Why this combination, specifically:**
-- `whileHover={{ y: -4 }}` (translate, not scale) for elevation — `scale-105` distorts the card's internal grid/typography and looks cheap at anything above 400px card width; a 4px lift with a matching shadow reads as physical elevation instead.
-- The conic-gradient "border beam" (Magic UI's signature pattern) is implemented with `mask-composite: exclude` so only a 1px ring of the conic gradient is visible — the raw conic-gradient block, unmasked, is a common implementation mistake that fills the whole card in a rotating rainbow instead of tracing the edge.
-- The glow underlay is anchored to the card's top-center, not the cursor. A true cursor-tracking spotlight (React Bits' `SpotlightCard`) needs a `mousemove` listener per card, which is meaningfully more expensive at bento-grid scale (12–30 cards on screen) than a CSS-only hover glow, and the visual difference is marginal at card sizes under ~300px.
-
-### 3.4 Featured card accent border
-
-For the `featured` (2×2) card, add a persistent (not hover-only) 1px gradient border using the board's assigned accent color, so the eye lands there first:
-
-```jsx
-className="
-  ...
-  ring-1 ring-inset ring-accent-500/20
-  shadow-[0_0_40px_-12px_var(--color-accent-glow)]
-"
-```
-
----
-
-## 4. Bookmark Link Item Row
-
-### 4.1 Problems identified
-- Favicon likely sits flush against the title with no defined bounding box, so misaligns vertically the moment a favicon fails to load (broken image icon at native size instead of a fallback).
-- Title and URL probably share the same weight/color, giving no scan hierarchy in a dense list.
-- Row hover is likely a flat background change with no affordance for the action buttons (open, edit, delete) that should only appear on hover to keep the row calm at rest.
-
-### 4.2 Row structure
-
-```jsx
-<motion.a
-  href={link.url}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="
-    group relative flex items-center gap-3
-    px-3 py-2.5 rounded-lg
-    transition-colors duration-150
-    hover:bg-white/[0.06]
-  "
-  whileTap={{ scale: 0.99 }}
->
-  {/* favicon — fixed box, fallback ring, never collapses layout */}
-  <div className="
-    flex-none w-7 h-7 rounded-md
-    bg-white/5 border border-white/10
-    flex items-center justify-center
-    overflow-hidden
-  ">
-    {link.favicon ? (
-      <img src={link.favicon} alt="" className="w-4 h-4 object-contain" loading="lazy" />
-    ) : (
-      <Globe className="w-3.5 h-3.5 text-neutral-500" />
-    )}
-  </div>
-
-  {/* title / url stack */}
-  <div className="min-w-0 flex-1">
-    <p className="text-sm font-medium text-neutral-100 truncate leading-tight">
-      {link.title}
-    </p>
-    <p className="text-xs text-neutral-500 truncate leading-tight mt-0.5">
-      {link.displayUrl}
+export const HeroTitle = () => (
+  <div className="relative text-center max-w-4xl mx-auto mt-8">
+    {/* Ambient Backdrop Glow */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+    
+    <h1 className="text-5xl sm:text-7xl font-bold tracking-tight pb-2">
+      <span className="bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent drop-shadow-sm">
+        Curate Your Digital Mind.
+      </span>
+    </h1>
+    <p className="mt-4 text-lg text-zinc-400 max-w-2xl mx-auto font-medium">
+      The visual workspace for elite engineers and designers.
     </p>
   </div>
-
-  {/* quick actions — hidden until row hover, fade+slide in from the right */}
-  <div className="
-    flex-none flex items-center gap-1
-    opacity-0 -translate-x-1
-    group-hover:opacity-100 group-hover:translate-x-0
-    transition-all duration-150
-  ">
-    <IconButton icon={Pencil} label="Edit" />
-    <IconButton icon={Trash2} label="Delete" />
-  </div>
-</motion.a>
+);
 ```
 
-`IconButton` (shared primitive, reused in modal footers too):
+---
+
+## 4. Bento Board Grids & Card Interactions
+
+Bento grids must feel structured yet organic. We integrate Magic UI's Border Beam and Aceternity's Spotlight effects to create interactive depth with smooth card elevations.
+
+### 4.1 Bento Card Container Structure
 
 ```jsx
-function IconButton({ icon: Icon, label, onClick }) {
+import { useRef, useState } from "react";
+
+export const BentoCard = ({ children, title }) => {
+  const divRef = useRef(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    if (!divRef.current || isFocused) return;
+    const rect = divRef.current.getBoundingClientRect();
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
   return (
-    <button
-      onClick={onClick}
-      aria-label={label}
-      className="
-        p-1.5 rounded-md
-        text-neutral-500 hover:text-neutral-200
-        hover:bg-white/10
-        transition-colors duration-150
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/50
-      "
+    <div
+      ref={divRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsFocused(true)}
+      onMouseLeave={() => setIsFocused(false)}
+      className="group relative overflow-hidden rounded-2xl bg-[#0c120e]/80 backdrop-blur-xl border border-white/10 transition-all duration-500 hover:border-white/20 hover:shadow-[0_8px_32px_-12px_rgba(255,255,255,0.1)] hover:-translate-y-0.5 p-6 flex flex-col gap-4"
     >
-      <Icon className="w-3.5 h-3.5" />
-    </button>
-  );
-}
-```
+      {/* Spotlight Hover Effect (React Bits / Aceternity) */}
+      <div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.06), transparent 40%)`,
+        }}
+      />
+      
+      {/* Dynamic board accent border */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-Note the `whileTap={{ scale: 0.99 }}` on the row itself, not just the buttons — a subtle tap-down on the whole row gives external links a physical "launching" feel on click, which matters more than it sounds like given this is the single most-repeated interaction in the entire app.
-
----
-
-## 5. Modals & Command Palette
-
-### 5.1 Problems identified
-- Backdrop is likely a flat `bg-black/50` with no blur, which lets background content stay legible and competes with the modal for attention — command palettes specifically need the background to visually recede.
-- Padding is probably inconsistent between modal variants (add-link modal vs. settings modal vs. command palette), which is the kind of inconsistency users register as "unpolished" without being able to say why.
-
-### 5.2 Backdrop
-
-```jsx
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  exit={{ opacity: 0 }}
-  transition={{ duration: 0.2 }}
-  className="fixed inset-0 z-50 bg-black/60 backdrop-blur-2xl"
-  onClick={onClose}
-/>
-```
-
-### 5.3 Modal container
-
-```jsx
-<motion.div
-  initial={{ opacity: 0, scale: 0.96, y: 8 }}
-  animate={{ opacity: 1, scale: 1, y: 0 }}
-  exit={{ opacity: 0, scale: 0.98, y: 4 }}
-  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-  className="
-    relative z-10
-    w-full max-w-lg
-    rounded-3xl
-    bg-surface-3/95 backdrop-blur-xl
-    border border-white/10
-    shadow-[0_24px_80px_-16px_rgb(0_0_0_/_0.6)]
-    p-8 sm:p-10
-  "
-  role="dialog"
-  aria-modal="true"
->
-  {children}
-</motion.div>
-```
-
-`scale` starts at `0.96`, not `0.9` — a larger initial delta reads as "bouncy/toy-like"; 0.94–0.97 combined with a small `y` offset is the range Linear and Vercel both sit in for dialog entrances, because it's felt as a settle rather than a pop.
-
-### 5.4 Command palette input
-
-```jsx
-<div className="border-b border-white/10 px-5">
-  <div className="flex items-center gap-3 py-4">
-    <Search className="w-4 h-4 text-neutral-500 flex-none" />
-    <input
-      autoFocus
-      placeholder="Search boards, links, or type a command…"
-      className="
-        flex-1 bg-transparent
-        text-sm text-neutral-100 placeholder:text-neutral-500
-        outline-none
-      "
-    />
-    <kbd className="
-      flex-none px-1.5 py-0.5 rounded
-      bg-white/5 border border-white/10
-      text-[10px] font-mono text-neutral-500
-    ">
-      ESC
-    </kbd>
-  </div>
-</div>
-```
-
-Note: no visible focus ring on the input itself — in a command palette the entire container is the focus target conceptually, so a ring on the `<input>` duplicates the modal's own border and looks like a rendering glitch. Reserve `focus-visible:ring-2 ring-accent-500/50` for standalone form fields (settings forms, add-link forms) where the input is one of several competing elements, per §5.5.
-
-### 5.5 Standard form input (non-palette)
-
-```jsx
-<input
-  className="
-    w-full px-3.5 py-2.5
-    rounded-lg
-    bg-white/[0.03] border border-white/10
-    text-sm text-neutral-100 placeholder:text-neutral-500
-    outline-none
-    transition-colors duration-150
-    focus:border-accent-500/50 focus:bg-white/[0.05]
-    focus-visible:ring-2 focus-visible:ring-accent-500/20
-  "
-/>
-```
-
-### 5.6 Floating footer bar (modal actions)
-
-```jsx
-<div className="
-  flex items-center justify-between
-  mt-8 pt-6
-  border-t border-white/10
-">
-  <p className="text-xs text-neutral-500">
-    Press <kbd className="px-1 py-0.5 rounded bg-white/5 text-neutral-400">⌘ Enter</kbd> to save
-  </p>
-  <div className="flex items-center gap-2">
-    <button className="px-4 py-2 rounded-lg text-sm text-neutral-400 hover:text-neutral-200 transition-colors">
-      Cancel
-    </button>
-    <button className="
-      px-4 py-2 rounded-lg
-      bg-accent-500 text-black text-sm font-medium
-      hover:bg-accent-500/90
-      transition-colors
-      shadow-[0_0_20px_-4px_var(--color-accent-glow)]
-    ">
-      Save
-    </button>
-  </div>
-</div>
-```
-
----
-
-## 6. Stats Counter Pills
-
-### 6.1 Problems identified
-Likely rendered as plain text ("24 links · 6 boards") with no visual container — pills need a defined chip boundary to read as data rather than a caption.
-
-### 6.2 Pill structure with count-up
-
-```jsx
-<div className="flex items-center gap-2">
-  <StatPill icon={Link2} value={linkCount} label="links" />
-  <StatPill icon={LayoutGrid} value={boardCount} label="boards" />
-</div>
-```
-
-```jsx
-function StatPill({ icon: Icon, value, label }) {
-  const spring = useSpring(0, { stiffness: 100, damping: 20 });
-  const display = useTransform(spring, (v) => Math.round(v));
-  useEffect(() => { spring.set(value); }, [value]);
-
-  return (
-    <div className="
-      inline-flex items-center gap-1.5
-      px-2.5 py-1 rounded-full
-      bg-white/[0.04] border border-white/10
-      text-xs text-neutral-400
-    ">
-      <Icon className="w-3 h-3" />
-      <motion.span className="text-neutral-200 font-medium tabular-nums">
-        {display}
-      </motion.span>
-      {label}
+      <h3 className="text-zinc-100 font-semibold text-lg tracking-tight z-10">{title}</h3>
+      <div className="z-10 text-zinc-400 text-sm">
+        {children}
+      </div>
     </div>
   );
-}
-```
-
-`useSpring` + `useTransform` from Framer Motion drives the count-up on mount or on value change (e.g. after adding a link) — this is a two-line addition over a static number and is disproportionately noticed by users because it's a "living data" signal, similar to Vercel's deployment counters.
-
----
-
-## 7. Motion System — shared variants
-
-Centralize these in `src/lib/motion.ts` so every component above imports the same easing curve instead of redefining `[0.16, 1, 0.3, 1]` inline five times:
-
-```ts
-export const easeVesper = [0.16, 1, 0.3, 1] as const;
-
-export const fadeUp = {
-  initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 4 },
-  transition: { duration: 0.25, ease: easeVesper },
-};
-
-export const scaleIn = {
-  initial: { opacity: 0, scale: 0.96, y: 8 },
-  animate: { opacity: 1, scale: 1, y: 0 },
-  exit: { opacity: 0, scale: 0.98, y: 4 },
-  transition: { duration: 0.2, ease: easeVesper },
-};
-
-export const staggerContainer = {
-  animate: { transition: { staggerChildren: 0.04 } },
 };
 ```
 
-Apply `staggerContainer` to the bento grid's parent and `fadeUp` to each `BoardCard` as its `variants` prop — this is what makes a grid of cards feel like it "arrives" on load instead of popping in as one flat block, at negligible implementation cost.
+### 4.2 Grid Layout Configuration
+Use strict column gaps and masonry-style layout scaling.
+
+```jsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 auto-rows-[minmax(180px,auto)] p-4 sm:p-8">
+  {/* Render Bento Cards Here */}
+</div>
+```
 
 ---
 
-## 8. Implementation Checklist (for the coding agent)
+## 5. Bookmark Link Rows & Micro-interactions
 
-Execute in this order — later sections depend on the token layer from §1:
+List items need to feel like tactile native UI rows (Raycast-inspired). Hover states employ subtle scaling and distinct background contrast shifts with perfect favicon alignments.
 
-1. [ ] Add `@theme` token block to `src/index.css` (§1).
-2. [ ] Register `easeVesper` and shared motion variants in `src/lib/motion.ts` (§7).
-3. [ ] Update Hero component: gradient headline, ambient glow layer, status pill (§2).
-4. [ ] Update bento grid container: asymmetric span for one featured card, independent `gap-x`/`gap-y` (§3.2).
-5. [ ] Rewrite `BoardCard`: replace `scale-105` hover with `y`-translate + border-beam + anchored glow (§3.3–3.4).
-6. [ ] Rewrite bookmark row: fixed favicon box with fallback, hover-revealed `IconButton` actions (§4).
-7. [ ] Rewrite modal backdrop + container to `backdrop-blur-2xl` / `p-8 sm:p-10` standard (§5.2–5.3).
-8. [ ] Differentiate command-palette input (no ring) from standard form inputs (ring on focus) (§5.4–5.5).
-9. [ ] Add `StatPill` with spring count-up, replace any plain-text stats (§6).
-10. [ ] Apply `staggerContainer`/`fadeUp` to bento grid mount animation (§7).
-11. [ ] Sweep codebase for hardcoded `#0c120e`, `border-white/10`, etc. and replace with the token utilities from §1 for future-proofing.
+```jsx
+export const BookmarkItem = ({ title, url, favicon }) => (
+  <a 
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group flex items-center justify-between p-3 -mx-3 rounded-xl transition-all duration-200 hover:scale-[1.01] hover:bg-white/[0.06] active:scale-[0.99] cursor-pointer"
+  >
+    <div className="flex items-center gap-4 overflow-hidden">
+      <div className="w-8 h-8 rounded-md bg-zinc-800/80 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden shadow-inner backdrop-blur-md">
+        <img src={favicon} alt={title} className="w-5 h-5 object-cover" loading="lazy" />
+      </div>
+      <div className="flex flex-col truncate">
+        <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors truncate">
+          {title}
+        </span>
+        <span className="text-xs text-zinc-500 font-mono truncate max-w-[200px] sm:max-w-[300px]">
+          {url.replace(/(^\w+:|^)\/\//, '')}
+        </span>
+      </div>
+    </div>
+    
+    {/* Quick Action Button (Reveals on hover) */}
+    <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+      <button className="p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
+        <svg className="w-4 h-4" /* Copy / External Link Icon */ />
+      </button>
+    </div>
+  </a>
+);
+```
 
 ---
 
-## 9. Explicit non-goals
+## 6. Modals, Overlays & Command Palette
 
-To keep this scoped and prevent the agent from over-building:
-- Do not add cursor-tracking spotlight effects to every card (§3.3 explains why the anchored-glow approach is used instead at this card density).
-- Do not introduce a second accent color system — the featured-card treatment (§3.4) reuses the board's existing accent token, it does not add a new global "brand gradient."
-- Do not replace Framer Motion with a new animation library to achieve any effect above — every pattern here is achievable with the existing stack (Framer Motion + Tailwind v4 arbitrary values).
+For command palettes and dialogs, achieving the perfect "dark glass" is crucial to prevent the UI from feeling muddy. 
+
+### 6.1 Modal Container & Dark Glass Backdrop
+Implementing a Raycast/Shadcn-style floating palette with Framer Motion and focused input ring borders.
+
+```jsx
+import { motion, AnimatePresence } from "framer-motion";
+
+export const CommandPaletteOverlay = ({ isOpen, onClose, children }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] sm:pt-[20vh] px-4">
+        {/* Backdrop Blur - Dark Glass Tint */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 backdrop-blur-2xl bg-black/60 z-[-1]"
+        />
+        
+        {/* Modal Surface with Standardized Padding */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+          className="w-full max-w-2xl overflow-hidden rounded-2xl bg-[#0c120e]/90 backdrop-blur-3xl border border-white/15 shadow-2xl ring-1 ring-white/5 flex flex-col focus-within:ring-white/20 transition-shadow"
+        >
+          {/* Focused Input Header */}
+          <div className="p-8 sm:p-10 border-b border-white/10 flex items-center gap-3">
+            <svg className="w-5 h-5 text-zinc-400" /* Search Icon */ />
+            <input 
+              type="text"
+              autoFocus
+              placeholder="Search bookmarks, boards, or commands..."
+              className="flex-1 bg-transparent text-white placeholder-zinc-500 outline-none text-base font-medium"
+            />
+          </div>
+          
+          {/* Content Area */}
+          <div className="p-8 sm:p-10 max-h-[50vh] overflow-y-auto">
+            {children}
+          </div>
+
+          {/* Floating Footer Bar */}
+          <div className="px-8 sm:px-10 py-4 border-t border-white/10 bg-black/20 text-xs flex justify-between items-center text-zinc-500 font-mono">
+            <span>VESPER COMMAND</span>
+            <span className="flex items-center gap-2">
+              <kbd className="px-1.5 py-0.5 rounded-md bg-white/10 border border-white/10 text-zinc-300">esc</kbd> to close
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    )}
+  </AnimatePresence>
+);
+```
+
+---
+
+## 7. Implementation Architecture Checklist
+
+- [ ] **CSS/Tailwind v4 Setup**: Initialize native CSS variables, `backdrop-blur-xl`, and `backdrop-blur-2xl`. 
+- [ ] **Typography Overhaul**: Integrate `bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent` on all primary hero headings.
+- [ ] **Motion Interactivity**: Deploy Framer Motion for modal `AnimatePresence` entries, bento hover scales (`hover:-translate-y-0.5`), and row item `hover:scale-[1.01]`.
+- [ ] **Glass Layers**: Audit z-indexes to ensure modals sit correctly above bento grids utilizing `bg-[#0c120e]/80` and `bg-black/60` dark tint backgrounds.
+- [ ] **Spotlights & Ambient Lighting**: Attach React Refs for radial gradients on Bento Cards (Aceternity style) and inject blur nodes (`blur-[120px]`) behind key sections.

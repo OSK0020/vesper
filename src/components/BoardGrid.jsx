@@ -73,7 +73,7 @@ export default function BoardGrid({
 
   return (
     <motion.div 
-      className="vesper-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-6 sm:p-8 max-w-[1700px] mx-auto w-full"
+      className="vesper-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 auto-rows-[minmax(180px,auto)] p-4 sm:p-8 max-w-[1700px] mx-auto w-full"
       variants={isReducedMotion ? undefined : staggerContainer}
       initial={isReducedMotion ? false : "initial"}
       animate={isReducedMotion ? false : "animate"}

@@ -165,7 +165,7 @@ export default function ShareCardModal({
             animate={scaleIn.animate}
             exit={scaleIn.exit}
             transition={{ duration: 0.2, ease: easeVesper }}
-            className="relative z-10 w-full max-w-4xl rounded-3xl bg-surface-3/95 backdrop-blur-xl border border-white/10 shadow-[0_24px_80px_-16px_rgb(0_0_0_/_0.6)] p-8 sm:p-10"
+            className="relative z-10 w-full max-w-4xl rounded-3xl bg-[#0c120e]/90 backdrop-blur-3xl border border-white/15 shadow-[0_24px_80px_-16px_rgb(0_0_0_/_0.6)] p-8 sm:p-10"
             role="dialog"
             aria-modal="true"
           >

@@ -25,6 +25,8 @@ export default function BoardCard({
   const reveal = useReveal(revealDelay);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const isReducedMotion = getPrefersReducedMotion();
 
   const accentHex = board?.accentHex || '#34d399';
@@ -73,39 +75,51 @@ export default function BoardCard({
     }
   };
 
+  const handleMouseMove = (e) => {
+    if (tilt.onMouseMove) tilt.onMouseMove(e);
+    if (!tilt.ref.current) return;
+    const rect = tilt.ref.current.getBoundingClientRect();
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  const handleMouseLeave = (e) => {
+    if (tilt.onMouseLeave) tilt.onMouseLeave(e);
+    setIsFocused(false);
+  };
+
   return (
     <motion.div
       ref={setRefs}
       data-board={boardName}
-      onMouseMove={tilt.onMouseMove}
-      onMouseLeave={tilt.onMouseLeave}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsFocused(true)}
+      onMouseLeave={handleMouseLeave}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      whileHover={isReducedMotion ? undefined : { y: -4 }}
+      whileHover={isReducedMotion ? undefined : { y: -2 }}
       transition={{ duration: 0.25, ease: easeVesper }}
-      className={`board group/board relative overflow-hidden rounded-2xl bg-surface-1/80 backdrop-blur-xl border border-white/10 ${
+      className={`board group/board relative overflow-hidden rounded-2xl bg-[#0c120e]/80 backdrop-blur-xl border border-white/10 transition-all duration-500 hover:border-white/20 hover:shadow-[0_8px_32px_-12px_rgba(255,255,255,0.1)] ${
         featured ? 'ring-1 ring-inset ring-accent-500/30 shadow-[0_0_40px_-12px_var(--color-accent-glow)]' : ''
       } ${
         isDragOver ? 'ring-2 ring-emerald-400 bg-white/[0.06] scale-[1.01]' : ''
       }`}
       style={{
         transformStyle: 'preserve-3d',
-        borderTop: `3px solid ${accentHex}`
       }}
     >
+      {/* Spotlight Hover Effect (React Bits / Aceternity) */}
+      <div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover/board:opacity-100"
+        style={{
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.06), transparent 40%)`,
+        }}
+      />
+      
+      {/* Dynamic board accent border */}
+      <div className="absolute top-0 inset-x-0 h-[2px] opacity-0 group-hover/board:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `linear-gradient(90deg, transparent, ${accentHex}, transparent)` }} />
+
       {/* Conic-gradient Border Beam mask — active strictly on hover / focus-within for performance */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300 pointer-events-none">
-        <div 
-          className="absolute inset-0 rounded-2xl [background:conic-gradient(from_0deg,transparent_0deg,var(--color-accent-500)_20deg,transparent_40deg)] animate-[beamSpin_3s_linear_infinite] motion-reduce:animate-none [mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)] [mask-composite:exclude] p-px" 
-        />
-      </div>
-
-      {/* Static Crisp Border */}
-      <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-white/[0.16] transition-colors pointer-events-none" />
-
-      {/* Anchored Ambient Glow on Hover */}
-      <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(140px_circle_at_50%_0%,var(--color-accent-glow),transparent_70%)] pointer-events-none -z-10" />
 
       {/* Board Content */}
       <div className="relative z-10">

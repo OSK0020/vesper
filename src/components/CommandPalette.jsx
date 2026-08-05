@@ -180,7 +180,7 @@ export default function CommandPalette({
             animate={scaleIn.animate}
             exit={scaleIn.exit}
             transition={{ duration: 0.2, ease: easeVesper }}
-            className="relative z-10 w-full max-w-3xl rounded-3xl bg-surface-3/95 backdrop-blur-xl border border-white/10 shadow-[0_24px_80px_-16px_rgb(0_0_0_/_0.6)] p-8 sm:p-10 overflow-hidden"
+            className="relative z-10 w-full max-w-3xl rounded-3xl bg-[#0c120e]/90 backdrop-blur-3xl border border-white/15 shadow-[0_24px_80px_-16px_rgb(0_0_0_/_0.6)] focus-within:ring-white/20 p-8 sm:p-10 overflow-hidden"
             role="dialog"
             aria-modal="true"
           >
@@ -255,16 +255,12 @@ export default function CommandPalette({
               )}
             </div>
 
-            {/* Command Footer Card */}
-            <div className="px-5 py-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mt-6 flex items-center justify-between text-xs text-neutral-400 font-mono">
-              <div className="flex items-center gap-5">
-                <span>↑↓ Navigate</span>
-                <span>↵ Select</span>
-                <span>ESC Close</span>
-              </div>
-              <div className="flex items-center gap-2 text-emerald-400 font-semibold">
-                <Sparkles className="w-4 h-4" /> LumiList Palette
-              </div>
+            {/* Floating Footer Bar */}
+            <div className="px-8 sm:px-10 py-4 border-t border-white/10 bg-black/20 mt-6 -mx-8 sm:-mx-10 -mb-8 sm:-mb-10 flex justify-between items-center text-xs text-zinc-500 font-mono">
+              <span>VESPER COMMAND</span>
+              <span className="flex items-center gap-2">
+                <kbd className="px-1.5 py-0.5 rounded-md bg-white/10 border border-white/10 text-zinc-300">esc</kbd> to close
+              </span>
             </div>
 
           </motion.div>
