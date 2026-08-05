@@ -57,16 +57,7 @@ export default function App() {
     }
   });
 
-  const handleCycleBrightness = () => {
-    setBrightnessMode((prev) => {
-      const next = prev === 'luminous' ? 'dim' : prev === 'dim' ? 'normal' : 'luminous';
-      try {
-        localStorage.setItem('vesper_brightness_mode', next);
-      } catch (e) {}
-      showToast(`Brightness mode: ${next.toUpperCase()}`);
-      return next;
-    });
-  };
+
 
   // Glass style state: crystal, frosted, solid
   const [glassMode, setGlassMode] = useState<string>(() => {
@@ -392,8 +383,6 @@ export default function App() {
         onOpenImportExportModal={() => setIsImportExportModalOpen(true)}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         onOpenShareCardModal={() => setIsShareCardModalOpen(true)}
-        brightnessMode={brightnessMode}
-        onCycleBrightness={handleCycleBrightness}
         glassMode={glassMode}
         onCycleGlassMode={handleCycleGlassMode}
       />
@@ -454,8 +443,6 @@ export default function App() {
           setIsBlurActive(!isBlurActive);
           showToast(isBlurActive ? 'Privacy Blur disabled' : 'Privacy Blur enabled');
         }}
-        brightnessMode={brightnessMode}
-        onCycleBrightness={handleCycleBrightness}
         glassMode={glassMode}
         onCycleGlassMode={handleCycleGlassMode}
       />

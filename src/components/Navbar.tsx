@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Search, Plus, Download, Layout, Share2, Sun, Moon, Sparkles, Layers } from 'lucide-react';
+import { Search, Plus, Download, Layout, Share2, Layers } from 'lucide-react';
 import { useMagnetic } from '../utils/useMagnetic';
 
 function BrandMark() {
@@ -34,8 +34,6 @@ interface NavbarProps {
   onOpenImportExportModal: () => void;
   onOpenCommandPalette: () => void;
   onOpenShareCardModal: () => void;
-  brightnessMode: string;
-  onCycleBrightness: () => void;
   glassMode: string;
   onCycleGlassMode: () => void;
 }
@@ -52,8 +50,6 @@ export default function Navbar({
   onOpenImportExportModal,
   onOpenCommandPalette,
   onOpenShareCardModal,
-  brightnessMode,
-  onCycleBrightness,
   glassMode,
   onCycleGlassMode
 }: NavbarProps) {
@@ -126,20 +122,7 @@ export default function Navbar({
             <Layers className="w-3.5 h-3.5 text-emerald-400" />
           </button>
 
-          {/* Brightness Mode Toggle */}
-          <button
-            onClick={onCycleBrightness}
-            className="top-ctrl-btn hidden sm:inline-flex"
-            title={`Brightness Mode: ${brightnessMode} (Click to change)`}
-          >
-            {brightnessMode === 'luminous' ? (
-              <Sun className="w-3.5 h-3.5 text-[var(--lumen-soft)]" />
-            ) : brightnessMode === 'dim' ? (
-              <Moon className="w-3.5 h-3.5 text-purple-400" />
-            ) : (
-              <Sparkles className="w-3.5 h-3.5 text-[var(--violet-soft)]" />
-            )}
-          </button>
+
 
           {/* Share Button */}
           <button

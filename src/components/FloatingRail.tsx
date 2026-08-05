@@ -6,8 +6,6 @@ interface FloatingRailProps {
   onOpenImportExport: () => void;
   isBlurActive: boolean;
   onToggleBlur: () => void;
-  brightnessMode?: string;
-  onCycleBrightness?: () => void;
   glassMode?: string;
   onCycleGlassMode?: () => void;
 }
