@@ -1,182 +1,154 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Layout, Palette, Check } from 'lucide-react';
-import { useEscapeClose } from '../utils/useEscapeClose';
-import { BOARD_ACCENTS } from '../constants/boardAccents';
-import { scaleIn, easeVesper } from '../utils/motion';
+import { LayoutGrid, X, CornerDownLeft } from 'lucide-react';
+
+const ACCENT_COLORS = [
+  { id: 'violet', label: 'Violet', hex: '#8b5cf6', ring: 'ring-violet-500' },
+  { id: 'lumen', label: 'Amber', hex: '#f59e0b', ring: 'ring-amber-500' },
+  { id: 'emerald', label: 'Emerald', hex: '#10b981', ring: 'ring-emerald-500' },
+  { id: 'rose', label: 'Rose', hex: '#f43f5e', ring: 'ring-rose-500' },
+  { id: 'cyan', label: 'Cyan', hex: '#06b6d4', ring: 'ring-cyan-500' },
+  { id: 'sapphire', label: 'Blue', hex: '#3b82f6', ring: 'ring-blue-500' },
+];
 
 export default function AddBoardModal({ isOpen, onClose, onAddBoard }) {
-  const [boardName, setBoardName] = useState('');
-  const [columnIndex, setColumnIndex] = useState(0);
-  const [accentColor, setAccentColor] = useState('violet');
+  const [title, setTitle] = useState('');
+  const [column, setColumn] = useState(0);
+  const [selectedColor, setSelectedColor] = useState('violet');
 
-  useEscapeClose(isOpen, onClose);
+  if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!boardName.trim()) return;
-
+    if (!title.trim()) return;
     onAddBoard({
-      name: boardName.trim().toUpperCase(),
-      columnIndex: Number(columnIndex),
-      accentColor
+      name: title.trim().toUpperCase(),
+      columnIndex: Number(column),
+      accentColor: selectedColor,
     });
-
-    setBoardName('');
-    setAccentColor('violet');
+    setTitle('');
+    setSelectedColor('violet');
     onClose();
   };
 
-  const selectedAccent = BOARD_ACCENTS.find((a) => a.id === accentColor);
+  const selectedAccent = ACCENT_COLORS.find((c) => c.id === selectedColor);
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-10">
-          
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/70 backdrop-blur-2xl"
-            onClick={onClose}
-          />
-
-          {/* Modal Panel */}
-          <motion.div
-            initial={scaleIn.initial}
-            animate={scaleIn.animate}
-            exit={scaleIn.exit}
-            transition={{ duration: 0.22, ease: easeVesper }}
-            className="relative z-10 w-full max-w-md rounded-3xl bg-[#0c120e]/95 backdrop-blur-3xl border border-white/12 shadow-[0_32px_80px_-12px_rgba(0,0,0,0.75)] overflow-hidden"
-            role="dialog"
-            aria-modal="true"
-          >
-            {/* Ambient accent glow at top */}
-            <div
-              className="absolute top-0 inset-x-0 h-px opacity-60"
-              style={{ background: `linear-gradient(90deg, transparent, ${selectedAccent?.hex ?? '#863bff'}, transparent)` }}
-            />
-            <div
-              className="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-24 blur-[60px] pointer-events-none opacity-20"
-              style={{ backgroundColor: selectedAccent?.hex ?? '#863bff' }}
-            />
-
-            <div className="p-7 sm:p-8">
-              {/* Header */}
-              <div className="flex items-start justify-between mb-7">
-                <div className="flex items-center gap-3.5">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-lg"
-                    style={{ backgroundColor: `${selectedAccent?.hex ?? '#863bff'}22`, border: `1px solid ${selectedAccent?.hex ?? '#863bff'}44` }}
-                  >
-                    <Layout className="w-5 h-5" style={{ color: selectedAccent?.hex ?? '#863bff' }} />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-semibold text-white tracking-tight leading-snug">Create New Board</h2>
-                    <p className="text-xs text-zinc-500 mt-0.5">Add a column board to group your links</p>
-                  </div>
-                </div>
-                <button
-                  onClick={onClose}
-                  className="p-1.5 rounded-lg hover:bg-white/10 text-zinc-500 hover:text-white transition-all border-0 bg-transparent cursor-pointer shrink-0"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-
-                {/* Board Title */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-zinc-400 tracking-widest uppercase">Board Title *</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. WORK & PROJECTS"
-                    value={boardName}
-                    onChange={(e) => setBoardName(e.target.value)}
-                    required
-                    autoFocus
-                    className="w-full h-11 px-4 bg-white/[0.04] border border-white/10 rounded-xl text-sm text-white placeholder-zinc-600 font-medium outline-none transition-all focus:border-white/25 focus:bg-white/[0.06] focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]"
-                  />
-                </div>
-
-                {/* Column Position */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-zinc-400 tracking-widest uppercase">Column Position</label>
-                  <select
-                    value={columnIndex}
-                    onChange={(e) => setColumnIndex(e.target.value)}
-                    className="w-full h-11 px-4 bg-white/[0.04] border border-white/10 rounded-xl text-sm text-white outline-none transition-all appearance-none cursor-pointer focus:border-white/25 focus:bg-white/[0.06]"
-                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center' }}
-                  >
-                    <option value={0} className="bg-zinc-900">Column 1 (Left)</option>
-                    <option value={1} className="bg-zinc-900">Column 2 (Center-Left)</option>
-                    <option value={2} className="bg-zinc-900">Column 3 (Center-Right)</option>
-                    <option value={3} className="bg-zinc-900">Column 4 (Right)</option>
-                  </select>
-                </div>
-
-                {/* Accent Color Picker */}
-                <div className="flex flex-col gap-2.5">
-                  <label className="text-[11px] font-semibold text-zinc-400 tracking-widest uppercase flex items-center gap-1.5">
-                    <Palette className="w-3.5 h-3.5" /> Board Color Theme
-                  </label>
-                  <div className="flex items-center gap-3 flex-wrap">
-                    {BOARD_ACCENTS.map((acc) => (
-                      <button
-                        key={acc.id}
-                        type="button"
-                        onClick={() => setAccentColor(acc.id)}
-                        title={acc.name}
-                        className="relative w-7 h-7 rounded-full transition-all duration-200 cursor-pointer flex items-center justify-center"
-                        style={{
-                          backgroundColor: acc.hex,
-                          boxShadow: accentColor === acc.id ? `0 0 0 2px #0c120e, 0 0 0 4px ${acc.hex}` : 'none',
-                          transform: accentColor === acc.id ? 'scale(1.15)' : 'scale(1)'
-                        }}
-                      >
-                        {accentColor === acc.id && (
-                          <Check className="w-3.5 h-3.5 text-white drop-shadow" strokeWidth={3} />
-                        )}
-                      </button>
-                    ))}
-                    <span className="text-xs text-zinc-500 ml-1 font-medium">{selectedAccent?.name}</span>
-                  </div>
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-5 mt-1 border-t border-white/[0.07]">
-                  <p className="text-[11px] text-zinc-600 font-mono">
-                    Press{' '}
-                    <kbd className="px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-zinc-400">↵</kbd>{' '}
-                    to create
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={onClose}
-                      className="h-9 px-4 rounded-xl bg-white/[0.05] border border-white/10 text-zinc-300 text-sm font-medium hover:bg-white/10 hover:text-white transition-all cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="h-9 px-5 rounded-xl text-sm font-semibold text-zinc-900 transition-all cursor-pointer shadow-lg hover:brightness-110 active:scale-95"
-                      style={{ backgroundColor: selectedAccent?.hex ?? '#863bff' }}
-                    >
-                      Create Board
-                    </button>
-                  </div>
-                </div>
-              </form>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-xl bg-black/70"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-2xl bg-[#0c120e]/95 border border-white/12 rounded-3xl p-8 sm:p-10 shadow-[0_32px_90px_rgba(0,0,0,0.85)] space-y-8"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-4">
+            <div className="p-3.5 rounded-2xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
+              <LayoutGrid className="w-7 h-7" />
             </div>
-          </motion.div>
+            <div>
+              <h2 className="text-2xl font-bold text-white tracking-tight">Create New Board</h2>
+              <p className="text-sm text-neutral-400 mt-1">Organize your links into a focused collection</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 text-neutral-400 hover:text-white hover:bg-white/10 rounded-xl transition-all border-0 bg-transparent cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-      )}
-    </AnimatePresence>
+
+        {/* Form Body */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Board Title Input */}
+          <div className="space-y-2.5">
+            <label className="text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
+              Board Title <span className="text-violet-400">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              autoFocus
+              placeholder="e.g. DESIGN RESOURCES"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full h-13 px-5 bg-white/[0.04] border border-white/10 rounded-xl text-base text-white placeholder:text-neutral-600 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all font-mono"
+            />
+          </div>
+
+          {/* Column Position Select */}
+          <div className="space-y-2.5">
+            <label className="text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
+              Column Position
+            </label>
+            <select
+              value={column}
+              onChange={(e) => setColumn(e.target.value)}
+              className="w-full h-13 px-5 bg-white/[0.04] border border-white/10 rounded-xl text-base text-white focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all cursor-pointer"
+            >
+              <option value={0} className="bg-[#0c120e]">Column 1 — Left</option>
+              <option value={1} className="bg-[#0c120e]">Column 2 — Center Left</option>
+              <option value={2} className="bg-[#0c120e]">Column 3 — Center Right</option>
+              <option value={3} className="bg-[#0c120e]">Column 4 — Right</option>
+            </select>
+          </div>
+
+          {/* Accent Color Picker */}
+          <div className="space-y-2.5">
+            <label className="text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
+              Accent Color
+            </label>
+            <div className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/[0.08] rounded-xl">
+              {ACCENT_COLORS.map((color) => (
+                <button
+                  key={color.id}
+                  type="button"
+                  onClick={() => setSelectedColor(color.id)}
+                  style={{ backgroundColor: color.hex }}
+                  title={color.label}
+                  className={`w-9 h-9 rounded-full transition-all border-0 cursor-pointer flex items-center justify-center ${
+                    selectedColor === color.id
+                      ? `ring-2 ring-offset-2 ring-offset-[#0c120e] ${color.ring} scale-110`
+                      : 'opacity-70 hover:opacity-100 hover:scale-105'
+                  }`}
+                />
+              ))}
+              <span className="ml-auto text-xs font-mono text-neutral-300 capitalize">
+                {selectedAccent?.label}
+              </span>
+            </div>
+          </div>
+
+          {/* Footer Bar */}
+          <div className="flex items-center justify-between pt-6 border-t border-white/10 mt-4">
+            <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-500">
+              <span>Press</span>
+              <kbd className="px-1.5 py-0.5 text-[10px] bg-white/10 border border-white/10 rounded text-neutral-300 flex items-center gap-0.5">
+                <CornerDownLeft className="w-3 h-3" /> Enter
+              </kbd>
+              <span>to create</span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 h-11 rounded-xl text-sm font-semibold text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-7 h-11 rounded-xl text-sm font-semibold text-white bg-violet-600 hover:bg-violet-500 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] transition-all flex items-center justify-center whitespace-nowrap cursor-pointer"
+              >
+                Create Board
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
