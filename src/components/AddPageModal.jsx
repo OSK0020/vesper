@@ -20,10 +20,10 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-xl p-6 sm:p-8 relative animate-modal">
+      <div className="modal-content w-full max-w-xl p-8 sm:p-10 relative animate-modal">
         
         {/* Header Section */}
-        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-2xl bg-sky-500/10 text-sky-400 border border-sky-500/20 shadow-md shrink-0 flex items-center justify-center">
               <BookOpen className="w-6 h-6" />
@@ -42,7 +42,7 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div>
             <label className="ui-label">
               Page Name *
@@ -59,7 +59,7 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
           </div>
 
           {/* Dedicated Footer Action Bar */}
-          <div className="flex items-center justify-end gap-3 mt-8 pt-5 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
@@ -80,4 +80,5 @@ export default function AddPageModal({ isOpen, onClose, onAddPage }) {
     </div>
   );
 }
+
 

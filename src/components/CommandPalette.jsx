@@ -170,10 +170,10 @@ export default function CommandPalette({
 
   return (
     <div className="modal-overlay z-50">
-      <div className="modal-content w-full max-w-3xl p-6 sm:p-8 relative animate-modal shadow-2xl rounded-3xl border border-white/15 bg-[#0c120e]/95">
+      <div className="modal-content w-full max-w-3xl p-8 sm:p-10 relative animate-modal shadow-2xl rounded-3xl border border-white/15 bg-[#0c120e]/95">
         
         {/* Command Search Header */}
-        <div className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/12 mb-5 shadow-sm">
+        <div className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/12 mb-6 shadow-sm">
           <Search className="w-5 h-5 text-emerald-400 shrink-0" />
           <input
             ref={inputRef}
@@ -243,7 +243,7 @@ export default function CommandPalette({
         </div>
 
         {/* Command Footer Card */}
-        <div className="px-5 py-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mt-5 flex items-center justify-between text-xs text-neutral-400 font-mono">
+        <div className="px-5 py-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mt-6 flex items-center justify-between text-xs text-neutral-400 font-mono">
           <div className="flex items-center gap-5">
             <span>↑↓ Navigate</span>
             <span>↵ Select</span>
@@ -258,4 +258,5 @@ export default function CommandPalette({
     </div>
   );
 }
+
 

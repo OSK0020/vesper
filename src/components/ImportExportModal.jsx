@@ -79,10 +79,10 @@ export default function ImportExportModal({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-full max-w-2xl p-6 sm:p-8 relative animate-modal">
+      <div className="modal-content w-full max-w-2xl p-8 sm:p-10 relative animate-modal">
         
         {/* Header Section */}
-        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-md shrink-0 flex items-center justify-center">
               <HardDrive className="w-6 h-6" />
@@ -101,7 +101,7 @@ export default function ImportExportModal({
         </div>
 
         {/* Safety Badge Notice */}
-        <div className="mb-5 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between text-xs text-neutral-300 font-mono">
+        <div className="mb-6 px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between text-xs text-neutral-300 font-mono">
           <div className="flex items-center gap-2.5">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span className="font-medium">Local Storage Persistence</span>
@@ -111,13 +111,13 @@ export default function ImportExportModal({
 
         {/* Notifications */}
         {successMsg && (
-          <div className="mb-5 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2.5 shadow-lg">
+          <div className="mb-6 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2.5 shadow-lg">
             <Check className="w-5 h-5 flex-shrink-0 text-emerald-400" />
             <span className="font-semibold">{successMsg}</span>
           </div>
         )}
         {errorMsg && (
-          <div className="mb-5 p-4 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 shadow-lg">
+          <div className="mb-6 p-4 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 shadow-lg">
             <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-400" />
             <span className="font-semibold">{errorMsg}</span>
           </div>
@@ -187,7 +187,7 @@ export default function ImportExportModal({
         </div>
 
         {/* Dedicated Footer Action Bar */}
-        <div className="flex items-center justify-between mt-8 pt-5 border-t border-white/10">
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
           <p className="text-xs text-neutral-500 font-mono">Compatible with official LumiList & Vesper backup schemas</p>
           <button
             onClick={onClose}
@@ -201,4 +201,5 @@ export default function ImportExportModal({
     </div>
   );
 }
+
 

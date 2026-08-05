@@ -110,10 +110,10 @@ export default function ShareCardModal({
 
   return (
     <div className="modal-overlay z-50">
-      <div className="modal-content w-full max-w-4xl p-6 sm:p-8 relative animate-modal">
+      <div className="modal-content w-full max-w-4xl p-8 sm:p-10 relative animate-modal">
         
         {/* Header Section */}
-        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+        <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-md shrink-0 flex items-center justify-center">
               <Share2 className="w-6 h-6" />
@@ -141,7 +141,7 @@ export default function ShareCardModal({
         </div>
 
         {/* Dedicated Footer Action Bar */}
-        <div className="flex items-center justify-between mt-8 pt-5 border-t border-white/10 gap-6">
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10 gap-6">
           <div className="text-xs text-neutral-400 flex items-center gap-2 font-mono">
             <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
             Ready to share or export
@@ -166,4 +166,5 @@ export default function ShareCardModal({
     </div>
   );
 }
+
 

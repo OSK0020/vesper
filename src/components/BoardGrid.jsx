@@ -54,10 +54,10 @@ export default function BoardGrid({
   };
 
   return (
-    <div className="vesper-container">
+    <div className="vesper-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 sm:p-8 max-w-[1700px] mx-auto w-full">
       {boards.length === 0 ? (
-        <div className="board p-10 text-center flex flex-col items-center justify-center gap-4 col-span-4 max-w-md mx-auto my-12">
-          <div className="p-4 rounded-2xl bg-[var(--violet-dim)] text-[var(--violet-soft)] border border-[var(--violet)]/25">
+        <div className="board p-10 text-center flex flex-col items-center justify-center gap-4 col-span-full max-w-md mx-auto my-12 bg-white/[0.03] border border-white/10 rounded-2xl">
+          <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
             <Plus className="w-8 h-8" />
           </div>
           <div>
@@ -66,7 +66,7 @@ export default function BoardGrid({
           </div>
           <button 
             onClick={onAddBoard}
-            className="top-ctrl-btn top-ctrl-btn-primary mt-2"
+            className="action-btn action-btn-primary mt-2"
           >
             <Plus className="w-4 h-4" /> Create Board
           </button>
@@ -75,7 +75,7 @@ export default function BoardGrid({
         columns.map((colBoards, colIdx) => (
           <div
             key={colIdx}
-            className={`column transition-colors rounded-2xl p-1.5 ${
+            className={`column flex flex-col gap-6 w-full min-w-0 transition-colors rounded-2xl p-1.5 ${
               activeColOver === colIdx ? 'bg-white/[0.03] ring-1 ring-white/10' : ''
             }`}
             data-column={colIdx}
@@ -105,3 +105,4 @@ export default function BoardGrid({
     </div>
   );
 }
+
